@@ -1,0 +1,78 @@
+import React from "react";
+import ReactDOM from "react-dom/client"; // Новый импорт для React 18
+import App from "./App";
+
+import GlobalStyles from "./styles/GlobalStyles";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+
+
+// Создаем тему с глобальными стилями
+const theme = createTheme({
+  typography: {
+    fontFamily: "'Inter', sans-serif", // Устанавливаем шрифт
+    h1: {
+      margin: 0,
+      fontWeight: 700,
+    },
+    h2: {
+      margin: 0,
+      fontWeight: 700,
+    },
+    h3: {
+      margin: 0,
+      fontWeight: 700,
+    },
+    p: {
+      margin: 0,
+      lineHeight: 1.6,
+    },
+  },
+  palette: {
+
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          margin: 0,
+          padding: 0,
+          boxSizing: "border-box",
+          fontFamily: "'Inter', sans-serif",
+          color: "#fff",
+          background: "url('/background.svg') no-repeat center top",
+          backgroundSize: "cover", // Сохраняем пропорции SVG
+          minHeight: "100vh",
+          overflowX: "hidden",
+        },
+        a: {
+          textDecoration: "none",
+          color: "inherit",
+        },
+        ul: {
+          margin: 0,
+          padding: 0,
+          listStyle: "none",
+        },
+        ol: {
+          margin: 0,
+          padding: 0,
+          listStyle: "none",
+        },
+        button: {
+          fontFamily: "'Inter', sans-serif",
+          cursor: "pointer",
+        },
+      },
+    },
+  },
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline /> {/* Сброс глобальных стилей */}
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>
+);
