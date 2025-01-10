@@ -7,6 +7,7 @@ import CashInOffice from "../../assets/cash_in_office.svg";
 import CourierDelivery from "../../assets/courier_delivery.svg";
 import OnCheck from "../../assets/on_check.svg";
 import Vector from "../../assets/vector_button.svg";
+import PaymentSection from "./PaymentSection";
 
 
 
@@ -215,7 +216,7 @@ const FeaturesSection = () => {
           ))}
         </Grid>
         <Typography variant="h6" sx={{fontSize: "30px",  fontWeight: "700", lineHeight: "31px", color: "#004DB4", textTransform: 'uppercase', mt: '4rem'}}>принимаем оплату с любых российских банков</Typography>
-
+        <PaymentSection />
       </Wrapper>
     </FeaturesContainer>
   );
