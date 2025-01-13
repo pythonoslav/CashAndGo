@@ -4,6 +4,7 @@ import HeroSection from "./components/HeroSection/HeroSection";
 import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
 import DropCashSection from "./components/DropCashSection/DropCashSections";
 import ResivingCash from "./components/RecivingCash/ResivingCash";
+import DeliveryComponent from "./components/DeliveryComponent/DeliveryComponent";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <FeaturesSection />
       <DropCashSection/>
       <ResivingCash/>
+      <DeliveryComponent/>
     </>
   );
 };
