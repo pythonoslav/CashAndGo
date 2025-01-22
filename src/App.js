@@ -5,6 +5,9 @@ import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
 import DropCashSection from "./components/DropCashSection/DropCashSections";
 import ResivingCash from "./components/RecivingCash/ResivingCash";
 import DeliveryComponent from "./components/DeliveryComponent/DeliveryComponent";
+import TransferToThaiAccount from "./components/TransferComponent/TransferToThaiAccaount";
+import AboutUs from "./components/AboutUsComponent/AbaoutUs";
+import FAQ from "./components/FAQComponent/FAQComponent";
 
 const App = () => {
   return (
@@ -15,6 +18,9 @@ const App = () => {
       <DropCashSection/>
       <ResivingCash/>
       <DeliveryComponent/>
+      <TransferToThaiAccount/>
+      <AboutUs/>
+      <FAQ/>
     </>
   );
 };
