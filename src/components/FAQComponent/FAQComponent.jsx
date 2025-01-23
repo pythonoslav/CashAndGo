@@ -42,7 +42,7 @@ const InstructionsKasikorn = () => {
             <Box
                 sx={{
                     display: "grid",
-                    gridTemplateColumns: { xs: "1fr", sm: "repeat(4, 1fr)" }, // 1 колонка на малых экранах, 2 колонки на больших
+                    gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(4, 1fr)" }, // 1 колонка на малых экранах, 2 колонки на больших
                     gap: "15px", // Уменьшили расстояние между элементами
                 }}
             >
