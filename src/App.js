@@ -8,6 +8,7 @@ import DeliveryComponent from "./components/DeliveryComponent/DeliveryComponent"
 import TransferToThaiAccount from "./components/TransferComponent/TransferToThaiAccaount";
 import AboutUs from "./components/AboutUsComponent/AbaoutUs";
 import FAQ from "./components/FAQComponent/FAQComponent";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
       <TransferToThaiAccount/>
       <AboutUs/>
       <FAQ/>
+      <Footer />
     </>
   );
 };
