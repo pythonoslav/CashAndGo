@@ -37,6 +37,16 @@ const Tab = styled.button`
   &:hover {
     color: #0055d4;
   }
+  @media (max-width: 768px) {
+    font-size: 1.2rem;  /* Уменьшаем размер шрифта */
+    padding: 8px 0;     /* Уменьшаем отступы */
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;    /* Еще сильнее уменьшаем шрифт */
+    padding: 6px 0;     /* Уменьшаем отступы */
+  }
+  
 `;
 
 const ActiveTabIndicator = styled.div`
@@ -72,7 +82,7 @@ const Calculator = () => {
         mx: "auto",
       }}
     >
-      <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, color: 'black', ml: 2 }}> Калькулятор обмена </Typography>
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, color: 'black', ml: 2, fontSize: {xs: 16, md: 32} }}> Калькулятор обмена </Typography>
       {/* Styled-components Tabs */}
       <Tabs>
         <Tab
@@ -91,7 +101,7 @@ const Calculator = () => {
       </Tabs>
 
       {/* Input Fields */}
-      <Grid container spacing={2} sx={{ mt: 2, backgroundColor: '#f5f5f5', borderRadius: 5, padding: 3 }}>
+      <Grid container spacing={2} sx={{ mt: {xs: 0, md: 2}, backgroundColor: '#f5f5f5', borderRadius: 5, padding: 3 }}>
         {/* From Amount */}
         <Grid item xs={12}>
           <Box
@@ -102,7 +112,7 @@ const Calculator = () => {
               border: "1px solid #ddd",
               borderRadius: 15,
               padding: "5px 10px",
-              height: '70px'
+              height: {xs: 50, md: 70},
               //boxShadow: "inside 0 2px 4px rgba(0, 0, 0, 0.05)",
             }}
           >
@@ -113,16 +123,17 @@ const Calculator = () => {
               InputProps={{
                 disableUnderline: true,
                 sx: {
-                  ml: 2,
+                  ml: {xs: 0, md: 2},
                   "&::placeholder": {
                     color: "#D8D8D8",
-                    fontSize: "25px", // Увеличиваем размер текста
+                    fontSize: {xs: 15,md: 25}, 
                     lineHeight: "24px",
+
                   },
                 },
                 style: {
                   color: "#000",
-                  fontSize: "25px",
+                  fontSize: {xs: 15,md: 25},
                   lineHeight: "1.5",
                 },
               }}

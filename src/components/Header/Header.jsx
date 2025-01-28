@@ -1,224 +1,151 @@
-import React from "react";
-import styled from "styled-components";
+import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import HeaderLogo from "./HeaderLogo";
 import LangSwitch from "./LangSwitch";
 import telegramIcon from "../../assets/telegram-icon.svg";
 import whatsappIcon from "../../assets/whatsapp-icon.svg";
-
-const HeaderContainer = styled.header`
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 108%; /* Увеличиваем ширину на 20% */
-  max-width: 1440px; /* Увеличиваем максимум */
-  height: 67.2px; /* Увеличиваем на 20% от 56px */
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: visible;
-  margin-top: 60px; /* Увеличено на 20% */
-
-  @media (max-width: 1440px) {
-    height: 60px; /* Увеличено на 20% от 50px */
-    margin-top: 60px; /* Увеличено на 20% */
-  }
-
-  @media (max-width: 1024px) {
-    height: 54px; /* Увеличено на 20% от 45px */
-    margin-top: 60px; /* Увеличено на 20% */
-  }
-
-  @media (max-width: 768px) {
-    height: 48px; /* Увеличено на 20% от 40px */
-  }
-
-  @media (max-width: 480px) {
-    height: 42px; /* Увеличено на 20% от 35px */
-  }
-`;
-
-// Верхний левый фон
-const OverlayTop = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 68%; /* Увеличено на 20% */
-  height: 100%;
-  background-color: #ffffff;
-  z-index: 1;
-  border-radius: 36px; /* Увеличено на 20% */
-`;
-
-// Нижний правый фон
-const OverlayBottom = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 60%; /* Увеличено на 20% */
-  height: 100%;
-  background-color: #f87000;
-  z-index: 0;
-  border-radius: 36px; /* Увеличено на 20% */
-`;
-
-// Контент
-const Content = styled.div`
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0 24px; /* Увеличено на 20% */
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    padding: 12px 0; /* Увеличено на 20% */
-  }
-`;
-
-const LogoSection = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-
-// Навигация
-const Nav = styled.nav`
-  display: flex;
-  gap: 3.6vw; /* Увеличено на 20% */
-  flex-grow: 1;
-  justify-content: center;
-
-  a {
-    text-decoration: none;
-    color: #0033a0;
-    font-weight: 700;
-    font-size: 1.2rem; /* Увеличено на 20% */
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 12px; /* Увеличено на 20% */
-  }
-`;
-
-
-const ExchangeContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Переносим содержимое влево */
-  background-color: #f87000;
-  padding: 10px 20px;
-  border-radius: 20px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-// Кнопка и иконки
-
-const ActionSection = styled.div`
-  display: flex;
-  align-items: center;
-
-  @media (max-width: 768px) {
-    margin-top: 12px; /* Увеличено на 20% */
-    flex-direction: column;
-  }
-`;
-
-const ExchangeText = styled.div`
-  color: #f9f9e5;
-  font-weight: bold;
-  font-size: 1.2rem; /* Увеличено на 20% */
-  margin-right: 24px; /* Увеличено на 20% */
-
-  @media (max-width: 768px) {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 12px; /* Увеличено на 20% */
-  }
-`;
-
-const IconButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 42px; /* Увеличено на 20% */
-  height: 42px; /* Увеличено на 20% */
-  border-radius: 50%;
-  border: none;
-  background-color: #f87000;
-  cursor: pointer;
-  padding: 0;
-
-  img {
-    width: 36px; /* Увеличено на 20% */
-    height: 36px; /* Увеличено на 20% */
-  }
-
-  img:hover {
-    width: 42px; /* Увеличено на 20% */
-    height: 42px; /* Увеличено на 20% */
-  }
-
-  @media (max-width: 768px) {
-    width: 30px; /* Увеличено на 20% */
-    height: 30px; /* Увеличено на 20% */
-
-    img {
-      width: 18px; /* Увеличено на 20% */
-      height: 18px; /* Увеличено на 20% */
-    }
-  }
-`;
-
-const Icons = styled.div`
-  display: flex;
-  gap: 10px;
-`;
+import { useState } from "react";
+import MenuIcon from "../../assets/MenuBurger.svg";
 
 const Header = () => {
-  return (
-    <HeaderContainer>
-      <OverlayTop />
-      <OverlayBottom />
-      <Content>
-        <LogoSection>
-          <HeaderLogo />
-          <LangSwitch />
-        </LogoSection>
-        <Nav>
-          <a href="#cash">НАЛИЧНЫЕ</a>
-          <a href="#about">О НАС</a>
-          <a href="#faq">FAQ</a>
-        </Nav>
-        <ActionSection>
-          <ExchangeContainer>
-          <ExchangeText>ОБМЕНЯТЬ ВАЛЮТУ</ExchangeText>
-          <span>=====</span>
-          </ExchangeContainer>
-          <Icons>
-          <IconButton>
-              <img src={telegramIcon} alt="T" />
-            </IconButton>
-            <IconButton>
-              <img src={whatsappIcon} alt="W" />
-            </IconButton>
-          </Icons>
-        </ActionSection>
-      </Content>
-    </HeaderContainer>
-  );
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleMenuOpen = (event) => {
+      setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+      setAnchorEl(null);
+  };
+
+
+    return (
+      <>
+        {isMobile ? (
+        <>
+         <AppBar
+            position="fixed"
+            sx={{
+                top: 0,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "90%",
+                maxWidth: "600px",
+                height: "60px",
+                zIndex: 1000,
+                backgroundColor: "#FFFFFF",
+                borderRadius: "50px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            }}
+        >
+            <Toolbar
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: "90%",
+                }}
+            >
+                {/* Меню */}
+                <IconButton
+                    sx={{
+                        backgroundColor: "#F87000",
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        color: "white",
+                    }}
+                    onClick={handleMenuOpen}
+                >
+                    <img src={MenuIcon} alt="Menu" style={{ width: "20px", height: "20px" }} />
+                </IconButton>
+                
+                {/* Логотип */}
+                <HeaderLogo />
+                
+                {/* Иконки Telegram и WhatsApp */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <IconButton
+                        sx={{
+                            backgroundColor: "#FFFFFF",
+                            width: "36px",
+                            height: "36px",
+                            borderRadius: "50%",
+                        }}
+                    >
+                        <img src={telegramIcon} alt="Telegram" style={{ width: "20px", height: "20px" }} />
+                    </IconButton>
+                    <IconButton
+                        sx={{
+                            backgroundColor: "#FFFFFF",
+                            width: "36px",
+                            height: "36px",
+                            borderRadius: "50%",
+                        }}
+                    >
+                        <img src={whatsappIcon} alt="WhatsApp" style={{ width: "20px", height: "20px" }} />
+                    </IconButton>
+                    <LangSwitch />
+                </Box>
+            </Toolbar>
+
+            {/* Мобильное меню */}
+            <Menu
+                anchorEl={anchorEl}
+                open={isMenuOpen}
+                onClose={handleMenuClose}
+                sx={{ mt: "45px" }}
+            >
+                <MenuItem onClick={handleMenuClose}>НАЛИЧНЫЕ</MenuItem>
+                <MenuItem onClick={handleMenuClose}>О НАС</MenuItem>
+                <MenuItem onClick={handleMenuClose}>FAQ</MenuItem>
+            </Menu>
+        </AppBar>
+        </>) :
+        <AppBar position="fixed" sx={{ top: 30, left: "50%", transform: "translateX(-50%)", width: "108%", maxWidth: "1440px", height: "67.2px", zIndex: 1000, backgroundColor: "transparent", boxShadow: "none" }}>
+            <Box sx={{ position: "absolute", top: 0, left: 0, width: "68%", height: "100%", backgroundColor: "#ffffff", borderRadius: "36px", zIndex: 1 }} />
+            <Box sx={{ position: "absolute", bottom: 0, right: 0, width: "60%", height: "100%", backgroundColor: "#f87000", borderRadius: "36px", zIndex: 0 }} />
+            
+            <Toolbar sx={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", padding: "0 24px" }}>
+                {/* Логотип и переключатель языка */}
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <HeaderLogo />
+                    <LangSwitch />
+                </Box>
+                
+                {/* Навигация */}
+                <Box sx={{ display: "flex", gap: "3.6vw", flexGrow: 1, justifyContent: "center" }}>
+                    <Button href="#cash" sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>НАЛИЧНЫЕ</Button>
+                    <Button href="#about" sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>О НАС</Button>
+                    <Button href="#faq" sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>FAQ</Button>
+                </Box>
+                
+                {/* Блок обмена валюты и иконки */}
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box sx={{ backgroundColor: "#f87000", padding: "10px 20px", borderRadius: "20px", display: "flex", alignItems: "center" }}>
+                        <Typography sx={{ color: "#F9F9E5", fontWeight: "bold", fontSize: "1.2rem", marginRight: "12px" }}>ОБМЕНЯТЬ ВАЛЮТУ</Typography>
+                        <Typography sx={{ color: "#F9F9E5" }}>=====</Typography>
+                    </Box>
+                    <Box sx={{ display: "flex", gap: "10px", marginLeft: "12px" }}>
+                        <IconButton sx={{ backgroundColor: "#f87000", width: "42px", height: "42px", borderRadius: "50%" }}>
+                            <img src={telegramIcon} alt="Telegram" style={{ width: "36px", height: "36px" }} />
+                        </IconButton>
+                        <IconButton sx={{ backgroundColor: "#f87000", width: "42px", height: "42px", borderRadius: "50%" }}>
+                            <img src={whatsappIcon} alt="WhatsApp" style={{ width: "36px", height: "36px" }} />
+                        </IconButton>
+                    </Box>
+                </Box>
+            </Toolbar>
+        </AppBar>
+        }
+      </>
+    );
 };
 
 export default Header;
