@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 import httpx
 from loguru import logger
 
-from models.respons_models import XeCurrencyConvertedListResponseModel
+from models.response_models import XeCurrencyConvertedListResponseModel
 
 app = FastAPI()
 
@@ -56,23 +56,3 @@ async def get_currency_exchange_rate():
             },
             status_code=500
         )
-
-
-async def test():
-    async with httpx.AsyncClient() as client:
-        response = await client.get(
-            url,
-            auth=(account_id, api_key)
-        )
-
-    response.raise_for_status()  # Проверяем успешность ответа
-
-    response_data = XeCurrencyConvertedListResponseModel(**response.json())
-
-    return {
-            "is_error": False,
-            "result": response_data.currencies_list
-    }
-
-
-print(asyncio.run(test()))
