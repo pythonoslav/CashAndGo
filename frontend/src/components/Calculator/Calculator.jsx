@@ -82,7 +82,7 @@ const Calculator = () => {
         mx: "auto",
       }}
     >
-      <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, color: 'black', ml: 2, fontSize: {xs: 16, md: 32} }}> Калькулятор обмена </Typography>
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, color: 'black', ml: 2, fontSize: { xs: 16, md: 32 } }}> Калькулятор обмена </Typography>
       {/* Styled-components Tabs */}
       <Tabs>
         <Tab
@@ -101,7 +101,7 @@ const Calculator = () => {
       </Tabs>
 
       {/* Input Fields */}
-      <Grid container spacing={2} sx={{ mt: {xs: 0, md: 2}, backgroundColor: '#f5f5f5', borderRadius: 5, padding: 3 }}>
+      <Grid container spacing={2} sx={{ mt: { xs: 0, md: 2 }, backgroundColor: '#f5f5f5', borderRadius: 5, padding: { xs: 1, md: 3 } }}>
         {/* From Amount */}
         <Grid item xs={12}>
           <Box
@@ -112,7 +112,7 @@ const Calculator = () => {
               border: "1px solid #ddd",
               borderRadius: 15,
               padding: "5px 10px",
-              height: {xs: 50, md: 70},
+              height: { xs: 40, md: 70 },
               //boxShadow: "inside 0 2px 4px rgba(0, 0, 0, 0.05)",
             }}
           >
@@ -123,17 +123,17 @@ const Calculator = () => {
               InputProps={{
                 disableUnderline: true,
                 sx: {
-                  ml: {xs: 0, md: 2},
+                  ml: { xs: 0, md: 2 },
                   "&::placeholder": {
                     color: "#D8D8D8",
-                    fontSize: {xs: 15,md: 25}, 
+                    fontSize: { xs: 15, md: 25 },
                     lineHeight: "24px",
 
                   },
                 },
                 style: {
                   color: "#000",
-                  fontSize: {xs: 15,md: 25},
+                  fontSize: { xs: 15, md: 25 },
                   lineHeight: "1.5",
                 },
               }}
@@ -147,51 +147,76 @@ const Calculator = () => {
                 margin: "0 15px",
               }}
             />
-            <Select
-              value={currencyFrom}
-              onChange={(e) => setCurrencyFrom(e.target.value)}
-              variant="standard"
-              disableUnderline
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-                fontWeight: "bold",
-                fontSize: "18px",
-              }}
-            >
-              {currencies.map((currency) => (
-                <MenuItem
-                  key={currency.code}
-                  value={currency.code}
-                  sx={{
-                    fontSize: "18px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                  }}
-                >
-                  <Box
+            {activeTab === "buy" ? (
+              <Select
+                value={currencyTo}
+                onChange={(e) => setCurrencyTo(e.target.value)}
+                variant="standard"
+                disableUnderline
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  fontWeight: "bold",
+                  fontSize: { xs: 12, md: 18 },
+                }}
+              >
+                {currencies.map((currency) => (
+                  <MenuItem
+                    key={currency.code}
+                    value={currency.code}
                     sx={{
+                      fontSize: { xs: 12, md: 18 },
                       display: "flex",
                       alignItems: "center",
                       gap: 2,
                     }}
                   >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 2,
+                      }}
+                    >
+                      <img
+                        src={currency.flag}
+                        alt={currency.code}
+                        style={{
+                          width: { xs: 15, md: 30 }, // Увеличиваем ширину картинки
+                          height: { xs: 15, md: 30 }, // Увеличиваем высоту картинки
+                          borderRadius: "50%",
+                        }}
+                      />
+                      {currency.code}
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            ) : (
+              <Select
+                value={"THB"} // Зафиксировали значение на THB
+                variant="standard"
+                disableUnderline
+                sx={{ fontWeight: "bold", fontSize: { xs: "14px", md: "18px" } }}
+                disabled // Отключили возможность изменения
+              >
+                <MenuItem value="THB">
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                     <img
-                      src={currency.flag}
-                      alt={currency.code}
+                      src={flagTHB}
+                      alt="THB"
                       style={{
-                        width: 30, // Увеличиваем ширину картинки
-                        height: 30, // Увеличиваем высоту картинки
+                        width: { xs: 15, md: 30 }, // Увеличиваем ширину картинки
+                        height: { xs: 15, md: 30 }, // Увеличиваем высоту картинки
                         borderRadius: "50%",
                       }}
                     />
-                    {currency.code}
+                    THB
                   </Box>
                 </MenuItem>
-              ))}
-            </Select>
+              </Select>
+            )}
 
           </Box>
         </Grid>
@@ -206,8 +231,8 @@ const Calculator = () => {
               border: "1px solid #ddd",
               borderRadius: 15,
               padding: "5px 10px",
-              height: '70px'
-              //boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.05)",
+              height: { xs: 40, md: 70 },
+              //boxShadow: "inside 0 2px 4px rgba(0, 0, 0, 0.05)",
             }}
           >
             <TextField
@@ -217,16 +242,17 @@ const Calculator = () => {
               InputProps={{
                 disableUnderline: true,
                 sx: {
-                  ml: 2,
+                  ml: { xs: 0, md: 2 },
                   "&::placeholder": {
                     color: "#D8D8D8",
-                    fontSize: "25px", // Увеличиваем размер текста
+                    fontSize: { xs: 15, md: 25 },
                     lineHeight: "24px",
+
                   },
                 },
                 style: {
                   color: "#000",
-                  fontSize: "25px",
+                  fontSize: { xs: 15, md: 25 },
                   lineHeight: "1.5",
                 },
               }}
@@ -240,51 +266,77 @@ const Calculator = () => {
                 margin: "0 15px",
               }}
             />
-            <Select
-              value={currencyTo}
-              onChange={(e) => setCurrencyTo(e.target.value)}
-              variant="standard"
-              disableUnderline
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-                fontWeight: "bold",
-                fontSize: "18px",
-              }}
-            >
-              {currencies.map((currency) => (
-                <MenuItem
-                  key={currency.code}
-                  value={currency.code}
-                  sx={{
-                    fontSize: "18px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                  }}
-                >
-                  <Box
+            {activeTab !== "buy" ? (
+              <Select
+                value={currencyTo}
+                onChange={(e) => setCurrencyTo(e.target.value)}
+                variant="standard"
+                disableUnderline
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  fontWeight: "bold",
+                  fontSize: { xs: 12, md: 18 },
+                }}
+              >
+                {currencies.map((currency) => (
+                  <MenuItem
+                    key={currency.code}
+                    value={currency.code}
                     sx={{
+                      fontSize: { xs: 12, md: 18 },
                       display: "flex",
                       alignItems: "center",
                       gap: 2,
                     }}
                   >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 2,
+                      }}
+                    >
+                      <img
+                        src={currency.flag}
+                        alt={currency.code}
+                        style={{
+                          width: { xs: 15, md: 30 }, // Увеличиваем ширину картинки
+                          height: { xs: 15, md: 30 }, // Увеличиваем высоту картинки
+                          borderRadius: "50%",
+                        }}
+                      />
+                      {currency.code}
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            ) : (
+              <Select
+                value={"THB"} // Зафиксировали значение на THB
+                variant="standard"
+                disableUnderline
+                sx={{ fontWeight: "bold", fontSize: { xs: "14px", md: "18px" } }}
+                disabled // Отключили возможность изменения
+              >
+                <MenuItem value="THB">
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                     <img
-                      src={currency.flag}
-                      alt={currency.code}
+                      src={flagTHB}
+                      alt="THB"
                       style={{
-                        width: 30, // Увеличиваем ширину картинки
-                        height: 30, // Увеличиваем высоту картинки
+                        width: { xs: 15, md: 30 }, // Увеличиваем ширину картинки
+                        height: { xs: 15, md: 30 }, // Увеличиваем высоту картинки
                         borderRadius: "50%",
                       }}
                     />
-                    {currency.code}
+                    THB
                   </Box>
                 </MenuItem>
-              ))}
-            </Select>
+              </Select>
+            )}
+
 
           </Box>
         </Grid>

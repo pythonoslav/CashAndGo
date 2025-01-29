@@ -39,7 +39,7 @@ const theme = createTheme({
           boxSizing: "border-box",
           fontFamily: "'Inter', sans-serif",
           color: "#fff",
-          background: "url('/background.svg') no-repeat center top",
+         // background: "url('/background.svg') no-repeat center top",
           backgroundSize: "cover", // Сохраняем пропорции SVG
           minHeight: "100vh",
           overflowX: "hidden",

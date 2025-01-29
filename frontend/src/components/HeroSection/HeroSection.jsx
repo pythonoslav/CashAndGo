@@ -3,6 +3,7 @@ import { ReactComponent as LogoSVG } from "../../assets/main_logo.svg";
 import Calculator from "../Calculator/Calculator";
 import ExchangeRates from "../ExchangeRates/ExchangeRates";
 
+
 const HeroSection = () => {
   return (
     <Box
@@ -16,7 +17,7 @@ const HeroSection = () => {
         alignItems: "center",
         justifyContent: "flex-start", 
         padding: "20px 0",
-        backgroundImage: "url('../../assets/background.svg')",
+        backgroundImage: "url('/background_top2.svg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
