@@ -8,8 +8,9 @@ class ConfigError(Exception):
 class Settings:
     """Class to manage application settings."""
 
-    def __init__(self, env_file: str):
+    def __init__(self, env_file: str, env_vars: list[str]):
         self.env_file = env_file
+        self.env_vars = env_vars
         self._load_env()
 
     def _load_env(self):
@@ -21,7 +22,7 @@ class Settings:
 
     def _validate_settings(self):
         """Ensure all required settings are loaded."""
-        required_vars = ["ACCOUNT_ID", "ACCOUNT_KEY", "EXCHANGE_RATE_REQUEST"]
+        required_vars = self.env_vars
         missing_vars = [var for var in required_vars if os.getenv(var) is None]
 
         if missing_vars:
@@ -39,9 +40,20 @@ class Settings:
     def exchange_rate_request(self):
         return os.getenv("EXCHANGE_RATE_REQUEST")
 
+    @property
+    def mongo_database(self):
+        return os.getenv("DATABASE")
 
-def get_settings() -> Settings:
+    @property
+    def mongo_user(self):
+        return os.getenv("USER")
+
+    @property
+    def mongo_password(self):
+        return os.getenv("PASSWORD")
+
+def get_settings(filename: str, env_vars: list[str]) -> Settings:
     """Get the application settings."""
     current_directory = os.path.dirname(__file__)
-    env_file_path = os.path.join(current_directory, '..', 'data', 'credentials.env')
-    return Settings(env_file_path)
+    env_file_path = os.path.join(current_directory, '..', 'data', filename)
+    return Settings(env_file=env_file_path, env_vars=env_vars)

@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: CashAndGoDB       # Имя базы данных
+      MONGO_INITDB_ROOT_USERNAME: CashAndGo       # Имя пользователя
+      MONGO_INITDB_ROOT_PASSWORD: 2093100Tbm   # Пароль
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
