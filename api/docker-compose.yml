@@ -5,13 +5,21 @@ services:
     image: mongo:latest
     restart: always
     environment:
-      MONGO_INITDB_DATABASE: CashAndGoDB       # Имя базы данных
-      MONGO_INITDB_ROOT_USERNAME: CashAndGo       # Имя пользователя
-      MONGO_INITDB_ROOT_PASSWORD: 2093100Tbm   # Пароль
+      MONGO_INITDB_DATABASE: ${DATABASE}       # Имя базы данных
+      MONGO_INITDB_ROOT_USERNAME: ${USER}       # Имя пользователя
+      MONGO_INITDB_ROOT_PASSWORD: ${PASSWORD}   # Пароль
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+      -
+  xe_api: # Название вашего сервиса
+    build:
+      context: .  # Указывает на текущую директорию, где находится Dockerfile
+    ports:
+      - "8000:8000"  # Пробрасываем порт 8000
+    volumes:
+      - .:/api  # Монтируем текущую директорию в контейнер
 
 volumes:
   mongo_data:
