@@ -37,8 +37,12 @@ class Settings:
         return os.getenv("ACCOUNT_KEY")
 
     @property
-    def exchange_rate_request(self):
-        return os.getenv("EXCHANGE_RATE_REQUEST")
+    def exchange_to_rate_request(self):
+        return (os.getenv("EXCHANGE_TO_RATE_REQUEST"))
+
+    @property
+    def exchange_from_rate_request(self):
+        return os.getenv("EXCHANGE_FROM_RATE_REQUEST")
 
     @property
     def mongo_database(self):
