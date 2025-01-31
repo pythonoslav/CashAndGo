@@ -63,7 +63,10 @@ async def get_currencies_data():
             for rate in exchange_rates
         ]
 
-        return formatted_rates  # Возвращаем только список объектов
+        return {
+            "is_error": False,
+            "result": formatted_rates,
+        }  # Возвращаем только список объектов
 
     except Exception as e:
         logger.exception(f"An unexpected error occurred while fetching currency data. {e}")
