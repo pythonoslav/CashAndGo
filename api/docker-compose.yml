@@ -13,13 +13,13 @@ services:
     volumes:
       - mongo_data:/data/db
       -
-  xe_api: # Название вашего сервиса
-    build:
-      context: .  # Указывает на текущую директорию, где находится Dockerfile
-    ports:
-      - "8000:8000"  # Пробрасываем порт 8000
-    volumes:
-      - .:/api  # Монтируем текущую директорию в контейнер
 
+  backend: # Название вашего сервиса
+    build: ./backend
+    container_name: python_api
+    restart: always
+    networks:
+      - web_network  # Оставляем только внутреннюю сеть
+      -
 volumes:
   mongo_data:
