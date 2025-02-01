@@ -5,6 +5,16 @@ import ExchangeRates from "../ExchangeRates/ExchangeRates";
 
 
 const HeroSection = () => {
+  const currencyRates = [
+    { flag: "🇺🇸", code: "USD", buy: 34.21516, sell: 34.96113 },
+    { flag: "🇨🇳", code: "CNY", buy: 4.44117, sell: 4.93564 },
+    { flag: "🇪🇺", code: "EUR", buy: 35.62406, sell: 3.678481 },
+    { flag: "🇯🇵", code: "JPY", buy: 0.21873, sell: 0.23002 },
+    { flag: "🇭🇰", code: "HKD", buy: 4.33562, sell: 4.53643 },
+    { flag: "🇪🇺", code: "ONE", buy: 35.62406, sell: 3.678481 },
+  ];
+  
+
   return (
     <Box
       sx={{
@@ -25,7 +35,7 @@ const HeroSection = () => {
     >
       <Container maxWidth={false} sx={{ maxWidth: '1440px', width: "90%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         {/* Header Content */}
-        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center", justifyContent: "space-between", width: "100%", mt: { xs: 0, md: 4 } }}>
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center", justifyContent: "space-between", width: "100%", mt: { xs: 0, md: -4 } }}>
           {/* Логотип */}
           <Box sx={{ flexShrink: 0, display: "flex", justifyContent: "center", svg: { width: "700px", height: "auto" }, "@media (max-width: 768px)": { svg: { width: "350px" } } }}>
             <LogoSVG />
@@ -43,9 +53,9 @@ const HeroSection = () => {
         </Box>
 
         {/* Контент: Калькулятор и Курс валют */}
-        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: "50px", alignItems: "center", justifyContent: "center", width: "100%", mt: { xs: 4, md: 6 } }}>
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: "50px", alignItems: "center", justifyContent: "center", width: "100%", mt: { xs: 4, md: 4 } }}>
           <Calculator />
-          <ExchangeRates />
+          <ExchangeRates currencyRates={currencyRates}/>
         </Box>
       </Container>
     </Box>

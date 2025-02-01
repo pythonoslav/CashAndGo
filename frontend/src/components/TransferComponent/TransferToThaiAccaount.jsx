@@ -18,6 +18,7 @@ const TransferToThaiAccount = () => {
         padding: "20px",
         gap: "20px",
         width: "100%",
+        marginBottom: "4rem"
       }}
     >
       <Box

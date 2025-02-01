@@ -7,11 +7,11 @@ import { ReactComponent as DropCash } from "../../assets/drop_cash_text.svg";
 const DropContainer = styled(Box)`
   position: relative;
   width: 100%;
-  min-height: 99vh; /* Задаем минимальную высоту */
   display: flex;
   justify-content: center; /* Центрируем содержимое */
   align-items: center;
   padding: 40px 20px;
+  padding-top: 4rem;
 `;
 
 const Wrapper = styled(Box)`
@@ -44,7 +44,8 @@ const DropCashSection = () => {
                         md={6}
                         sx={{
                             display: "flex",
-                            justifyContent: "center",
+                            justifyContent: "flex-start",
+                            paddingLeft: '3.2rem',
                             '@media (max-width: 768px)': {
                                 marginBottom: "20px", // Отступ для мобильных устройств
                             },

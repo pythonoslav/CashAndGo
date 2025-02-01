@@ -19,6 +19,7 @@ const AboutUs = () => {
         margin: "20px auto",
         maxWidth: "1400px",
         boxShadow: "0px 0px 21.6px rgba(0, 0, 0, 0.05)",
+        marginBottom: "4rem"
       }}
     >
       <Box

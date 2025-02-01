@@ -10,10 +10,12 @@ const images = [
     "/images/photo1.png",
     "/images/photo2.png",
     "/images/photo3.png",
+    "/images/photo4.png",
     "/images/photo1.png",
     "/images/photo2.png",
     "/images/photo3.png",
-];
+    "/images/photo4.png",
+]; //не убирать повторение иначе карусель умирает насмерть
 
 const CustomCarousel = () => {
     const swiperRef = useRef(null);
@@ -26,6 +28,7 @@ const CustomCarousel = () => {
                 margin: "0 auto",
                 position: "relative",
                 overflow: "hidden",
+                paddingTop: "4rem"
             }}
         >
 

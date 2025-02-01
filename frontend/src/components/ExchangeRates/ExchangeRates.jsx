@@ -2,16 +2,9 @@ import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead
 import React from "react";
 
 // Массив данных для курсов валют
-const currencyRates = [
-  { flag: "🇺🇸", code: "USD", buy: 34.21516, sell: 34.96113 },
-  { flag: "🇨🇳", code: "CNY", buy: 4.44117, sell: 4.93564 },
-  { flag: "🇪🇺", code: "EUR", buy: 35.62406, sell: 3.678481 },
-  { flag: "🇯🇵", code: "JPY", buy: 0.21873, sell: 0.23002 },
-  { flag: "🇭🇰", code: "HKD", buy: 4.33562, sell: 4.53643 },
-  { flag: "🇪🇺", code: "ONE", buy: 35.62406, sell: 3.678481 },
-];
 
-const ExchangeRates = () => {
+
+const ExchangeRates = ({ currencyRates }) => {
   return (
     <Box
       sx={{
@@ -42,7 +35,7 @@ const ExchangeRates = () => {
                   fontWeight: "bold",
                   color: "black",
                   fontSize: "1.5rem",
-                  pl: 30, // Увеличиваем отступ слева
+                  pl: 30, 
                 }}
                 align="right"
               >
@@ -53,7 +46,7 @@ const ExchangeRates = () => {
                   fontWeight: "bold",
                   color: "black",
                   fontSize: "1.5rem",
-                  pl: 4, // Увеличиваем отступ слева
+                  pl: 4,
                 }}
                 align="right"
               >
@@ -68,12 +61,11 @@ const ExchangeRates = () => {
                 "&:last-child td, &:last-child th": {
                   border: 0, 
                   paddingBottom: "8px",
-                  
                 },
               }}>
                 <TableCell>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <span style={{ fontSize: "1.2rem" }}>{currency.flag}</span> {/* Увеличиваем флаг */}
+                    <span style={{ fontSize: "1.2rem" }}>{currency.flag}</span> 
                     <Typography sx={{ fontSize: "1.2rem", fontWeight: "bold" }}>
                       {currency.code}
                     </Typography>

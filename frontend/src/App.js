@@ -9,19 +9,33 @@ import TransferToThaiAccount from "./components/TransferComponent/TransferToThai
 import AboutUs from "./components/AboutUsComponent/AbaoutUs";
 import FAQ from "./components/FAQComponent/FAQComponent";
 import Footer from "./components/Footer/Footer";
+import { Box } from "@mui/material";
+import { Element } from "react-scroll";
 
 const App = () => {
   return (
     <>
       <Header />
       <HeroSection />
-      <FeaturesSection />
-      <DropCashSection/>
-      <ResivingCash/>
-      <DeliveryComponent/>
-      <TransferToThaiAccount/>
-      <AboutUs/>
-      <FAQ/>
+      <Box
+      sx={{
+        backgroundImage: "url('/mail_background.svg')"
+      }}>
+        <Element name="features"></Element>
+        <FeaturesSection />
+        <Element name="atm"></Element>
+        <DropCashSection />
+        <Element name="cash"></Element>
+        <ResivingCash />
+        <Element name="courier"></Element>
+        <DeliveryComponent />
+        <Element name="check"></Element>
+        <TransferToThaiAccount />
+        <Element name="about"></Element>
+        <AboutUs/>
+        <Element name="faq"></Element>
+        <FAQ />
+      </Box>
       <Footer />
     </>
   );

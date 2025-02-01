@@ -8,19 +8,19 @@ import CourierDelivery from "../../assets/courier_delivery.svg";
 import OnCheck from "../../assets/on_check.svg";
 import Vector from "../../assets/vector_button.svg";
 import PaymentSection from "./PaymentSection";
-
+import { Link } from "react-scroll";
 
 
 const FeaturesContainer = styled(Box)`
   position: relative;
   width: 100%;
-  min-height: 99vh; /* Задаем минимальную высоту */
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; /* Поднимаем содержимое вверх */
   padding: 20px 0;
+  padding-top: 4rem;
 
 `;
 
@@ -53,7 +53,7 @@ const FeatureIcon = styled.div`
 `;
 
 
-const FeatureCard = ({ icon, title, description }) => {
+const FeatureCard = ({ icon, title, description, id_name }) => {
   return (
     <Box
       sx={{
@@ -105,7 +105,7 @@ const FeatureCard = ({ icon, title, description }) => {
           marginBottom: "20px",
           textAlign: "left",
           width: "75%",
-          
+
         }}
       >
         {Array.isArray(description)
@@ -124,7 +124,14 @@ const FeatureCard = ({ icon, title, description }) => {
       {/* Кнопка стрелки */}
       <Box sx={{ position: "relative", width: "100%", mt: 7, mb: -2 }}>
         <IconButton
+           component={Link}
+           to={id_name} // Должно совпадать с name="features"
+           smooth={true}
+           duration={500}
+           offset={-90} // Если есть фиксированный header
+           spy={true} // Следит за активной секцией (необязательно)
           sx={{
+
             backgroundColor: "#0055D4",
             color: "#fff",
             width: "40px",
@@ -162,6 +169,7 @@ const FeaturesSection = () => {
       ),
       title: ["Через", "банкомат"],
       description: ["Банковская карта", "не требуется"],
+      id_name: "atm"
     },
     {
       icon: (
@@ -173,6 +181,7 @@ const FeaturesSection = () => {
       ),
       title: ["Наличные", "в офисе"],
       description: ["Получите наличные", "у кассира"],
+      id_name: "cash"
     },
     {
       icon: (
@@ -184,6 +193,7 @@ const FeaturesSection = () => {
       ),
       title: ["Курьерская", "доставка"],
       description: ["Курьер выдаст", "Вам наличные"],
+      id_name: "courier"
     },
     {
       icon: (
@@ -195,6 +205,7 @@ const FeaturesSection = () => {
       ),
       title: ["На тайский", "счет"],
       description: ["Получите перевод", "на Ваш счет"],
+      id_name: "check"
     },
   ];
   //Массивы исполоьзуются для возможности переноса строки в заголовке и описании
@@ -211,11 +222,11 @@ const FeaturesSection = () => {
         <Grid container spacing={3} marginTop={2}>
           {features.map((feature, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
-              <FeatureCard icon={feature.icon} title={feature.title} description={feature.description} />
+              <FeatureCard icon={feature.icon} title={feature.title} description={feature.description} id_name={feature.id_name}/>
             </Grid>
           ))}
         </Grid>
-        <Typography variant="h6" sx={{fontSize: "30px",  fontWeight: "700", lineHeight: "31px", color: "#004DB4", textTransform: 'uppercase', mt: '4rem'}}>принимаем оплату с любых российских банков</Typography>
+        <Typography variant="h6" sx={{ fontSize: "30px", fontWeight: "700", lineHeight: "31px", color: "#004DB4", textTransform: 'uppercase', mt: '4rem' }}>принимаем оплату с любых российских банков</Typography>
         <PaymentSection />
       </Wrapper>
     </FeaturesContainer>

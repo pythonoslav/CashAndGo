@@ -1,18 +1,22 @@
-FROM node:14
+# Этап 1: Сборка React-приложения
+FROM node:20-alpine AS build
 
+WORKDIR /frontend
+COPY package.json package-lock.json ./
+RUN npm install --legacy-peer-deps
+COPY . . 
+RUN npm run build
 
-WORKDIR /app
+# Этап 2: Запуск с Nginx
+FROM nginx:alpine
 
+# Копируем билд React в директорию Nginx
+COPY --from=build /frontend/build /usr/share/nginx/html
 
-COPY package*.json ./
+# Копируем кастомный Nginx конфиг (опционально)
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Открываем порты (но в Docker Compose они задаются отдельно)
+EXPOSE 80
 
-RUN npm install
-
-
-COPY . .
-
-EXPOSE 3000
-
-
-CMD ["npm", "start"]
+CMD ["nginx", "-g", "daemon off;"]
