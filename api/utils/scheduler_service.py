@@ -1,5 +1,15 @@
+from fastapi import HTTPException
+
+from loguru import logger
+
+from settings.config import get_settings
 from settings.mongo_config import save_currency_rates
 from utils.currency_service import fetch_currency_data, merge_currency_data
+
+api_settings = get_settings(
+    filename='credentials.env',
+    env_vars=["ACCOUNT_ID", "ACCOUNT_KEY", "EXCHANGE_TO_RATE_REQUEST", "EXCHANGE_FROM_RATE_REQUEST"]
+)
 
 async def scheduled_currency_exchange_rate():
     """

@@ -1,10 +1,11 @@
+import math
 from fastapi import FastAPI, HTTPException
 from loguru import logger
 from settings.mongo_config import MongoDBClient
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from settings.config import get_settings
-from settings.mongo_config import save_currency_rates
-from utils.currency_service import fetch_currency_data, merge_currency_data
+from utils.scheduler_service import scheduled_currency_exchange_rate
 
 # Создание приложения FastAPI
 app = FastAPI()
@@ -14,32 +15,17 @@ api_settings = get_settings(
     env_vars=["ACCOUNT_ID", "ACCOUNT_KEY", "EXCHANGE_TO_RATE_REQUEST", "EXCHANGE_FROM_RATE_REQUEST"]
 )
 
+scheduler = AsyncIOScheduler()
 
-@app.get("/currency_exchange_rate")
-async def get_currency_exchange_rate():
+@app.on_event("startup")
+async def start_scheduler():
     """
-    Получает текущий обменный курс валют.
-
-    Returns:
-        A JSON response with the currency exchange rates.
+    Функция запускается при старте приложения.
+    Запускает планировщик задач.
     """
-    try:
-        data_convert_to, data_convert_from = await fetch_currency_data(api_settings)
+    scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=30)  # Запускать каждые 30 минут
+    scheduler.start()
 
-        # Создание DataFrame из данных и их слияние
-        final_rates_list = merge_currency_data(data_convert_to, data_convert_from)
-
-        await save_currency_rates(final_rates_list)
-
-        return {
-            "is_error": False,
-            "result": final_rates_list,
-        }
-
-    except Exception as e:
-        logger.exception("An unexpected error occurred")
-        raise HTTPException(status_code=500,
-                            detail=f"An unexpected error occurred. {e}")
 
 @app.get('/get_currencies_data')
 async def get_currencies_data():
@@ -53,12 +39,14 @@ async def get_currencies_data():
         mongo_client = MongoDBClient()
         exchange_rates = await mongo_client.get_exchange_rates()
 
+        logger.debug(f"Exchange rates: {exchange_rates}")
+
         # Преобразуем данные для удобного формата
         formatted_rates = [
             {
                 "quotecurrency": rate["quotecurrency"],
-                "mid_to": rate["mid_to"],
-                "mid_from": rate["mid_from"]
+                "mid_to": rate["mid_to"] if not (math.isinf(rate["mid_to"]) or math.isnan(rate["mid_to"])) else None,
+                "mid_from": rate["mid_from"] if not (math.isinf(rate["mid_from"]) or math.isnan(rate["mid_from"])) else None
             }
             for rate in exchange_rates
         ]
