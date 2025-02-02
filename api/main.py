@@ -60,8 +60,3 @@ async def get_currencies_data():
         logger.exception(f"An unexpected error occurred while fetching currency data. {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch currency data. {e}")
 
-
-@app.exception_handler(HTTPException)
-async def http_exception_handler(request, exc):
-    logger.error(f"HTTP Exception: {exc.detail}")
-    return await request.app.default_exception_handler(request, exc)
