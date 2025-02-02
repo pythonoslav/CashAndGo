@@ -46,15 +46,15 @@ class Settings:
 
     @property
     def mongo_database(self):
-        return os.getenv("DATABASE")
+        return os.getenv("DB_NAME")
 
     @property
     def mongo_user(self):
-        return os.getenv("USER")
+        return os.getenv("DB_USERNAME")
 
     @property
     def mongo_password(self):
-        return os.getenv("PASSWORD")
+        return os.getenv("DB_USER_PASSWORD")
 
 def get_settings(filename: str, env_vars: list[str]) -> Settings:
     """Get the application settings."""
