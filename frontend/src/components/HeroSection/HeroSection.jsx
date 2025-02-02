@@ -2,17 +2,33 @@ import { Box, Typography, Container } from "@mui/material";
 import { ReactComponent as LogoSVG } from "../../assets/main_logo.svg";
 import Calculator from "../Calculator/Calculator";
 import ExchangeRates from "../ExchangeRates/ExchangeRates";
+import { useEffect, useState } from "react";
 
 
 const HeroSection = () => {
-  const currencyRates = [
-    { flag: "🇺🇸", code: "USD", buy: 34.21516, sell: 34.96113 },
-    { flag: "🇨🇳", code: "CNY", buy: 4.44117, sell: 4.93564 },
-    { flag: "🇪🇺", code: "EUR", buy: 35.62406, sell: 3.678481 },
-    { flag: "🇯🇵", code: "JPY", buy: 0.21873, sell: 0.23002 },
-    { flag: "🇭🇰", code: "HKD", buy: 4.33562, sell: 4.53643 },
-    { flag: "🇪🇺", code: "ONE", buy: 35.62406, sell: 3.678481 },
-  ];
+  const [currencyRates, setCurrencyRates] = useState([
+    { code: "USD", buy: 34.21516, sell: 34.96113 },
+    { code: "CNY", buy: 4.44117, sell: 4.93564 },
+    { code: "EUR", buy: 35.62406, sell: 3.678481 },
+    { code: "JPY", buy: 0.21873, sell: 0.23002 },
+    { code: "HKD", buy: 4.33562, sell: 4.53643 },
+    { code: "ONE", buy: 35.62406, sell: 3.678481 },
+    
+  ]);
+
+  useEffect(() => {
+    const fetchCurrencyRates = async () => {
+      try {
+        const response = await fetch("/get_currencies_data");
+        const data = await response.json();
+        setCurrencyRates(data);
+      } catch (error) {
+        console.error("Ошибка загрузки данных о курсах валют:", error);
+      }
+    };
+
+    fetchCurrencyRates();
+  }, []);
   
 
   return (
@@ -54,7 +70,7 @@ const HeroSection = () => {
 
         {/* Контент: Калькулятор и Курс валют */}
         <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: "50px", alignItems: "center", justifyContent: "center", width: "100%", mt: { xs: 4, md: 4 } }}>
-          <Calculator />
+          <Calculator currenciesRates={currencyRates}/>
           <ExchangeRates currencyRates={currencyRates}/>
         </Box>
       </Container>

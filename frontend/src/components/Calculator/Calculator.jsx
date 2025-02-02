@@ -59,7 +59,7 @@ const ActiveTabIndicator = styled.div`
   transition: left 0.3s ease;
 `;
 
-const Calculator = () => {
+const Calculator = ({currenciesRates}) => {
   const [activeTab, setActiveTab] = useState("buy");
   const [currencyFrom, setCurrencyFrom] = useState("THB");
   const [currencyTo, setCurrencyTo] = useState("USD");
