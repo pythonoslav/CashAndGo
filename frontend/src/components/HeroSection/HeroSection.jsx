@@ -19,8 +19,9 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchCurrencyRates = async () => {
       try {
-        const response = await fetch("/get_currencies_data");
+        const response = await fetch("/api/get_currencies_data");
         const data = await response.json();
+        debugger
         setCurrencyRates(data);
       } catch (error) {
         console.error("Ошибка загрузки данных о курсах валют:", error);

@@ -3,15 +3,17 @@ services:
     build: ./frontend
     container_name: react_frontend
     restart: always
+    ports:
+      - "3000:80"
     networks:
-      - web_network
+      - web_network 
 
   backend:
     build: ./api
     container_name: python_api
     restart: always
     networks:
-      - web_network  
+      - web_network
 
   mongo:
     image: mongo:latest
@@ -27,12 +29,10 @@ services:
     container_name: nginx_proxy
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     volumes:
       - ./frontend/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+    entrypoint: ["/bin/sh", "-c", "rm -f /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]
     depends_on:
       - frontend
       - backend
@@ -55,7 +55,9 @@ services:
 
 networks:
   web_network:
+    name: web_network  # <-- Явно задаём имя сети
     driver: bridge
+
 
 volumes:
   mongo_data:
