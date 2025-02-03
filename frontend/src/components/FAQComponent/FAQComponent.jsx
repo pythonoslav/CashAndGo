@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 
 import InstructionsKasikorn from "./InstructionsKasikorn";
@@ -7,9 +7,8 @@ import InstructionsKrungThai from "./InstructionsKrungThai"
 import InstructionsOnlineTransfer from "./InstructionsOnlineTransfer";
 
 
-const FAQ = () => {
-    const [openIndex, setOpenIndex] = useState(null);
-
+const FAQ = ({ openIndex, setOpenIndex }) => {
+    
     const handleToggle = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };

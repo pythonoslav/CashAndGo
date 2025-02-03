@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./components/Header/Header";
 import HeroSection from "./components/HeroSection/HeroSection";
 import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
@@ -13,6 +13,9 @@ import { Box } from "@mui/material";
 import { Element } from "react-scroll";
 
 const App = () => {
+
+  const [openIndex, setOpenIndex] = useState(null);
+
   return (
     <>
       <Header />
@@ -24,7 +27,7 @@ const App = () => {
         <Element name="features"></Element>
         <FeaturesSection />
         <Element name="atm"></Element>
-        <DropCashSection />
+        <DropCashSection setOpenIndex={setOpenIndex}/>
         <Element name="cash"></Element>
         <ResivingCash />
         <Element name="courier"></Element>
@@ -34,7 +37,7 @@ const App = () => {
         <Element name="about"></Element>
         <AboutUs/>
         <Element name="faq"></Element>
-        <FAQ />
+        <FAQ openIndex={openIndex} setOpenIndex={setOpenIndex}/>
       </Box>
       <Footer />
     </>

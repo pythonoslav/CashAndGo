@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Box, Typography, Link, List, ListItem, Grid } from "@mui/material";
 import { ReactComponent as ATM_drop_cash } from "../../assets/ATM_drop_cash_full.svg";
 import { ReactComponent as DropCash } from "../../assets/drop_cash_text.svg";
+import { scroller } from "react-scroll";
+
 
 const DropContainer = styled(Box)`
   position: relative;
@@ -22,7 +24,19 @@ const Wrapper = styled(Box)`
   margin: 0 auto;
 `;
 
-const DropCashSection = () => {
+const DropCashSection = ({setOpenIndex}) => {
+    
+    const handleScroll = (index) => {
+        setOpenIndex(index);
+        scroller.scrollTo("faq", {
+            smooth: true,
+            duration: 500,
+            offset: -90, // Отступ для учета фиксированного хедера
+        });
+
+    }
+    
+    
     return (
         <DropContainer>
             <Wrapper>
@@ -167,20 +181,21 @@ const DropCashSection = () => {
                                         },
                                     }}
                                 >
-                                    <Link
-                                        href="#"
-                                        underline="hover"
-                                        sx={{
-                                            color: "green",
-                                            fontWeight: "600",
-                                            fontSize: "24px",
-                                            '@media (max-width: 768px)': {
-                                                marginLeft: "10px",
-                                            },
-                                        }}
-                                    >
-                                        Kasikorn bank
-                                    </Link>
+                                        <Link
+                                            component="button"
+                                            underline="hover"
+                                            onClick={() => handleScroll(0)}
+                                            sx={{
+                                                color: "green",
+                                                fontWeight: "600",
+                                                fontSize: "24px",
+                                                '@media (max-width: 768px)': {
+                                                    marginLeft: "10px",
+                                                },
+                                            }}
+                                        >
+                                            Kasikorn bank
+                                        </Link>
                                 </ListItem>
                                 <ListItem
                                     sx={{
@@ -204,8 +219,9 @@ const DropCashSection = () => {
                                     }}
                                 >
                                     <Link
-                                        href="#"
+                                        component="button"
                                         underline="hover"
+                                        onClick={() => handleScroll(1)}
                                         sx={{
                                             color: "blue",
                                             fontWeight: "600",
@@ -240,8 +256,9 @@ const DropCashSection = () => {
                                     }}
                                 >
                                     <Link
-                                        href="#"
+                                        component="button"
                                         underline="hover"
+                                        onClick={() => handleScroll(2)}
                                         sx={{
                                             color: "#06C3FF",
                                             fontWeight: "600",

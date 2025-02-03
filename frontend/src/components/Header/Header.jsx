@@ -8,6 +8,10 @@ import MenuIcon from "../../assets/MenuBurger.svg";
 import Vector from "./strelka.svg"
 import { Link } from "react-scroll";
 
+const telegramLink = "https://t.me/"; // Телеги пока что нет
+const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
+
+
 const Header = () => {
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -23,6 +27,10 @@ const Header = () => {
         setAnchorEl(null);
     };
 
+
+    const openLink = (url) => {
+        window.open(url, "_blank", "noopener,noreferrer");
+    };
 
     return (
         <>
@@ -123,8 +131,8 @@ const Header = () => {
 
                         {/* Навигация */}
                         <Box sx={{ display: "flex", gap: "3.6vw", flexGrow: 1, justifyContent: "center" }}>
-                            <Button component={Link} to="features" smooth={true} duration={500}  offset={-90}  sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>НАЛИЧНЫЕ</Button>
-                            <Button component={Link} to="about" smooth={true} duration={500} offset={-90}  sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>О НАС</Button>
+                            <Button component={Link} to="features" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>НАЛИЧНЫЕ</Button>
+                            <Button component={Link} to="about" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>О НАС</Button>
                             <Button component={Link} to="faq" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>FAQ</Button>
                         </Box>
 
@@ -139,10 +147,35 @@ const Header = () => {
                                 />
                             </Box>
                             <Box sx={{ display: "flex", gap: "10px", marginLeft: "12px" }}>
-                                <IconButton sx={{ backgroundColor: "#f87000", width: "42px", height: "42px", borderRadius: "50%" }}>
+                                <IconButton
+                                    sx={{
+                                        backgroundColor: "#f87000",
+                                        width: "42px",
+                                        height: "42px",
+                                        borderRadius: "50%",
+                                        transition: "transform 0.2s ease-in-out",
+                                        "&:hover": {
+                                            transform: "scale(1.1)"
+                                        }
+                                    }}
+                                    onClick={() => openLink(telegramLink)}
+                                >
                                     <img src={telegramIcon} alt="Telegram" style={{ width: "36px", height: "36px" }} />
                                 </IconButton>
-                                <IconButton sx={{ backgroundColor: "#f87000", width: "42px", height: "42px", borderRadius: "50%" }}>
+
+                                <IconButton
+                                    sx={{
+                                        backgroundColor: "#f87000",
+                                        width: "42px",
+                                        height: "42px",
+                                        borderRadius: "50%",
+                                        transition: "transform 0.2s ease-in-out",
+                                        "&:hover": {
+                                            transform: "scale(1.1)"
+                                        }
+                                    }}
+                                    onClick={() => openLink(whatsappLink)}
+                                >
                                     <img src={whatsappIcon} alt="WhatsApp" style={{ width: "36px", height: "36px" }} />
                                 </IconButton>
                             </Box>

@@ -6,7 +6,15 @@ import { ReactComponent as TelegramIcon } from "../TransferComponent/assets/Tele
 import { ReactComponent as WhatsAppIcon } from "../TransferComponent/assets/WhatsupIcon.svg";
 
 
+const telegramLink = "https://t.me/"; // Телеги пока что нет
+const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
+
+
 const TransferToThaiAccount = () => {
+  const openLink = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <Box
       sx={{
@@ -100,7 +108,7 @@ const TransferToThaiAccount = () => {
               width: "70%",
             }}
           >
-            Рассчитайте <br/> курс индивидуально!
+            Рассчитайте <br /> курс индивидуально!
           </Typography>
 
           <Stack direction="row" spacing={4} mt={4} ml={2}>
@@ -118,6 +126,7 @@ const TransferToThaiAccount = () => {
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onClick={() => openLink(telegramLink)}
             />
             <Button
               variant="contained"
@@ -133,6 +142,7 @@ const TransferToThaiAccount = () => {
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onClick={() => openLink(whatsappLink)}
             />
           </Stack>
         </Box>

@@ -6,7 +6,16 @@ import { ReactComponent as TelegramIcon } from "../../assets/telegram-icon.svg";
 import { ReactComponent as WhatsAppIcon }from "../../assets/whatsapp-icon.svg";
 
 
+const telegramLink = "https://t.me/"; // Телеги пока что нет
+const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
+
+
 const CourierDelivery = () => {
+  const openLink = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  
   return (
     <Box
       sx={{
@@ -146,6 +155,7 @@ const CourierDelivery = () => {
               variant="contained"
               startIcon={<TelegramIcon />}
               sx={{ borderRadius: "50px", padding: "15px 20px", maxWidth: '293px', backgroundColor: "#27a7e7"}}
+              onClick={() => openLink(telegramLink)}
             >
               Обменять в Telegram
             </Button>
@@ -154,6 +164,7 @@ const CourierDelivery = () => {
               
               startIcon={<WhatsAppIcon />}
               sx={{ borderRadius: "50px", padding: "15px 20px", maxWidth: '293px', backgroundColor: "#2cb742"}}
+              onClick={() => openLink(whatsappLink)}
             >
               Обменять в WhatsApp
             </Button>
