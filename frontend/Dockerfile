@@ -7,13 +7,14 @@ RUN npm install --legacy-peer-deps
 COPY . . 
 RUN npm run build
 
-# Этап 2: Раздача фронта через `serve`
-FROM node:20-alpine
-WORKDIR /frontend
-RUN npm install -g serve
+# Этап 2: Запуск с Nginx
+FROM nginx:alpine
 
-COPY --from=build /frontend/build /frontend/build
+WORKDIR /usr/share/nginx/html
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /frontend/build/ /usr/share/nginx/html/
 
-EXPOSE 3000
+# Копируем кастомный Nginx конфиг
+COPY nginx.conf /etc/nginx/nginx.conf
 
-CMD ["serve", "-s", "build", "-l", "3000"]
+CMD ["nginx", "-g", "daemon off;"]
