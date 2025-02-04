@@ -7,13 +7,7 @@ RUN npm install --legacy-peer-deps
 COPY . . 
 RUN npm run build
 
-# Этап 2: Запуск с Nginx
-FROM nginx:alpine
-
-# Удаляем дефолтные файлы
-RUN rm -rf /usr/share/nginx/html/*
-
-# Копируем собранный React-фронтенд
-COPY --from=build /frontend/build /usr/share/nginx/html
-
-CMD ["nginx", "-g", "daemon off;"]
+# Этап 2: Копируем файлы фронта, чтобы Nginx мог их использовать
+FROM alpine:latest
+WORKDIR /usr/share/nginx/html
+COPY --from=build /frontend/build/ /usr/share/nginx/html/
