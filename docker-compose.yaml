@@ -20,22 +20,22 @@ services:
       - web_network
 
   nginx:
-      image: nginx:latest
-      container_name: nginx_proxy
-      restart: always
-      ports:
-        - "80:80"
-        - "443:443"
-      volumes:
-        - ./frontend/build:/usr/share/nginx/html  # 📌 Монтируем билд фронта в Nginx
-        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-        - ./certbot/conf:/etc/letsencrypt
-        - ./certbot/www:/var/www/certbot
-      depends_on:
-        - frontend
-        - backend
-      networks:
-        - web_network
+    image: nginx:latest
+    container_name: nginx_proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./frontend/build:/usr/share/nginx/html:ro  # 📌 Фиксируем путь
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro 
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - web_network
 
   certbot:
     image: certbot/certbot
