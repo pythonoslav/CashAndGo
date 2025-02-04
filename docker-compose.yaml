@@ -11,6 +11,7 @@ services:
       - web_network
 
 
+
   backend:
     build: ./api
     container_name: python_api
@@ -41,10 +42,9 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./frontend/build:/usr/share/nginx/html  # ✅ Монтируем фронт внутрь Nginx
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
+      - ./frontend/build:/usr/share/nginx/html  # ✅ Теперь Nginx видит фронт
     depends_on:
       - frontend
       - backend

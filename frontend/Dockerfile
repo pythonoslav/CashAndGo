@@ -7,7 +7,13 @@ RUN npm install --legacy-peer-deps
 COPY . . 
 RUN npm run build
 
-# Этап 2: Контейнер для раздачи файлов
-FROM alpine:latest
-WORKDIR /usr/share/nginx/html
-COPY --from=build /frontend/build/ /usr/share/nginx/html/
+# Этап 2: Раздача фронта через `serve`
+FROM node:20-alpine
+WORKDIR /frontend
+RUN npm install -g serve
+
+COPY --from=build /frontend/build /frontend/build
+
+EXPOSE 3000
+
+CMD ["serve", "-s", "build", "-l", "3000"]
