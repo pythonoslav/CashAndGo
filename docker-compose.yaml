@@ -17,10 +17,15 @@ services:
     image: mongo:latest
     container_name: mongo_db
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: CashAndGo
+      MONGO_INITDB_ROOT_PASSWORD: 2093100Tbm
+      MONGO_INITDB_DATABASE: CashAndGoDB  # Автоматически создаст базу данных
     volumes:
-      - mongo_data:/data/db
+    - mongo_data:/data/db
     networks:
-      - web_network
+    - web_network
+
 
   nginx:
     image: nginx:latest
