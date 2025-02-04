@@ -1,3 +1,5 @@
+version: "3.8"  # 
+
 services:
   frontend:
     build: ./frontend
@@ -20,12 +22,11 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: CashAndGo
       MONGO_INITDB_ROOT_PASSWORD: 2093100Tbm
-      MONGO_INITDB_DATABASE: CashAndGoDB  # Автоматически создаст базу данных
+      MONGO_INITDB_DATABASE: CashAndGoDB  
     volumes:
-    - mongo_data:/data/db
+      - mongo_data:/data/db  
     networks:
-    - web_network
-
+      - web_network
 
   nginx:
     image: nginx:latest
@@ -65,9 +66,7 @@ services:
 
 networks:
   web_network:
-    name: web_network  
-    driver: bridge
-
+    driver: bridge  
 
 volumes:
-  mongo_data:
+  mongo_data: 
