@@ -1,20 +1,19 @@
 # Этап 1: Сборка React-приложения
 FROM node:20-alpine AS build
 
-WORKDIR /frontend
+WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install --legacy-peer-deps
-COPY . . 
+COPY . .
 RUN npm run build
 
-# Этап 2: Запуск с Nginx
+# Этап 2: Запуск Nginx
 FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/html
 RUN rm -rf /usr/share/nginx/html/*
-COPY --from=build /frontend/build/ /usr/share/nginx/html/
+COPY --from=build /app/build/ /usr/share/nginx/html/
 
-# Копируем кастомный Nginx конфиг
 COPY nginx.conf /etc/nginx/nginx.conf
 
 CMD ["nginx", "-g", "daemon off;"]
