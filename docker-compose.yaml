@@ -15,6 +15,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/CashAndGoDB  # Подключаемся к MongoDB по внутреннему адресу
     networks:
+      - web_network      # Доступ для фронта
       - internal_network  # Бэкенд доступен только внутри контейнерной сети
 
   mongo:

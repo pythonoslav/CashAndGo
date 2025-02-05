@@ -21,7 +21,6 @@ const HeroSection = () => {
       try {
         const response = await fetch("/api/get_currencies_data");
         const data = await response.json();
-        debugger
         setCurrencyRates(data);
       } catch (error) {
         console.error("Ошибка загрузки данных о курсах валют:", error);
