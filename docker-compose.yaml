@@ -12,21 +12,23 @@ services:
     build: ./api
     container_name: python_api
     restart: always
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/CashAndGoDB  # Подключаемся к MongoDB по внутреннему адресу
     networks:
-      - web_network
+      - internal_network  # Бэкенд доступен только внутри контейнерной сети
 
   mongo:
     image: mongo:latest
     container_name: mongo_db
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: CashAndGo
-      MONGO_INITDB_ROOT_PASSWORD: 2093100Tbm
-      MONGO_INITDB_DATABASE: CashAndGoDB  
+      - MONGO_INITDB_ROOT_USERNAME=CashAndGo
+      - MONGO_INITDB_ROOT_PASSWORD=2093100Tbm
+      - MONGO_INITDB_DATABASE=CashAndGoDB
     volumes:
-      - mongo_data:/data/db  
+      - mongo_data:/data/db
     networks:
-      - web_network
+      - internal_network  # Монга тоже в изолированной сети
 
   nginx:
     image: nginx:latest
@@ -41,6 +43,7 @@ services:
       - ./certbot/www:/var/www/certbot
     depends_on:
       - frontend
+      - backend
     networks:
       - web_network
 
@@ -63,8 +66,10 @@ services:
       - web_network
 
 networks:
-  web_network:
-    driver: bridge  
+  web_network:  # Внешняя сеть для фронта и nginx
+    driver: bridge
+  internal_network:  # Закрытая сеть для бэкенда и монги
+    internal: true
 
 volumes:
   mongo_data:
