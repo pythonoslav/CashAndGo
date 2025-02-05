@@ -1,5 +1,5 @@
 import math
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from loguru import logger
 from settings.mongo_config import MongoDBClient
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -28,7 +28,9 @@ async def start_scheduler():
 
 
 @app.get('/get_currencies_data')
-async def get_currencies_data():
+async def get_currencies_data(request: Request):
+    request_body = request.body()
+    logger.debug(f"request body: {request_body}")
     """
            Получает данные валют из коллекции exchange_rates.
 
