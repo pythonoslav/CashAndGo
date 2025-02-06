@@ -71,8 +71,10 @@ services:
 
 networks:
   web_network:  # Внешняя сеть для фронта и nginx
+    name: web_network
     driver: bridge
-  internal_network:  # Закрытая сеть для бэкенда и монги
+  internal_network:
+    name: internal_network  # Закрытая сеть для бэкенда и монги
     internal: true
 
 volumes:
