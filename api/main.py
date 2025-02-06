@@ -45,8 +45,8 @@ async def get_currencies_data(request: Request):
         formatted_rates = [
             {
                 "code": rate["quotecurrency"],
-                "buy": rate["mid_from"] if not (math.isinf(rate["mid_from"]) or math.isnan(rate["mid_from"])) else None,
-                "sell": rate["mid_to"] if not (math.isinf(rate["mid_to"]) or math.isnan(rate["mid_to"])) else None
+                "buy": rate["mid_from"], #if not (math.isinf(rate["mid_from"]) or math.isnan(rate["mid_from"])) else None,
+                "sell": rate["mid_to"] #if not (math.isinf(rate["mid_to"]) or math.isnan(rate["mid_to"])) else None
             }
             for rate in exchange_rates
         ]
