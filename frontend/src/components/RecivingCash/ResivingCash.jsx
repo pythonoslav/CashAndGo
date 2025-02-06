@@ -41,7 +41,7 @@ const CustomCarousel = () => {
                     height: '1024',
                 }}
             >
-                <RecivingCash sx={{width:'750px'}}/>
+                <RecivingCash sx={{ width: '750px' }} />
             </Box>
             <Typography
                 variant="body1"
@@ -119,7 +119,10 @@ const CustomCarousel = () => {
                 <ArrowButtonRight />
             </IconButton>
 
-            <Typography variant="h3" sx={{
+            <Typography 
+                variant="h3"
+                onClick={() => window.open("https://www.google.com/maps/search/?api=1&query=5/27A,+Fisherman+Way,+Moo+5+Wiset+Rd,+Rawai,+Muang,+Phuket+83130,+Thailand", "_blank", "noopener,noreferrer")}
+                sx={{
                     fontSize: "36px",
                     fontWeight: "900",
                     lineHeight: "45px",
@@ -128,13 +131,16 @@ const CustomCarousel = () => {
                     width: "70%",
                     marginTop: '2rem',
                     marginBottom: "2rem",
-                    marginLeft: '5ch',
+                    cursor: 'pointer',
                     '@media (max-width: 768px)': {
-                        fontSize: "16px", // Уменьшаем шрифт на мобильных
+                        fontSize: "16px", 
                         lineHeight: "22px",
                         textAlign: "left"
                     },
-                }}>Адрес: 5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand</Typography>
+                    '&:hover span': {
+                        textDecoration: "underline", // Подчеркивание при наведении
+                    }
+                }}>Адрес: <span>5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand</span></Typography>
         </Box>
 
 
