@@ -1,4 +1,5 @@
-import math
+import pandas as pd
+
 from motor.motor_asyncio import AsyncIOMotorClient
 from settings.config import get_settings
 
@@ -36,8 +37,8 @@ async def save_currency_rates(currencies_list: list):
     documents = [
         {
             "quotecurrency": currency['quotecurrency'],
-            "mid_to": currency['mid_to'] if currency['mid_to'] is not None and not (isinstance(currency['mid_to'], float) and math.isnan(currency['mid_to'])) else 0,
-            "mid_from": currency['mid_from'] if currency['mid_from'] is not None and not (isinstance(currency['mid_from'], float) and math.isnan(currency['mid_from'])) else 0
+            "mid_to": currency['mid_to'] if not pd.isna(currency['mid_to']) else 0,  # Заменяем NaN на 0
+            "mid_from": currency['mid_from'] if not pd.isna(currency['mid_from']) else 0
         }
         for currency in currencies_list
     ]

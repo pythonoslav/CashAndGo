@@ -1,4 +1,3 @@
-import math
 from fastapi import FastAPI, HTTPException, Request
 from loguru import logger
 from settings.mongo_config import MongoDBClient
@@ -23,7 +22,7 @@ async def start_scheduler():
     Функция запускается при старте приложения.
     Запускает планировщик задач.
     """
-    scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=5)  # Запускать каждые 30 минут
+    scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=30)  # Запускать каждые 30 минут
     scheduler.start()
 
 
@@ -45,8 +44,8 @@ async def get_currencies_data(request: Request):
         formatted_rates = [
             {
                 "code": rate["quotecurrency"],
-                "buy": rate["mid_from"], #if not (math.isinf(rate["mid_from"]) or math.isnan(rate["mid_from"])) else None,
-                "sell": rate["mid_to"] #if not (math.isinf(rate["mid_to"]) or math.isnan(rate["mid_to"])) else None
+                "buy": rate["mid_from"],
+                "sell": rate["mid_to"]
             }
             for rate in exchange_rates
         ]
@@ -59,4 +58,3 @@ async def get_currencies_data(request: Request):
     except Exception as e:
         logger.exception(f"An unexpected error occurred while fetching currency data. {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch currency data. {e}")
-
