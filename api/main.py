@@ -8,7 +8,7 @@ from settings.config import get_settings
 from utils.scheduler_service import scheduled_currency_exchange_rate
 
 # Создание приложения FastAPI
-app = FastAPI()
+app = FastAPI(root_path="/api")
 # Получение настроек
 api_settings = get_settings(
     filename='credentials.env',
