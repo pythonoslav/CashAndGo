@@ -7,7 +7,7 @@ class MongoDBSettings:
 
     @property
     def connection_string(self):
-        return f"mongodb://{self.settings.mongo_user}:{self.settings.mongo_password}@mongodb:27017/"
+        return f"mongodb://{self.settings.mongo_user}:{self.settings.mongo_password}@mongo_db:27017/"
 
 class MongoDBClient:
     def __init__(self):

@@ -23,7 +23,7 @@ async def start_scheduler():
     Функция запускается при старте приложения.
     Запускает планировщик задач.
     """
-    scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=30)  # Запускать каждые 30 минут
+    scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=5)  # Запускать каждые 30 минут
     scheduler.start()
 
 
