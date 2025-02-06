@@ -29,8 +29,8 @@ async def start_scheduler():
 
 @app.get('/get_currencies_data')
 async def get_currencies_data(request: Request):
-    request_body = request.body()
-    logger.debug(f"request body: {await request_body}")
+    request_body = await request.body()
+    logger.debug(f"request body: {request_body}")
     """
            Получает данные валют из коллекции exchange_rates.
 
