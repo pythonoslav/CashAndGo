@@ -4,8 +4,6 @@ import Calculator from "../Calculator/Calculator";
 import ExchangeRates from "../ExchangeRates/ExchangeRates";
 import { useEffect, useState } from "react";
 
-const BASE_URL = 'https://cashandgo.exchange' || ""; // Используем .env или пустую строку для относительных путей
-
 
 const HeroSection = () => {
   const [currencyRates, setCurrencyRates] = useState([
@@ -21,15 +19,9 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchCurrencyRates = async () => {
       try {
-        console.log(`Запрос на: ${BASE_URL}/api/get_currencies_data`);
-
-        const response = await fetch(`${BASE_URL}/api/get_currencies_data`);
-        if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status}`);
-        }
-
+        const response = await fetch("/api/get_currencies_data");
         const data = await response.json();
-        console.log("Данные о курсах валют:", data);
+        debugger
         setCurrencyRates(data);
       } catch (error) {
         console.error("Ошибка загрузки данных о курсах валют:", error);
