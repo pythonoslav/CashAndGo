@@ -59,6 +59,5 @@ def merge_currency_data(data_convert_to, data_convert_from):
     merged_df = pd.merge(df_to, df_from, on='quotecurrency',
                          how='outer', suffixes=('_to', '_from'))
 
-    print(merged_df.to_dict(orient='records'))
 
     return merged_df.to_dict(orient='records')

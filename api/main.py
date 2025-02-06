@@ -41,8 +41,6 @@ async def get_currencies_data(request: Request):
         mongo_client = MongoDBClient()
         exchange_rates = await mongo_client.get_exchange_rates()
 
-        logger.debug(f"Exchange rates: {exchange_rates}")
-
         # Преобразуем данные для удобного формата
         formatted_rates = [
             {
