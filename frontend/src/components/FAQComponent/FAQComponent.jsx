@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Typography, Button } from "@mui/material";
-
+import { Box, Typography, Button, IconButton } from "@mui/material";
+import Vector from "../../assets/vector_button.svg";
 import InstructionsKasikorn from "./InstructionsKasikorn";
 import InstructionsBangkokBank from "./InstructionsBangkokBank";
 import InstructionsKrungThai from "./InstructionsKrungThai"
@@ -8,7 +8,7 @@ import InstructionsOnlineTransfer from "./InstructionsOnlineTransfer";
 
 
 const FAQ = ({ openIndex, setOpenIndex }) => {
-    
+
     const handleToggle = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
@@ -93,7 +93,29 @@ const FAQ = ({ openIndex, setOpenIndex }) => {
                                     Kasikorn
                                 </Typography>
                             </Box>
-                            <Typography sx={{ fontSize: "24px", color: "#333" }}>▼</Typography>
+                            <IconButton
+                                sx={{
+
+                                    backgroundColor: "#0055D4",
+                                    color: "#fff",
+                                    width: "30px",
+                                    height: "30px",
+                                    borderRadius: "50%",
+                                    paddingTop: "5px",
+                                    "&:hover": {
+                                        backgroundColor: "#0033A0",
+                                    },
+                                    position: "absolute", // Абсолютное позиционирование
+                                    right: "10px", // Расположить кнопку в 10px от правого края
+                                    bottom: "20px",
+                                }}
+                            >
+                                <img
+                                    src={Vector}
+                                    alt="Через банкомат"
+                                    style={{ width: "18px", height: "18px" }}
+                                />
+                            </IconButton>
                         </Button>
                         {openIndex === 0 && (
                             <InstructionsKasikorn />
@@ -101,7 +123,7 @@ const FAQ = ({ openIndex, setOpenIndex }) => {
                     </Box>
 
                     {/* FAQ Item 2 */}
-                     <Box
+                    <Box
                         sx={{
                             width: "100%",
                             maxWidth: "1350px", // Ограничение ширины
@@ -145,7 +167,29 @@ const FAQ = ({ openIndex, setOpenIndex }) => {
                                     Bangkok Bank
                                 </Typography>
                             </Box>
-                            <Typography sx={{ fontSize: "24px", color: "#333" }}>▼</Typography>
+                            <IconButton
+                                sx={{
+
+                                    backgroundColor: "#0055D4",
+                                    color: "#fff",
+                                    width: "30px",
+                                    height: "30px",
+                                    borderRadius: "50%",
+                                    paddingTop: "5px",
+                                    "&:hover": {
+                                        backgroundColor: "#0033A0",
+                                    },
+                                    position: "absolute", // Абсолютное позиционирование
+                                    right: "10px", // Расположить кнопку в 10px от правого края
+                                    bottom: "20px",
+                                }}
+                            >
+                                <img
+                                    src={Vector}
+                                    alt="Через банкомат"
+                                    style={{ width: "18px", height: "18px" }}
+                                />
+                            </IconButton>
                         </Button>
                         {openIndex === 1 && (
                             <InstructionsBangkokBank />
@@ -196,7 +240,28 @@ const FAQ = ({ openIndex, setOpenIndex }) => {
                                     Krunghtai
                                 </Typography>
                             </Box>
-                            <Typography sx={{ fontSize: "24px", color: "#333" }}>▼</Typography>
+                            <IconButton
+                                sx={{
+                                    backgroundColor: "#0055D4",
+                                    color: "#fff",
+                                    width: "30px",
+                                    height: "30px",
+                                    borderRadius: "50%",
+                                    paddingTop: "5px",
+                                    "&:hover": {
+                                        backgroundColor: "#0033A0",
+                                    },
+                                    position: "absolute", // Абсолютное позиционирование
+                                    right: "10px", // Расположить кнопку в 10px от правого края
+                                    bottom: "20px",
+                                }}
+                            >
+                                <img
+                                    src={Vector}
+                                    alt="Через банкомат"
+                                    style={{ width: "18px", height: "18px" }}
+                                />
+                            </IconButton>
                         </Button>
                         {openIndex === 2 && (
                             <InstructionsKrungThai />
@@ -248,7 +313,29 @@ const FAQ = ({ openIndex, setOpenIndex }) => {
                                     онлайн перевод
                                 </Typography>
                             </Box>
-                            <Typography sx={{ fontSize: "24px", color: "#333" }}>▼</Typography>
+                            <IconButton
+                                sx={{
+
+                                    backgroundColor: "#0055D4",
+                                    color: "#fff",
+                                    width: "30px",
+                                    height: "30px",
+                                    borderRadius: "50%",
+                                    paddingTop: "5px",
+                                    "&:hover": {
+                                        backgroundColor: "#0033A0",
+                                    },
+                                    position: "absolute", // Абсолютное позиционирование
+                                    right: "10px", // Расположить кнопку в 10px от правого края
+                                    bottom: "20px",
+                                }}
+                            >
+                                <img
+                                    src={Vector}
+                                    alt="Через банкомат"
+                                    style={{ width: "18px", height: "18px" }}
+                                />
+                            </IconButton>
                         </Button>
                         {openIndex === 3 && (
                             <InstructionsOnlineTransfer />

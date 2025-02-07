@@ -1,5 +1,4 @@
-import math
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from loguru import logger
 from settings.mongo_config import MongoDBClient
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -8,7 +7,7 @@ from settings.config import get_settings
 from utils.scheduler_service import scheduled_currency_exchange_rate
 
 # Создание приложения FastAPI
-app = FastAPI()
+app = FastAPI(root_path="/api")
 # Получение настроек
 api_settings = get_settings(
     filename='credentials.env',
@@ -28,7 +27,9 @@ async def start_scheduler():
 
 
 @app.get('/get_currencies_data')
-async def get_currencies_data():
+async def get_currencies_data(request: Request):
+    request_body = await request.body()
+    logger.debug(f"request body: {request_body}")
     """
            Получает данные валют из коллекции exchange_rates.
 
@@ -39,14 +40,12 @@ async def get_currencies_data():
         mongo_client = MongoDBClient()
         exchange_rates = await mongo_client.get_exchange_rates()
 
-        logger.debug(f"Exchange rates: {exchange_rates}")
-
         # Преобразуем данные для удобного формата
         formatted_rates = [
             {
                 "code": rate["quotecurrency"],
-                "buy": rate["mid_from"] if not (math.isinf(rate["mid_from"]) or math.isnan(rate["mid_from"])) else None,
-                "sell": rate["mid_to"] if not (math.isinf(rate["mid_to"]) or math.isnan(rate["mid_to"])) else None
+                "buy": rate["mid_from"],
+                "sell": rate["mid_to"]
             }
             for rate in exchange_rates
         ]
@@ -59,4 +58,3 @@ async def get_currencies_data():
     except Exception as e:
         logger.exception(f"An unexpected error occurred while fetching currency data. {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch currency data. {e}")
-

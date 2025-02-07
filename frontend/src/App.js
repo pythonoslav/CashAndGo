@@ -11,6 +11,27 @@ import FAQ from "./components/FAQComponent/FAQComponent";
 import Footer from "./components/Footer/Footer";
 import { Box } from "@mui/material";
 import { Element } from "react-scroll";
+import styled from "styled-components";
+import { ReactComponent as LastLogo } from "../src/assets/FAQTitle.svg";
+
+const Wrapper = styled.div`
+  max-width: 1400px; 
+  width: 100%; 
+  height: 100%; 
+  margin: 0 auto; 
+  position: relative; 
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column; 
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 30px;
+`;
+
 
 const App = () => {
 
@@ -21,13 +42,13 @@ const App = () => {
       <Header />
       <HeroSection />
       <Box
-      sx={{
-        backgroundImage: "url('/mail_background.svg')"
-      }}>
+        sx={{
+          backgroundImage: "url('/mail_background.svg')"
+        }}>
         <Element name="features"></Element>
         <FeaturesSection />
         <Element name="atm"></Element>
-        <DropCashSection setOpenIndex={setOpenIndex}/>
+        <DropCashSection setOpenIndex={setOpenIndex} />
         <Element name="cash"></Element>
         <ResivingCash />
         <Element name="courier"></Element>
@@ -35,9 +56,14 @@ const App = () => {
         <Element name="check"></Element>
         <TransferToThaiAccount />
         <Element name="about"></Element>
-        <AboutUs/>
+        <AboutUs />
         <Element name="faq"></Element>
-        <FAQ openIndex={openIndex} setOpenIndex={setOpenIndex}/>
+        <Wrapper>
+          <TitleContainer>
+            <LastLogo/>
+          </TitleContainer>
+        </Wrapper>
+        <FAQ openIndex={openIndex} setOpenIndex={setOpenIndex} />
       </Box>
       <Footer />
     </>

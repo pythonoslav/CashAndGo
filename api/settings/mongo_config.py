@@ -1,3 +1,5 @@
+import pandas as pd
+
 from motor.motor_asyncio import AsyncIOMotorClient
 from settings.config import get_settings
 
@@ -7,7 +9,7 @@ class MongoDBSettings:
 
     @property
     def connection_string(self):
-        return f"mongodb://{self.settings.mongo_user}:{self.settings.mongo_password}@mongodb:27017/"
+        return f"mongodb://{self.settings.mongo_user}:{self.settings.mongo_password}@mongo_db:27017/"
 
 class MongoDBClient:
     def __init__(self):
@@ -35,8 +37,8 @@ async def save_currency_rates(currencies_list: list):
     documents = [
         {
             "quotecurrency": currency['quotecurrency'],
-            "mid_to": currency['mid_to'],
-            "mid_from": currency['mid_from']
+            "mid_to": currency['mid_to'] if not pd.isna(currency['mid_to']) else 0,  # Заменяем NaN на 0
+            "mid_from": currency['mid_from'] if not pd.isna(currency['mid_from']) else 0
         }
         for currency in currencies_list
     ]

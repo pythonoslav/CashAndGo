@@ -38,7 +38,7 @@ class Settings:
 
     @property
     def exchange_to_rate_request(self):
-        return (os.getenv("EXCHANGE_TO_RATE_REQUEST"))
+        return os.getenv("EXCHANGE_TO_RATE_REQUEST")
 
     @property
     def exchange_from_rate_request(self):

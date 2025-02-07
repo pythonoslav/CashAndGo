@@ -28,10 +28,12 @@ async def get_currency_exchange_rate():
     try:
         data_convert_to, data_convert_from = await fetch_currency_data(api_settings)
 
+
         # Создание DataFrame из данных и их слияние
         final_rates_list = merge_currency_data(data_convert_to, data_convert_from)
 
         await save_currency_rates(final_rates_list)
+
 
         return {
             "is_error": False,
