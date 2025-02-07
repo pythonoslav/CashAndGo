@@ -72,6 +72,9 @@ async def load_flags_data():
     mongo_client = MongoDBClient()
     collection = await mongo_client.get_collection("country_codes")
 
+    # Удаляем старые данные (если это необходимо)
+    await collection.delete_many({})
+
     # Проверяем, существует ли коллекция и если нет, создаем ее
     if not await collection.count_documents({}):  # Если коллекция пустая
         # Загружаем данные из файла
@@ -79,7 +82,6 @@ async def load_flags_data():
         file_path = os.path.join(current_dir, "..", "data", "flags.json")
         with open(file_path, 'r') as file:
             flags_data = json.load(file)
-
         # Вставляем данные в коллекцию
         if flags_data:
             await collection.insert_many(flags_data)

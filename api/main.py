@@ -24,7 +24,7 @@ async def start_scheduler():
     Функция запускается при старте приложения.
     Запускает планировщик задач.
     """
-    scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=30)  # Запускать каждые 30 минут
+    scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=5)  # Запускать каждые 30 минут
     scheduler.start()
 
     await load_flags_data()
@@ -43,7 +43,9 @@ async def get_currencies_data(request: Request):
     try:
         mongo_client = MongoDBClient()
         exchange_rates = await mongo_client.get_exchange_rates(collection_name="exchange_rates")
-        country_codes = await mongo_client.get_exchange_rates(collection_name="country_codes")
+        country_codes_list = await mongo_client.get_exchange_rates(collection_name="country_codes")
+
+        country_codes = {code['quotecurrency']: code['country-code'] for code in country_codes_list}
 
         # Преобразуем данные для удобного формата
         formatted_rates = [
