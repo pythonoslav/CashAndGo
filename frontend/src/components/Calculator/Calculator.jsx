@@ -13,6 +13,9 @@ import flagTHB from "../../assets/flag-thb.svg";
 import flagUSD from "../../assets/flag-usd.svg";
 import flagEUR from "../../assets/flag-jpy.svg";
 
+
+
+
 // Стили для переключения с помощью styled-components
 const Tabs = styled.div`
   display: flex;
@@ -38,13 +41,13 @@ const Tab = styled.button`
     color: #0055d4;
   }
   @media (max-width: 768px) {
-    font-size: 1.2rem;  /* Уменьшаем размер шрифта */
-    padding: 8px 0;     /* Уменьшаем отступы */
+    font-size: 1.2rem;  
+    padding: 8px 0;     
   }
 
   @media (max-width: 480px) {
-    font-size: 1rem;    /* Еще сильнее уменьшаем шрифт */
-    padding: 6px 0;     /* Уменьшаем отступы */
+    font-size: 1rem;    
+    padding: 6px 0;     
   }
   
 `;
@@ -59,17 +62,42 @@ const ActiveTabIndicator = styled.div`
   transition: left 0.3s ease;
 `;
 
-const Calculator = ({currenciesRates}) => {
+const Calculator = ({ currenciesRates }) => {
   const [activeTab, setActiveTab] = useState("buy");
   const [currencyFrom, setCurrencyFrom] = useState("THB");
   const [currencyTo, setCurrencyTo] = useState("USD");
+  const [amount, setAmount] = useState("");
+  const [convertedAmount, setConvertedAmount] = useState("");
 
   const currencies = [
     { code: "THB", flag: flagTHB },
     { code: "USD", flag: flagUSD },
     { code: "EUR", flag: flagEUR },
+    { code: "USDT", flag: flagEUR },
+    { code: "RUB", flag: flagEUR },
   ];
 
+
+
+
+  const getCurrencyRate = (code) => currenciesRates.find((c) => c.code === code);
+
+  const handleConvert = (value, fromCurrency) => {
+    setAmount(value);
+    const rate = getCurrencyRate(fromCurrency);
+    if (!rate || !value) {
+      setConvertedAmount("");
+      return;
+    }
+
+    let result;
+    if (activeTab === "buy") {
+      result = value * rate.sell;
+    } else {
+      result = value / rate.buy;
+    }
+    setConvertedAmount(result.toFixed(5));
+  };
 
   return (
     <Box
@@ -85,15 +113,10 @@ const Calculator = ({currenciesRates}) => {
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, color: 'black', ml: 2, fontSize: { xs: 16, md: 32 } }}> Калькулятор обмена </Typography>
       {/* Styled-components Tabs */}
       <Tabs>
-        <Tab
-          active={activeTab === "buy"}
-          onClick={() => setActiveTab("buy")}
-        >
+        <Tab active={activeTab === "buy"} onClick={() => setActiveTab("buy")}>
           Покупка
         </Tab>
-        <Tab
-          active={activeTab === "sell"}
-          onClick={() => setActiveTab("sell")}
+        <Tab active={activeTab === "sell"} onClick={() => setActiveTab("sell")}
         >
           Продажа
         </Tab>
@@ -120,6 +143,9 @@ const Calculator = ({currenciesRates}) => {
               fullWidth
               variant="standard"
               placeholder="Сумма"
+              type="number"
+              value={amount}
+              onChange={(e) => handleConvert(e.target.value, currencyFrom)}
               InputProps={{
                 disableUnderline: true,
                 sx: {
@@ -149,8 +175,11 @@ const Calculator = ({currenciesRates}) => {
             />
             {activeTab === "buy" ? (
               <Select
-                value={currencyTo}
-                onChange={(e) => setCurrencyTo(e.target.value)}
+                value={currencyFrom}
+                onChange={(e) => {
+                  setCurrencyFrom(e.target.value);
+                  handleConvert(amount, e.target.value);
+                }}
                 variant="standard"
                 disableUnderline
                 sx={{
@@ -195,11 +224,11 @@ const Calculator = ({currenciesRates}) => {
               </Select>
             ) : (
               <Select
-                value={"THB"} // Зафиксировали значение на THB
+                value={"THB"} 
                 variant="standard"
                 disableUnderline
                 sx={{ fontWeight: "bold", fontSize: { xs: "14px", md: "18px" } }}
-                disabled // Отключили возможность изменения
+                disabled 
               >
                 <MenuItem value="THB">
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -207,8 +236,8 @@ const Calculator = ({currenciesRates}) => {
                       src={flagTHB}
                       alt="THB"
                       style={{
-                        width: { xs: 15, md: 30 }, // Увеличиваем ширину картинки
-                        height: { xs: 15, md: 30 }, // Увеличиваем высоту картинки
+                        width: { xs: 15, md: 30 }, 
+                        height: { xs: 15, md: 30 }, 
                         borderRadius: "50%",
                       }}
                     />
@@ -238,7 +267,8 @@ const Calculator = ({currenciesRates}) => {
             <TextField
               fullWidth
               variant="standard"
-              placeholder="Сумма"
+              placeholder="Результат"
+              value={convertedAmount}
               InputProps={{
                 disableUnderline: true,
                 sx: {

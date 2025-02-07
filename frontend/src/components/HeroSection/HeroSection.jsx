@@ -7,14 +7,28 @@ import { useEffect, useState } from "react";
 
 const HeroSection = () => {
   const [currencyRates, setCurrencyRates] = useState([
-    { code: "USD", buy: 34.21516, sell: 34.96113 },
-    { code: "CNY", buy: 4.44117, sell: 4.93564 },
-    { code: "EUR", buy: 35.62406, sell: 3.678481 },
-    { code: "JPY", buy: 0.21873, sell: 0.23002 },
-    { code: "HKD", buy: 4.33562, sell: 4.53643 },
-    { code: "ONE", buy: 35.62406, sell: 3.678481 },
-    
-  ]);
+    { country_code: "us", code: "USD", buy: 34.21516, sell: 34.96113 },
+    { country_code: "eu", code: "EUR", buy: 35.62406, sell: 36.78481 },
+    { country_code: "ru", code: "RUB", buy: 0.3825, sell: 0.3901 },
+    { country_code: "jp", code: "JPY", buy: 0.21873, sell: 0.23002 },
+    { country_code: "my", code: "MYR", buy: 7.904, sell: 8.102 },
+    { country_code: "in", code: "INR", buy: 0.415, sell: 0.428 },
+    { country_code: "ae", code: "AED", buy: 9.32, sell: 9.51 },
+    { country_code: "gb", code: "GBP", buy: 41.57, sell: 42.89 },
+    { country_code: "sg", code: "SGD", buy: 25.32, sell: 25.99 },
+    { country_code: "ch", code: "CHF", buy: 38.74, sell: 39.66 },
+    { country_code: "au", code: "AUD", buy: 22.34, sell: 22.99 },
+    { country_code: "hk", code: "HKD", buy: 4.33562, sell: 4.53643 },
+    { country_code: "ca", code: "CAD", buy: 24.19, sell: 24.78 },
+    { country_code: "tw", code: "TWD", buy: 1.15, sell: 1.21 },
+    { country_code: "kr", code: "KRW", buy: 0.026, sell: 0.028 },
+    { country_code: "ph", code: "PHP", buy: 0.61, sell: 0.64 },
+    { country_code: "nz", code: "NZD", buy: 20.99, sell: 21.55 },
+    { country_code: "cn", code: "CNY", buy: 4.44117, sell: 4.93564 },
+    { country_code: "sa", code: "SAR", buy: 9.12, sell: 9.28 },
+    { country_code: "qa", code: "QAR", buy: 9.45, sell: 9.68 },
+    { country_code: "bh", code: "BHD", buy: 91.25, sell: 93.49 },
+    ]);
 
   useEffect(() => {
     const fetchCurrencyRates = async () => {
@@ -29,19 +43,19 @@ const HeroSection = () => {
 
     fetchCurrencyRates();
   }, []);
-  
+
 
   return (
     <Box
       sx={{
         position: "relative",
         width: "100%",
-        minHeight: "100vh", 
+        minHeight: "100vh",
         color: "white",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "flex-start", 
+        justifyContent: "flex-start",
         padding: "20px 0",
         backgroundImage: "url('/background_top2.svg')",
         backgroundSize: "cover",
@@ -58,7 +72,7 @@ const HeroSection = () => {
           </Box>
 
           {/* Текст */}
-          <Box sx={{ textAlign: "left", mt: { xs: -8, md: 0 }, maxWidth: "600px"}}>
+          <Box sx={{ textAlign: "left", mt: { xs: -8, md: 0 }, maxWidth: "600px" }}>
             <Typography variant="h4" sx={{ fontSize: { xs: "22px", md: "46px" }, fontWeight: "900", color: "white" }}>
               БЫСТРЫЙ И НАДЕЖНЫЙ
             </Typography>
@@ -69,10 +83,26 @@ const HeroSection = () => {
         </Box>
 
         {/* Контент: Калькулятор и Курс валют */}
-        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: "50px", alignItems: "center", justifyContent: "center", width: "100%", mt: { xs: 4, md: 4 } }}>
-          <Calculator currenciesRates={currencyRates}/>
-          <ExchangeRates currencyRates={currencyRates}/>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            gap: "50px",
+            alignItems: "stretch", // Одинаковая высота для всех дочерних элементов
+            justifyContent: "center",
+            width: "100%",
+            mt: { xs: 4, md: 4 },
+          }}
+        >
+          <Box sx={{ flex: 1, minWidth: "350px", maxWidth: "700px", height: "100%" }}>
+            <Calculator currenciesRates={currencyRates} />
+          </Box>
+
+          <Box sx={{ flex: 1, minWidth: "350px", maxWidth: "700px", height: "100%" }}>
+            <ExchangeRates currencyRates={currencyRates} />
+          </Box>
         </Box>
+
       </Container>
     </Box>
   );
