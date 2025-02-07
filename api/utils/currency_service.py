@@ -1,9 +1,14 @@
+import os
+import json
+
 import httpx
 from loguru import logger
 from fastapi import HTTPException
 import pandas as pd
 
 from models.response_models import XeCurrencyConvertedToListResponseModel, XeCurrencyConvertedFromListResponseModel
+from settings.mongo_config import MongoDBClient
+
 
 async def fetch_currency_data(api_settings):
     """
@@ -61,3 +66,20 @@ def merge_currency_data(data_convert_to, data_convert_from):
 
 
     return merged_df.to_dict(orient='records')
+
+async def load_flags_data():
+    """Загружает данные из файла flags.json и сохраняет их в коллекцию flags_and_codes."""
+    mongo_client = MongoDBClient()
+    collection = await mongo_client.get_collection("country_codes")
+
+    # Проверяем, существует ли коллекция и если нет, создаем ее
+    if not await collection.count_documents({}):  # Если коллекция пустая
+        # Загружаем данные из файла
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(current_dir, "..", "data", "flags.json")
+        with open(file_path, 'r') as file:
+            flags_data = json.load(file)
+
+        # Вставляем данные в коллекцию
+        if flags_data:
+            await collection.insert_many(flags_data)

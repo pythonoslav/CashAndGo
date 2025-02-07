@@ -61,3 +61,5 @@ def get_settings(filename: str, env_vars: list[str]) -> Settings:
     current_directory = os.path.dirname(__file__)
     env_file_path = os.path.join(current_directory, '..', 'data', filename)
     return Settings(env_file=env_file_path, env_vars=env_vars)
+
+

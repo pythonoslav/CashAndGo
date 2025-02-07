@@ -1,0 +1,90 @@
+[
+  {
+    "quotecurrency": "USD",
+    "country-code": "us"
+  },
+  {
+    "quotecurrency": "EUR",
+    "country-code": "eu"
+  },
+  {
+    "quotecurrency": "RUB",
+    "country-code": "ru"
+  },
+  {
+    "quotecurrency": "RUB(наличные)",
+    "country-code": "ru(нал)"
+  },
+  {
+    "quotecurrency": "JPY",
+    "country-code": "jp"
+  },
+  {
+    "quotecurrency": "MYR",
+    "country-code": "my"
+  },
+  {
+    "quotecurrency": "INR",
+    "country-code": "in"
+  },
+  {
+    "quotecurrency": "AED",
+    "country-code": "ae"
+  },
+  {
+    "quotecurrency": "GBP",
+    "country-code": "gb"
+  },
+  {
+    "quotecurrency": "SGD",
+    "country-code": "sg"
+  },
+  {
+    "quotecurrency": "CHF",
+    "country-code": "ch"
+  },
+  {
+    "quotecurrency": "AUD",
+    "country-code": "au"
+  },
+  {
+    "quotecurrency": "HKD",
+    "country-code": "hk"
+  },
+  {
+    "quotecurrency": "CAD",
+    "country-code": "ca"
+  },
+  {
+    "quotecurrency": "TWD",
+    "country-code": "tw"
+  },
+  {
+    "quotecurrency": "KRW",
+    "country-code": "kr"
+  },
+  {
+    "quotecurrency": "PHP",
+    "country-code": "ph"
+  },
+  {
+    "quotecurrency": "NZD",
+    "country-code": "nz"
+  },
+  {
+    "quotecurrency": "CNY",
+    "country-code": "cn"
+  },
+  {
+    "quotecurrency": "SAR",
+    "country-code": "sa"
+  },
+  {
+    "quotecurrency": "QAR",
+    "country-code": "qa"
+  },
+  {
+    "quotecurrency": "BHD",
+    "country-code": "bh"
+  }
+]

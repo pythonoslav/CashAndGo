@@ -19,9 +19,9 @@ class MongoDBClient:
     async def get_collection(self, collection_name):
         return self.db[collection_name]
 
-    async def get_exchange_rates(self):
+    async def get_exchange_rates(self, collection_name: str):
         """Получает все курсы валют из коллекции exchange_rates."""
-        collection = await self.get_collection("exchange_rates")  # Получаем нужную коллекцию
+        collection = await self.get_collection(collection_name=collection_name)  # Получаем нужную коллекцию
         return await collection.find().to_list(length=None)
 
 
