@@ -56,6 +56,7 @@ class Settings:
     def mongo_password(self):
         return os.getenv("DB_USER_PASSWORD")
 
+
 def get_settings(filename: str, env_vars: list[str]) -> Settings:
     """Get the application settings."""
     current_directory = os.path.dirname(__file__)

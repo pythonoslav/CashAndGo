@@ -12,8 +12,8 @@
     "country-code": "ru"
   },
   {
-    "quotecurrency": "RUB(наличные)",
-    "country-code": "ru(нал)"
+    "quotecurrency": "RUB(nal)",
+    "country-code": "ru(nal)"
   },
   {
     "quotecurrency": "JPY",

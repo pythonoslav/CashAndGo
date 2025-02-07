@@ -82,6 +82,7 @@ async def load_flags_data():
         file_path = os.path.join(current_dir, "..", "data", "flags.json")
         with open(file_path, 'r') as file:
             flags_data = json.load(file)
+
         # Вставляем данные в коллекцию
         if flags_data:
             await collection.insert_many(flags_data)
