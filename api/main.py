@@ -13,26 +13,15 @@ app = FastAPI(root_path="/api")
 scheduler = AsyncIOScheduler()
 
 
-# @app.on_event("startup")
-# async def start_scheduler():
-#     """
-#     Функция запускается при старте приложения.
-#     Запускает планировщик задач.
-#     """
-#     scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=5)  # Запускать каждые 30 минут
-#     scheduler.start()
-#
-#     await load_flags_data()
-
-
-@app.get("/test")
+@app.on_event("startup")
 async def start_scheduler():
     """
     Функция запускается при старте приложения.
     Запускает планировщик задач.
     """
+    scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=5)  # Запускать каждые 30 минут
+    scheduler.start()
 
-    await scheduled_currency_exchange_rate()
     await load_flags_data()
 
 
