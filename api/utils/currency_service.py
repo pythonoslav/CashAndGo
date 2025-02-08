@@ -9,6 +9,30 @@ import pandas as pd
 from models.response_models import XeCurrencyConvertedToListResponseModel, XeCurrencyConvertedFromListResponseModel
 from settings.mongo_config import MongoDBClient
 
+async def fetch_all_thb(api_settings):
+    async with httpx.AsyncClient() as client:
+        try:
+            thb_convert = await client.get(
+                api_settings.all_thb,
+                auth=(api_settings.account_id, api_settings.api_key)
+            )
+
+            response_tether = await client.get(
+                api_settings.tether_exchange_rates,
+            )
+
+            thb_convert.raise_for_status()
+            response_tether.raise_for_status()
+
+            data_thb_convert = thb_convert.json().get("rates", {})
+            tether_rate = response_tether.json()
+
+            return data_thb_convert, tether_rate
+
+        except httpx.HTTPStatusError as e:
+            logger.error(f"HTTP error: {e.response.status_code} - {e.response.text}")
+            raise HTTPException(status_code=e.response.status_code,
+                                detail="Failed to fetch currency exchange rate.")
 
 async def fetch_currency_data(api_settings):
     """
@@ -33,14 +57,19 @@ async def fetch_currency_data(api_settings):
                 api_settings.exchange_from_rate_request,
                 auth=(api_settings.account_id, api_settings.api_key)
             )
+            response_tether = await client.get(
+                api_settings.tether_exchange_rates,
+            )
 
             response_convert_to.raise_for_status()
             response_convert_from.raise_for_status()
+            response_tether.raise_for_status()
 
             data_convert_to = XeCurrencyConvertedToListResponseModel(**response_convert_to.json())
             data_convert_from = XeCurrencyConvertedFromListResponseModel(**response_convert_from.json())
+            tether_rate = response_tether.json()
 
-            return data_convert_to, data_convert_from
+            return data_convert_to, data_convert_from, tether_rate
 
         except httpx.HTTPStatusError as e:
             logger.error(f"HTTP error: {e.response.status_code} - {e.response.text}")

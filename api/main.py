@@ -3,7 +3,7 @@ from loguru import logger
 from settings.mongo_config import MongoDBClient
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from utils.scheduler_service import scheduled_currency_exchange_rate
+from utils.scheduler_service import scheduled_thb_exchange_rate
 from utils.currency_service import load_flags_data
 
 # Создание приложения FastAPI
@@ -19,11 +19,10 @@ async def start_scheduler():
     Функция запускается при старте приложения.
     Запускает планировщик задач.
     """
-    scheduler.add_job(scheduled_currency_exchange_rate, 'interval', minutes=5)  # Запускать каждые 30 минут
+    scheduler.add_job(scheduled_thb_exchange_rate, 'interval', minutes=5)  # Запускать каждые 30 минут
     scheduler.start()
 
     await load_flags_data()
-
 
 @app.get('/get_currencies_data')
 async def get_currencies_data(request: Request):

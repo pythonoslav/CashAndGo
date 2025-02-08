@@ -45,6 +45,14 @@ class Settings:
         return os.getenv("EXCHANGE_FROM_RATE_REQUEST")
 
     @property
+    def all_thb(self):
+        return os.getenv("GET_ALL_THB_RATES")
+
+    @property
+    def tether_exchange_rates(self):
+        return os.getenv("GET_TETHER_TO_RUB_AND_THB")
+
+    @property
     def mongo_database(self):
         return os.getenv("DB_NAME")
 
