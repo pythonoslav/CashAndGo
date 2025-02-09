@@ -55,11 +55,17 @@ const ExchangeRates = ({ currencyRates }) => {
               >
                 <TableCell>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+
                     <img
-                      src={`https://flagicons.lipis.dev/flags/4x3/${currency.country_code}.svg`}
-                      alt={currency.code}
+                      src={
+                        currency.country_code
+                          ? `https://flagicons.lipis.dev/flags/4x3/${currency.country_code}.svg`
+                          : "/images/usdt.jpg" 
+                      }
+                      alt={currency.code || "USDT"}
                       style={{ width: "24px", height: "18px", borderRadius: "3px" }}
                     />
+
                     <Typography sx={{ fontSize: "1.2rem", fontWeight: "bold" }}>
                       {currency.code}
                     </Typography>

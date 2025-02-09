@@ -143,7 +143,6 @@ const Calculator = ({ currenciesRates }) => {
               fullWidth
               variant="standard"
               placeholder="Сумма"
-              type="number"
               value={amount}
               onChange={(e) => handleConvert(e.target.value, currencyFrom)}
               InputProps={{
