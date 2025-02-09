@@ -31,7 +31,10 @@ async def save_thb_rates(all_rates, tether: dict):
     if not all_rates:
         print("Warning: `all_rates` пуст, данные не будут записаны!")
 
-    await collection.delete_many({})  
+    await collection.delete_many({})
+
+    modifier = 1.0325
+    subtractor = 0.9675
 
     priority_tickers = ["RUB", "USDT", "USD", "EUR", "RUB(cash)"]
     ordered_tickers = [
@@ -47,20 +50,27 @@ async def save_thb_rates(all_rates, tether: dict):
     for ticker in priority_tickers:
         if ticker in all_rates:
             rate = all_rates[ticker]
-            modified_rate = rate * 1.015  
-            unmodified_rate = rate * 0.985
-            results.append({
-                "quotecurrency": ticker,
-                "mid_from": modified_rate,
-                "mid_to": unmodified_rate  
-            })
+            if ticker == "RUB":
+                # Хранить курс THB к RUB
+                results.append({
+                    "quotecurrency": ticker,
+                    "mid_from": rate * modifier,  # Модифицированный курс THB к валюте
+                    "mid_to": rate * subtractor # Немодифицированный курс THB к валюте
+                })
+            else:
+                thb_to_currency = 1 / rate
+                results.append({
+                    "quotecurrency": ticker,
+                    "mid_from": thb_to_currency * modifier,  # Курс THB к RUB
+                    "mid_to": thb_to_currency * subtractor  # Курс RUB к THB
+                })
 
             # Добавляем USDT сразу после RUB, если он еще не добавлен
             if ticker == "RUB" and "USDT" not in [item["quotecurrency"] for item in results]:
                 if tether['tether']['thb'] > 0:  # Предотвращаем деление на ноль
                     usdt_price_in_thb = tether['tether']['thb']
-                    usdt_price_in_thb_modified = (1 / usdt_price_in_thb) * 1.015
-                    usdt_price_in_thb_unmodified = (1 / usdt_price_in_thb) * 0.985
+                    usdt_price_in_thb_modified = usdt_price_in_thb * modifier
+                    usdt_price_in_thb_unmodified = usdt_price_in_thb * subtractor
                     results.append({
                         "quotecurrency": "USDT",
                         "mid_from": usdt_price_in_thb_modified,
@@ -83,8 +93,9 @@ async def save_thb_rates(all_rates, tether: dict):
     for ticker in ordered_tickers:
         if ticker not in priority_tickers and ticker in all_rates:
             rate = all_rates[ticker]
-            modified_rate = rate * 1.015  
-            unmodified_rate = rate * 0.985
+            thb_to_currency = 1 / rate
+            modified_rate = thb_to_currency * modifier
+            unmodified_rate = thb_to_currency * subtractor
             results.append({
                 "quotecurrency": ticker,
                 "mid_from": modified_rate,
