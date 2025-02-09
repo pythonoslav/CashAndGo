@@ -331,12 +331,12 @@ const Calculator = ({ currenciesRates }) => {
                   fontSize: { xs: 12, md: 18 },
                 }}
               >
-                {currencies.map((currency) => (
+                 {currencies.map((currency) => (
                   <MenuItem
                     key={currency.code}
                     value={currency.code}
                     sx={{
-                      fontSize: { xs: 12, md: 18 },
+                      fontSize: { xs: 12, md: 16 },
                       display: "flex",
                       alignItems: "center",
                       gap: 2,
@@ -346,18 +346,37 @@ const Calculator = ({ currenciesRates }) => {
                       sx={{
                         display: "flex",
                         alignItems: "center",
-                        gap: 2,
+                        gap: 1, // Уменьшили расстояние между флагом и текстом
                       }}
                     >
-                      <img
-                        src={currency.flag}
-                        alt={currency.code}
-                        style={{
-                          width: { xs: 15, md: 30 }, // Увеличиваем ширину картинки
-                          height: { xs: 15, md: 30 }, // Увеличиваем высоту картинки
-                          borderRadius: "50%",
-                        }}
-                      />
+                      {typeof currency.flag === "string" ? (
+                        <img
+                          src={currency.flag}
+                          alt={currency.code}
+                          style={{
+                            width: "20px", // Чуть меньше
+                            height: "20px", // Делаем высоту равной ширине
+                            borderRadius: "50%", // Круглые флаги
+                            objectFit: "cover", // Предотвращает искажения
+                            border: "1px solid #ccc", // Легкая рамка для отделения от фона
+                          }}
+                        />
+                      ) : (
+                        <Box
+                          sx={{
+                            width: "20px",
+                            height: "20px",
+                            backgroundColor: "#ccc",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: "50%", // Делаем круглый placeholder
+                            border: "1px solid #999",
+                          }}
+                        >
+                          ❌
+                        </Box> // Заглушка, если нет флага
+                      )}
                       {currency.code}
                     </Box>
                   </MenuItem>
