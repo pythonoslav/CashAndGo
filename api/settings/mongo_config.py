@@ -55,6 +55,18 @@ async def save_thb_rates(all_rates, tether: dict):
                 "mid_to": unmodified_rate  
             })
 
+            # Добавляем USDT сразу после RUB, если он еще не добавлен
+            if ticker == "RUB" and "USDT" not in [item["quotecurrency"] for item in results]:
+                if tether['tether']['thb'] > 0:  # Предотвращаем деление на ноль
+                    usdt_price_in_thb = tether['tether']['thb']
+                    usdt_price_in_thb_modified = (1 / usdt_price_in_thb) * 1.015
+                    usdt_price_in_thb_unmodified = (1 / usdt_price_in_thb) * 0.985
+                    results.append({
+                        "quotecurrency": "USDT",
+                        "mid_from": usdt_price_in_thb_modified,
+                        "mid_to": usdt_price_in_thb_unmodified
+                    })
+
     # Добавляем RUB(nal)
     rub_data = next((item for item in results if item['quotecurrency'] == "RUB"), None)
     if rub_data:
@@ -65,17 +77,7 @@ async def save_thb_rates(all_rates, tether: dict):
             "mid_to": rub_data["mid_to"] + surcharge
         })
 
-    # Добавляем тикер USDT (на основе tether)
-    if tether['tether']['thb'] > 0:  # Предотвращаем деление на ноль
-        usdt_price_in_thb = tether['tether']['thb']
-        usdt_price_in_thb_modified = (1 / usdt_price_in_thb) * 1.015
-        usdt_price_in_thb_unmodified = (1 / usdt_price_in_thb) * 0.985
 
-        results.append({
-            "quotecurrency": "USDT",
-            "mid_from": usdt_price_in_thb_modified,
-            "mid_to": usdt_price_in_thb_unmodified
-        })
 
     # Обрабатываем остальные тикеры
     for ticker in ordered_tickers:
