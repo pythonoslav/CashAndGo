@@ -74,7 +74,7 @@ const Calculator = ({ currenciesRates }) => {
     { code: "USD", flag: 'https://flagicons.lipis.dev/flags/4x3/us.svg' },
     { code: "EUR", flag: 'https://flagicons.lipis.dev/flags/4x3/eu.svg' },
     { code: "USDT", flag: "/images/usdt.jpg" },
-    { code: "RUB(наличными)", flag: 'https://flagicons.lipis.dev/flags/4x3/ru.svg' },
+    { code: "RUB(наличныe)", flag: 'https://flagicons.lipis.dev/flags/4x3/ru.svg' },
   ];
 
 
