@@ -33,7 +33,7 @@ async def save_thb_rates(all_rates, tether: dict):
 
     await collection.delete_many({})  
 
-    priority_tickers = ["RUB", "USD", "EUR", "RUB(nal)"]
+    priority_tickers = ["RUB", "USD", "EUR", "RUB(cash)"]
     ordered_tickers = [
         "JPY", "MYR", "INR", "AED", "GBP",
         "SGD", "CHF", "AUD", "HKD", "CAD",
@@ -60,7 +60,7 @@ async def save_thb_rates(all_rates, tether: dict):
     if rub_data:
         surcharge = (tether['tether']['rub'] / tether['tether']['thb']) * 0.03  
         results.append({
-            "quotecurrency": "RUB(nal)",
+            "quotecurrency": "RUB(cash)",
             "mid_from": rub_data["mid_from"] + surcharge,
             "mid_to": rub_data["mid_to"] + surcharge
         })
