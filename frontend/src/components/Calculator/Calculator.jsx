@@ -64,17 +64,17 @@ const ActiveTabIndicator = styled.div`
 
 const Calculator = ({ currenciesRates }) => {
   const [activeTab, setActiveTab] = useState("buy");
-  const [currencyFrom, setCurrencyFrom] = useState("THB");
+  const [currencyFrom, setCurrencyFrom] = useState("USD");
   const [currencyTo, setCurrencyTo] = useState("USD");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
 
   const currencies = [
-    { code: "THB", flag: flagTHB },
-    { code: "USD", flag: flagUSD },
-    { code: "EUR", flag: flagEUR },
-    { code: "USDT", flag: flagEUR },
-    { code: "RUB", flag: flagEUR },
+    { code: "RUB", flag: 'https://flagicons.lipis.dev/flags/4x3/ru.svg' },
+    { code: "USD", flag: 'https://flagicons.lipis.dev/flags/4x3/us.svg' },
+    { code: "EUR", flag: 'https://flagicons.lipis.dev/flags/4x3/eu.svg' },
+    { code: "USDT", flag: "/images/usdt.jpg" },
+    { code: "RUB(наличными)", flag: 'https://flagicons.lipis.dev/flags/4x3/ru.svg' },
   ];
 
 
@@ -194,7 +194,7 @@ const Calculator = ({ currenciesRates }) => {
                     key={currency.code}
                     value={currency.code}
                     sx={{
-                      fontSize: { xs: 12, md: 18 },
+                      fontSize: { xs: 12, md: 16 },
                       display: "flex",
                       alignItems: "center",
                       gap: 2,
@@ -204,30 +204,52 @@ const Calculator = ({ currenciesRates }) => {
                       sx={{
                         display: "flex",
                         alignItems: "center",
-                        gap: 2,
+                        gap: 1, // Уменьшили расстояние между флагом и текстом
                       }}
                     >
-                      <img
-                        src={currency.flag}
-                        alt={currency.code}
-                        style={{
-                          width: { xs: 15, md: 30 }, // Увеличиваем ширину картинки
-                          height: { xs: 15, md: 30 }, // Увеличиваем высоту картинки
-                          borderRadius: "50%",
-                        }}
-                      />
+                      {typeof currency.flag === "string" ? (
+                        <img
+                          src={currency.flag}
+                          alt={currency.code}
+                          style={{
+                            width: "20px", // Чуть меньше
+                            height: "20px", // Делаем высоту равной ширине
+                            borderRadius: "50%", // Круглые флаги
+                            objectFit: "cover", // Предотвращает искажения
+                            border: "1px solid #ccc", // Легкая рамка для отделения от фона
+                          }}
+                        />
+                      ) : (
+                        <Box
+                          sx={{
+                            width: "20px",
+                            height: "20px",
+                            backgroundColor: "#ccc",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: "50%", // Делаем круглый placeholder
+                            border: "1px solid #999",
+                          }}
+                        >
+                          ❌
+                        </Box> // Заглушка, если нет флага
+                      )}
                       {currency.code}
                     </Box>
                   </MenuItem>
                 ))}
+
+
+
               </Select>
             ) : (
               <Select
-                value={"THB"} 
+                value={"THB"}
                 variant="standard"
                 disableUnderline
                 sx={{ fontWeight: "bold", fontSize: { xs: "14px", md: "18px" } }}
-                disabled 
+                disabled
               >
                 <MenuItem value="THB">
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -235,8 +257,8 @@ const Calculator = ({ currenciesRates }) => {
                       src={flagTHB}
                       alt="THB"
                       style={{
-                        width: { xs: 15, md: 30 }, 
-                        height: { xs: 15, md: 30 }, 
+                        width: { xs: 15, md: 30 },
+                        height: { xs: 15, md: 30 },
                         borderRadius: "50%",
                       }}
                     />

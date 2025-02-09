@@ -30,20 +30,28 @@ const HeroSection = () => {
     { country_code: "bh", code: "BHD", buy: 91.25, sell: 93.49 },
     ]);
 
-  useEffect(() => {
-    const fetchCurrencyRates = async () => {
-      try {
-        const response = await fetch("/api/get_currencies_data");
-        const data = await response.json();
-        setCurrencyRates(data.result);
-      } catch (error) {
-        console.error("Ошибка загрузки данных о курсах валют:", error);
-      }
-    };
-
-    fetchCurrencyRates();
-  }, []);
-
+    useEffect(() => {
+      const fetchCurrencyRates = async () => {
+        try {
+          const response = await fetch("/api/get_currencies_data");
+          const data = await response.json();
+    
+          // Модифицируем массив: заменяем "RUB(cash)" на "RUB(наличные)"
+          const updatedRates = data.result.map((currency) =>
+            currency.code === "RUB(cash)"
+              ? { ...currency, code: "RUB(наличные)" }
+              : currency
+          );
+    
+          setCurrencyRates(updatedRates);
+        } catch (error) {
+          console.error("Ошибка загрузки данных о курсах валют:", error);
+        }
+      };
+    
+      fetchCurrencyRates();
+    }, []);
+    
 
   return (
     <Box
