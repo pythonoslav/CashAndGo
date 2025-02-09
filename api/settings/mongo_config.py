@@ -33,7 +33,7 @@ async def save_thb_rates(all_rates, tether: dict):
 
     await collection.delete_many({})  
 
-    priority_tickers = ["RUB", "USD", "EUR", "RUB(cash)"]
+    priority_tickers = ["RUB", "USDT", "USD", "EUR", "RUB(cash)"]
     ordered_tickers = [
         "JPY", "MYR", "INR", "AED", "GBP",
         "SGD", "CHF", "AUD", "HKD", "CAD",
@@ -63,6 +63,18 @@ async def save_thb_rates(all_rates, tether: dict):
             "quotecurrency": "RUB(cash)",
             "mid_from": rub_data["mid_from"] + surcharge,
             "mid_to": rub_data["mid_to"] + surcharge
+        })
+
+    # Добавляем тикер USDT (на основе tether)
+    if tether['tether']['thb'] > 0:  # Предотвращаем деление на ноль
+        usdt_price_in_thb = tether['tether']['thb']
+        usdt_price_in_thb_modified = (1 / usdt_price_in_thb) * 1.015
+        usdt_price_in_thb_unmodified = (1 / usdt_price_in_thb) * 0.985
+
+        results.append({
+            "quotecurrency": "USDT",
+            "mid_from": usdt_price_in_thb_modified,
+            "mid_to": usdt_price_in_thb_unmodified
         })
 
     # Обрабатываем остальные тикеры
