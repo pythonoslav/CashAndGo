@@ -69,15 +69,15 @@ class Settings:
 
     @property
     def mongo_database(self):
-        return self._get_env("DB_NAME", "default_db")
+        return self._get_env("DB_NAME", "CashAndGoDB")
 
     @property
     def mongo_user(self):
-        return self._get_env("DB_USERNAME", "root")
+        return self._get_env("DB_USERNAME", "CashAndGo")
 
     @property
     def mongo_password(self):
-        return self._get_env("DB_USER_PASSWORD", "password")
+        return self._get_env("DB_USER_PASSWORD", "2093100Tbm")
 
 
 def get_settings(filename: str, env_vars: list[str]) -> Settings:

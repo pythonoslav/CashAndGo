@@ -1,4 +1,3 @@
-import pandas as pd
 from motor.motor_asyncio import AsyncIOMotorClient
 from settings.config import get_settings
 
@@ -22,33 +21,6 @@ class MongoDBClient:
         """Получает все курсы валют из коллекции exchange_rates."""
         collection = await self.get_collection(collection_name=collection_name)
         return await collection.find().to_list(length=None)
-
-
-async def save_currency_rates(currencies_list: list, tether: dict):
-    """Сохраняет курсы валют в базу данных MongoDB."""
-    mongo_client = MongoDBClient()
-    collection = await mongo_client.get_collection("exchange_rates")
-
-    # Логируем входные данные для отладки
-    if not currencies_list:
-        print("Warning: `currencies_list` пуст, данные не будут записаны!")
-
-    # Удаляем старые данные (если это необходимо)
-    await collection.delete_many({})  
-
-    # Подготовка данных для вставки
-    documents = [
-        {
-            "quotecurrency": currency['quotecurrency'],
-            "mid_to": float(currency['mid_to']) if not pd.isna(currency['mid_to']) else 0,  
-            "mid_from": float(currency['mid_from']) if not pd.isna(currency['mid_from']) else 0
-        }
-        for currency in currencies_list
-    ]
-
-    # Вставка документов в коллекцию
-    if documents:
-        await collection.insert_many(documents)
 
 
 async def save_thb_rates(all_rates, tether: dict):

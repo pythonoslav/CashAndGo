@@ -3,8 +3,8 @@ from fastapi import HTTPException
 from loguru import logger
 
 from settings.config import get_settings
-from settings.mongo_config import save_currency_rates, save_thb_rates
-from utils.currency_service import fetch_currency_data, merge_currency_data, fetch_all_thb
+from settings.mongo_config import save_thb_rates
+from utils.currency_service import fetch_all_thb
 
 xe_settings = get_settings(
     filename='credentials.env',
@@ -25,48 +25,12 @@ open_api_settings = get_settings(
         ]
 )
 
-
-
-async def scheduled_currency_exchange_rate():
-    """
-    Запланированное выполнение функции для получения текущего обменного курса валют.
-    """
-    logger.info("Scheduled task: fetching currency exchange rates.")
-    await get_currency_exchange_rate()
-
 async def scheduled_thb_exchange_rate():
     """
     Запланированное выполнение функции для получения текущего обменного курса валют.
     """
     logger.info("Scheduled task: fetching currency exchange rates.")
     await get_thb_exchange_rates()
-
-async def get_currency_exchange_rate():
-    """
-    Получает текущий обменный курс валют.
-
-    Returns:
-        A JSON response with the currency exchange rates.
-    """
-    try:
-        data_convert_to, data_convert_from, tether_rate = await fetch_currency_data(xe_settings)
-
-
-        # Создание DataFrame из данных и их слияние
-        final_rates_list = merge_currency_data(data_convert_to, data_convert_from)
-
-        await save_currency_rates(currencies_list=final_rates_list, tether=tether_rate)
-
-
-        return {
-            "is_error": False,
-            "result": final_rates_list,
-        }
-
-    except Exception as e:
-        logger.exception("An unexpected error occurred")
-        raise HTTPException(status_code=500,
-                            detail=f"An unexpected error occurred. {e}")
 
 async def get_thb_exchange_rates():
     """
