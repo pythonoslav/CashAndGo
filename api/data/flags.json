@@ -4,6 +4,10 @@
     "country-code": "us"
   },
   {
+    "quotecurrency": "USDT",
+    "country-code": null
+  },
+  {
     "quotecurrency": "EUR",
     "country-code": "eu"
   },
