@@ -12,11 +12,11 @@
     "country-code": "eu"
   },
   {
-    "quotecurrency": "RUB",
+    "quotecurrency": "RUB(cash settlement)",
     "country-code": "ru"
   },
   {
-    "quotecurrency": "RUB(cash)",
+    "quotecurrency": "RUB(clearing settlement)",
     "country-code": "ru"
   },
   {
