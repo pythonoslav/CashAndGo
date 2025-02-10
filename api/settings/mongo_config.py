@@ -61,10 +61,18 @@ async def save_thb_rates(all_rates, tether: dict):
     for ticker in priority_tickers:
         if ticker in all_rates:
             rate = all_rates[ticker]
+
+
             if ticker == "RUB":
+                surcharge = (tether['tether']['rub'] / tether['tether']['thb']) * 0.2
+                results.append({
+                    "quotecurrency": "RUB(cash settlement)",
+                    "mid_from": rate + surcharge,
+                    "mid_to": rate + surcharge
+                })
                 # Хранить курс THB к RUB
                 results.append({
-                    "quotecurrency": ticker,
+                    "quotecurrency": "RUB(clearing settlement)",
                     "mid_from": rate * modifier,  # Модифицированный курс THB к валюте
                     "mid_to": rate * subtractor # Немодифицированный курс THB к валюте
                 })
@@ -90,13 +98,7 @@ async def save_thb_rates(all_rates, tether: dict):
 
     # Добавляем RUB(nal)
     rub_data = next((item for item in results if item['quotecurrency'] == "RUB"), None)
-    if rub_data:
-        surcharge = (tether['tether']['rub'] / tether['tether']['thb']) * 0.03  
-        results.append({
-            "quotecurrency": "RUB(cash)",
-            "mid_from": rub_data["mid_from"] + surcharge,
-            "mid_to": rub_data["mid_to"] + surcharge
-        })
+
 
     # Обрабатываем остальные тикеры
     for ticker in ordered_tickers:
