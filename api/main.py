@@ -39,7 +39,7 @@ async def get_currencies_data(request: Request):
         exchange_rates = await mongo_client.get_exchange_rates(collection_name="exchange_rates")
         country_codes_list = await mongo_client.get_exchange_rates(collection_name="country_codes")
 
-        country_codes = {code['quotecurrency']: code['country-code'] for code in country_codes_list}
+        country_codes = {code['quotecurrency']: code['country-code'] for code in country_codes_list["flags"]}
 
         # Преобразуем данные для удобного формата
         formatted_rates = [
@@ -49,12 +49,13 @@ async def get_currencies_data(request: Request):
                 "buy": rate["mid_from"],
                 "sell": rate["mid_to"]
             }
-            for rate in exchange_rates
+            for rate in exchange_rates["rates"]
         ]
 
         return {
             "is_error": False,
             "result": formatted_rates,
+            "updated": exchange_rates["updated"]
         }  # Возвращаем только список объектов
 
     except Exception as e:

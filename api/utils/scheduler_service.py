@@ -42,14 +42,8 @@ async def get_thb_exchange_rates():
     try:
         all_thb_rates, tether_rate = await fetch_all_thb(open_api_settings)
 
-
         # Создание DataFrame из данных и их слияние
         await save_thb_rates(all_rates=all_thb_rates, tether=tether_rate)
-
-        return {
-            "is_error": False,
-            "result": fetch_all_thb,
-        }
 
     except Exception as e:
         logger.exception("An unexpected error occurred")

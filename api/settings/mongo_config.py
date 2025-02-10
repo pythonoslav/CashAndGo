@@ -1,4 +1,10 @@
+import pytz
+from datetime import datetime
+
 from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo.errors import PyMongoError
+from loguru import logger
+
 from settings.config import get_settings
 
 class MongoDBSettings:
@@ -20,7 +26,12 @@ class MongoDBClient:
     async def get_exchange_rates(self, collection_name: str):
         """Получает все курсы валют из коллекции exchange_rates."""
         collection = await self.get_collection(collection_name=collection_name)
-        return await collection.find().to_list(length=None)
+        try:
+            result = collection.find_one()
+            return await result
+        except PyMongoError as e:
+            logger.exception("Error fetching exchange rates from MongoDB: %s", e)
+            return []
 
 
 async def save_thb_rates(all_rates, tether: dict):
@@ -87,8 +98,6 @@ async def save_thb_rates(all_rates, tether: dict):
             "mid_to": rub_data["mid_to"] + surcharge
         })
 
-
-
     # Обрабатываем остальные тикеры
     for ticker in ordered_tickers:
         if ticker not in priority_tickers and ticker in all_rates:
@@ -102,6 +111,13 @@ async def save_thb_rates(all_rates, tether: dict):
                 "mid_to": unmodified_rate  
             })
 
-    # Вставляем данные в MongoDB
+        # Создаем объект для вставки
+    document_to_insert = {
+        "updated": datetime.now(pytz.timezone('Asia/Bangkok')),
+        # Время обновления с учетом тайландского часового пояса
+        "rates": results  # Массив с курсами
+    }
+
+    # Вставляем документ в MongoDB
     if results:
-        await collection.insert_many(results)
+        await collection.insert_one(document_to_insert)
