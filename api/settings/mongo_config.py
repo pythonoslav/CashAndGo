@@ -62,27 +62,34 @@ async def save_thb_rates(all_rates, tether: dict):
         if ticker in all_rates:
             rate = all_rates[ticker]
 
-
             if ticker == "RUB":
                 surcharge = (tether['tether']['rub'] / tether['tether']['thb']) * 0.2
                 results.append({
                     "quotecurrency": "RUB(cash settlement)",
-                    "mid_from": rate + surcharge,
-                    "mid_to": rate + surcharge
+                    "buy": rate * 1.065 + surcharge,
+                    "sell": rate / 1.02 + surcharge
                 })
+
                 # Хранить курс THB к RUB
                 results.append({
                     "quotecurrency": "RUB(clearing settlement)",
-                    "mid_from": rate * modifier,  # Модифицированный курс THB к валюте
-                    "mid_to": rate * subtractor # Немодифицированный курс THB к валюте
+                    "buy": rate * 1.065,  # Модифицированный курс THB к валюте
+                    "sell": rate / 1.02# Немодифицированный курс THB к валюте
                 })
             else:
                 thb_to_currency = 1 / rate
-                results.append({
-                    "quotecurrency": ticker,
-                    "mid_from": thb_to_currency * modifier,  # Курс THB к RUB
-                    "mid_to": thb_to_currency * subtractor  # Курс RUB к THB
-                })
+                if ticker == "USD" or ticker == "EUR":
+                    results.append({
+                        "quotecurrency": ticker,
+                        "buy": thb_to_currency * 1.01 ,
+                        "sell": thb_to_currency / 1.0075
+                    })
+                else:
+                    results.append({
+                        "quotecurrency": ticker,
+                        "buy": thb_to_currency * modifier,  # Курс THB к RUB
+                        "sell": thb_to_currency * subtractor  # Курс RUB к THB
+                    })
 
             # Добавляем USDT сразу после RUB, если он еще не добавлен
             if ticker == "RUB" and "USDT" not in [item["quotecurrency"] for item in results]:
@@ -92,13 +99,11 @@ async def save_thb_rates(all_rates, tether: dict):
                     usdt_price_in_thb_unmodified = usdt_price_in_thb * subtractor
                     results.append({
                         "quotecurrency": "USDT",
-                        "mid_from": usdt_price_in_thb_modified,
-                        "mid_to": usdt_price_in_thb_unmodified
+                        "buy": usdt_price_in_thb_modified,
+                        "sell": usdt_price_in_thb_unmodified
                     })
 
-    # Добавляем RUB(nal)
     rub_data = next((item for item in results if item['quotecurrency'] == "RUB"), None)
-
 
     # Обрабатываем остальные тикеры
     for ticker in ordered_tickers:
@@ -109,8 +114,8 @@ async def save_thb_rates(all_rates, tether: dict):
             unmodified_rate = thb_to_currency * subtractor
             results.append({
                 "quotecurrency": ticker,
-                "mid_from": modified_rate,
-                "mid_to": unmodified_rate  
+                "buy": modified_rate,
+                "sell": unmodified_rate
             })
 
         # Создаем объект для вставки
