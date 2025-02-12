@@ -73,14 +73,14 @@ const HeroSection = () => {
     >
       <Container maxWidth={false} sx={{ maxWidth: '1440px', width: "90%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         {/* Header Content */}
-        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center", justifyContent: "space-between", width: "100%", mt: { xs: 0, md: -4 } }}>
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center", justifyContent: "space-between", width: "100%", mt: { xs: 0, md: -10   } }}>
           {/* Логотип */}
           <Box sx={{ flexShrink: 0, display: "flex", justifyContent: "center", svg: { width: "700px", height: "auto" }, "@media (max-width: 768px)": { svg: { width: "350px" } } }}>
             <LogoSVG />
           </Box>
 
           {/* Текст */}
-          <Box sx={{ textAlign: "left", mt: { xs: -8, md: 0 }, maxWidth: "600px" }}>
+          <Box sx={{ textAlign: "left", mt: { xs: -8, md: -3 }, maxWidth: "600px" }}>
             <Typography variant="h4" sx={{ fontSize: { xs: "22px", md: "46px" }, fontWeight: "900", color: "white" }}>
               БЫСТРЫЙ И НАДЕЖНЫЙ
             </Typography>
@@ -99,7 +99,7 @@ const HeroSection = () => {
             alignItems: "stretch", // Одинаковая высота для всех дочерних элементов
             justifyContent: "center",
             width: "100%",
-            mt: { xs: 4, md: 4 },
+            mt: { xs: -4, md: -15 },
           }}
         >
           <Box sx={{ flex: 1, minWidth: "350px", maxWidth: "700px", height: "100%" }}>
