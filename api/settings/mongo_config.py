@@ -41,13 +41,54 @@ async def save_thb_rates(all_rates, tether: dict):
     # Логируем входные данные для отладки
     if not all_rates:
         print("Warning: `all_rates` пуст, данные не будут записаны!")
+        return
 
     await collection.delete_many({})
 
     modifier = 1.0325
     subtractor = 0.9675
 
-    priority_tickers = ["RUB", "USDT", "USD", "EUR", "RUB(cash)"]
+    # Задаем порядок добавления валют
+    priority_tickers = [
+        "RUB(online transfer)",
+        "USD",
+        "EUR",
+        "USDT",
+        "RUB(cash settlement)"
+    ]
+
+    results = []
+
+    # Функция для добавления результата
+    def add_result(quotecurrency, buy, sell):
+        results.append({
+            "quotecurrency": quotecurrency,
+            "buy": buy,
+            "sell": sell
+        })
+
+    # Обработка RUB отдельно, чтобы получить необходимые курсы
+    if "RUB" in all_rates:
+        rub_rate = all_rates["RUB"]
+        add_result("RUB(online transfer)", rub_rate * 1.065, rub_rate / 1.02)  # online transfer
+
+        # Обработка остальных валют
+        for ticker in ["USD", "EUR"]:
+            if ticker in all_rates:
+                rate = all_rates[ticker]
+                thb_to_currency = 1 / rate
+                add_result(ticker, thb_to_currency * 1.01, thb_to_currency / 1.0075)
+
+        if tether.get('tether', {}).get('thb', 0) > 0:
+            usdt_price_in_thb = tether['tether']['thb']
+            modified_usdt_price = usdt_price_in_thb * modifier
+            unmodified_usdt_price = usdt_price_in_thb * subtractor
+            add_result("USDT", modified_usdt_price, unmodified_usdt_price)
+
+        add_result("RUB(cash settlement)", rub_rate * 1.2, rub_rate / 1.05)  # cash settlement
+
+
+    # Теперь добавим другие валюты, которые не являются приоритетными
     ordered_tickers = [
         "JPY", "MYR", "INR", "AED", "GBP",
         "SGD", "CHF", "AUD", "HKD", "CAD",
@@ -55,71 +96,16 @@ async def save_thb_rates(all_rates, tether: dict):
         "SAR", "QAR", "BHD"
     ]
 
-    results = []
-
-    # Обрабатываем приоритетные тикеры
-    for ticker in priority_tickers:
-        if ticker in all_rates:
-            rate = all_rates[ticker]
-
-            if ticker == "RUB":
-                results.append({
-                    "quotecurrency": "RUB(cash settlement)",
-                    "buy": rate * 1.2,
-                    "sell": rate / 1.05
-                })
-
-                # Хранить курс THB к RUB
-                results.append({
-                    "quotecurrency": "RUB(clearing settlement)",
-                    "buy": rate * 1.065,  # Модифицированный курс THB к валюте
-                    "sell": rate / 1.02# Немодифицированный курс THB к валюте
-                })
-            else:
-                thb_to_currency = 1 / rate
-                if ticker == "USD" or ticker == "EUR":
-                    results.append({
-                        "quotecurrency": ticker,
-                        "buy": thb_to_currency * 1.01 ,
-                        "sell": thb_to_currency / 1.0075
-                    })
-                else:
-                    results.append({
-                        "quotecurrency": ticker,
-                        "buy": thb_to_currency * modifier,  # Курс THB к RUB
-                        "sell": thb_to_currency * subtractor  # Курс RUB к THB
-                    })
-
-            # Добавляем USDT сразу после RUB, если он еще не добавлен
-            if ticker == "RUB" and "USDT" not in [item["quotecurrency"] for item in results]:
-                if tether['tether']['thb'] > 0:  # Предотвращаем деление на ноль
-                    usdt_price_in_thb = tether['tether']['thb']
-                    usdt_price_in_thb_modified = usdt_price_in_thb * modifier
-                    usdt_price_in_thb_unmodified = usdt_price_in_thb * subtractor
-                    results.append({
-                        "quotecurrency": "USDT",
-                        "buy": usdt_price_in_thb_modified,
-                        "sell": usdt_price_in_thb_unmodified
-                    })
-
-    # Обрабатываем остальные тикеры
     for ticker in ordered_tickers:
         if ticker not in priority_tickers and ticker in all_rates:
             rate = all_rates[ticker]
             thb_to_currency = 1 / rate
-            modified_rate = thb_to_currency * modifier
-            unmodified_rate = thb_to_currency * subtractor
-            results.append({
-                "quotecurrency": ticker,
-                "buy": modified_rate,
-                "sell": unmodified_rate
-            })
+            add_result(ticker, thb_to_currency * modifier, thb_to_currency * subtractor)
 
-        # Создаем объект для вставки
+    # Создаем объект для вставки
     document_to_insert = {
         "updated": datetime.now(pytz.timezone('Asia/Bangkok')),
-        # Время обновления с учетом тайландского часового пояса
-        "rates": results  # Массив с курсами
+        "rates": results
     }
 
     # Вставляем документ в MongoDB

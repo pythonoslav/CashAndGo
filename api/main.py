@@ -19,10 +19,14 @@ async def start_scheduler():
     Функция запускается при старте приложения.
     Запускает планировщик задач.
     """
+    await scheduled_thb_exchange_rate()
+
     scheduler.add_job(scheduled_thb_exchange_rate, 'interval', minutes=30)  # Запускать каждые 30 минут
     scheduler.start()
 
     await load_flags_data()
+
+
 
 @app.get('/get_currencies_data')
 async def get_currencies_data(request: Request):
@@ -39,7 +43,9 @@ async def get_currencies_data(request: Request):
         exchange_rates = await mongo_client.get_exchange_rates(collection_name="exchange_rates")
         country_codes_list = await mongo_client.get_exchange_rates(collection_name="country_codes")
 
+
         country_codes = {code['quotecurrency']: code['country-code'] for code in country_codes_list["flags"]}
+        print(country_codes)
 
         # Преобразуем данные для удобного формата
         formatted_rates = [
@@ -50,12 +56,12 @@ async def get_currencies_data(request: Request):
                 "sell": rate["sell"]
             }
             for rate in exchange_rates["rates"]
-        ]
+        ] if exchange_rates else []
 
         return {
             "is_error": False,
             "result": formatted_rates,
-            "updated": exchange_rates["updated"]
+            "updated": exchange_rates["updated"] if exchange_rates else "Not updated yet"
         }  # Возвращаем только список объектов
 
     except Exception as e:
