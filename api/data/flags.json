@@ -1,23 +1,27 @@
 [
   {
-    "quotecurrency": "USD",
-    "country-code": "us"
+    "quotecurrency": "RUB(online transfer)",
+    "country-code": "ru"
   },
   {
-    "quotecurrency": "USDT",
-    "country-code": null
+    "quotecurrency": "USD",
+    "country-code": "us"
   },
   {
     "quotecurrency": "EUR",
     "country-code": "eu"
   },
   {
+    "quotecurrency": "USDT",
+    "country-code": null
+  },
+  {
     "quotecurrency": "RUB(cash settlement)",
     "country-code": "ru"
   },
   {
-    "quotecurrency": "RUB(online transfer)",
-    "country-code": "ru"
+    "quotecurrency": "KZT",
+    "country-code": "kz"
   },
   {
     "quotecurrency": "JPY",

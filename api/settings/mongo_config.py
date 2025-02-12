@@ -53,39 +53,52 @@ async def save_thb_rates(all_rates, tether: dict):
         "RUB(online transfer)",
         "USD",
         "EUR",
+        "KZT",
         "USDT",
-        "RUB(cash settlement)"
+        "RUB(cash settlement)",
     ]
 
     results = []
 
     # Функция для добавления результата
-    def add_result(quotecurrency, buy, sell):
-        results.append({
-            "quotecurrency": quotecurrency,
-            "buy": buy,
-            "sell": sell
-        })
+    def add_result(quotecurrency: str, buy: int | float, sell: int | float | None = None, position: int | None = None):
+        if position is not None:
+            results.insert(
+                position,
+                {
+                    "quotecurrency": quotecurrency,
+                    "buy": buy,
+                    "sell": sell
+                })
+        else:
+            results.append({
+                "quotecurrency": quotecurrency,
+                "buy": buy,
+                "sell": sell
+            })
+
+    # Обработка остальных валют
+    for ticker in ["USD", "EUR"]:
+        if ticker in all_rates:
+            rate = all_rates[ticker]
+            thb_to_currency = 1 / rate
+            add_result(quotecurrency=ticker, buy=thb_to_currency * 1.01, sell=thb_to_currency / 1.0075)
+
+    if "KZT" in all_rates:
+        kzt_rate = all_rates["KZT"]
+        add_result(quotecurrency="KZT", buy=kzt_rate * 1.065)
+
+    if tether.get('tether', {}).get('thb', 0) > 0:
+        usdt_price_in_thb = tether['tether']['thb']
+        modified_usdt_price = usdt_price_in_thb * modifier
+        unmodified_usdt_price = usdt_price_in_thb * subtractor
+        add_result(quotecurrency="USDT", buy=modified_usdt_price, sell=unmodified_usdt_price)
 
     # Обработка RUB отдельно, чтобы получить необходимые курсы
     if "RUB" in all_rates:
         rub_rate = all_rates["RUB"]
-        add_result("RUB(online transfer)", rub_rate * 1.065, rub_rate / 1.02)  # online transfer
-
-        # Обработка остальных валют
-        for ticker in ["USD", "EUR"]:
-            if ticker in all_rates:
-                rate = all_rates[ticker]
-                thb_to_currency = 1 / rate
-                add_result(ticker, thb_to_currency * 1.01, thb_to_currency / 1.0075)
-
-        if tether.get('tether', {}).get('thb', 0) > 0:
-            usdt_price_in_thb = tether['tether']['thb']
-            modified_usdt_price = usdt_price_in_thb * modifier
-            unmodified_usdt_price = usdt_price_in_thb * subtractor
-            add_result("USDT", modified_usdt_price, unmodified_usdt_price)
-
-        add_result("RUB(cash settlement)", rub_rate * 1.2, rub_rate / 1.05)  # cash settlement
+        add_result(quotecurrency="RUB(online transfer)", buy=rub_rate * 1.065, sell=rub_rate / 1.02, position=0)  # online transfer
+        add_result(quotecurrency="RUB(cash settlement)", buy=rub_rate * 1.2, sell=rub_rate / 1.05, position=5)  # cash settlement
 
 
     # Теперь добавим другие валюты, которые не являются приоритетными
@@ -104,7 +117,7 @@ async def save_thb_rates(all_rates, tether: dict):
 
     # Создаем объект для вставки
     document_to_insert = {
-        "updated": datetime.now(pytz.timezone('Asia/Bangkok')),
+        "updated": f"{datetime.now(pytz.timezone('Asia/Bangkok'))}",
         "rates": results
     }
 

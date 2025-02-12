@@ -19,7 +19,6 @@ async def start_scheduler():
     Функция запускается при старте приложения.
     Запускает планировщик задач.
     """
-    await scheduled_thb_exchange_rate()
 
     scheduler.add_job(scheduled_thb_exchange_rate, 'interval', minutes=30)  # Запускать каждые 30 минут
     scheduler.start()
@@ -45,7 +44,6 @@ async def get_currencies_data(request: Request):
 
 
         country_codes = {code['quotecurrency']: code['country-code'] for code in country_codes_list["flags"]}
-        print(country_codes)
 
         # Преобразуем данные для удобного формата
         formatted_rates = [
