@@ -61,20 +61,20 @@ async def save_thb_rates(all_rates, tether: dict):
     results = []
 
     # Функция для добавления результата
-    def add_result(quotecurrency: str, buy: int | float, sell: int | float | None = None, position: int | None = None):
+    def add_result(quotecurrency: str, buy: int | float = 0, sell: int | float | None = None, position: int | None = None):
         if position is not None:
             results.insert(
                 position,
                 {
                     "quotecurrency": quotecurrency,
-                    "buy": buy,
-                    "sell": sell
+                    "buy": buy if buy else 0,
+                    "sell": sell if sell else 0
                 })
         else:
             results.append({
                 "quotecurrency": quotecurrency,
-                "buy": buy,
-                "sell": sell
+                "buy": buy if buy else 0,
+                "sell": sell if sell else 0
             })
 
     # Обработка остальных валют
