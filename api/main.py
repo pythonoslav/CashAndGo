@@ -20,7 +20,7 @@ async def start_scheduler():
     Запускает планировщик задач.
     """
 
-    scheduler.add_job(scheduled_thb_exchange_rate, 'interval', minutes=30)  # Запускать каждые 30 минут
+    scheduler.add_job(scheduled_thb_exchange_rate, 'interval', minutes=3)  # Запускать каждые 30 минут
     scheduler.start()
 
     await load_flags_data()
@@ -50,8 +50,8 @@ async def get_currencies_data(request: Request):
             {
                 "country_code": country_codes.get(rate["quotecurrency"], "Unknown"),
                 "code": rate["quotecurrency"],
-                "buy": rate["buy"] if rate["buy"] is not None else 0,
-                "sell": rate["sell"] if rate["sell"] is not None else 0
+                "buy": rate["buy"] if rate["buy"] else 0,
+                "sell": rate["sell"] if rate["sell"] else 0
             }
             for rate in exchange_rates["rates"]
         ] if exchange_rates else []
