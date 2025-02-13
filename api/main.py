@@ -50,11 +50,12 @@ async def get_currencies_data(request: Request):
             {
                 "country_code": country_codes.get(rate["quotecurrency"], "Unknown"),
                 "code": rate["quotecurrency"],
-                "buy": rate["buy"],
-                "sell": rate["sell"]
+                "buy": rate["buy"] if rate["buy"] is not None else 0,
+                "sell": rate["sell"] if rate["sell"] is not None else 0
             }
             for rate in exchange_rates["rates"]
         ] if exchange_rates else []
+        print(formatted_rates)
 
         return {
             "is_error": False,
