@@ -121,7 +121,7 @@ const CustomCarousel = () => {
 
             <Typography 
                 variant="h3"
-                onClick={() => window.open("https://www.google.com/maps/search/?api=1&query=5/27A,+Fisherman+Way,+Moo+5+Wiset+Rd,+Rawai,+Muang,+Phuket+83130,+Thailand", "_blank", "noopener,noreferrer")}
+                onClick={() => window.open("https://maps.app.goo.gl/5hc6Zqmuhj6ovRFx5?g_st=com.google.maps.preview.copy", "_blank", "noopener,noreferrer")}
                 sx={{
                     fontSize: "36px",
                     fontWeight: "900",

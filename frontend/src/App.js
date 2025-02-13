@@ -4,8 +4,7 @@ import HeroSection from "./components/HeroSection/HeroSection";
 import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
 import FAQ from "./components/FAQComponent/FAQComponent";
 import Footer from "./components/Footer/Footer";
-import { Box, Modal, IconButton, Typography } from "@mui/material";
-import { Element } from "react-scroll";
+import { Box, Modal, IconButton, Typography, Slide } from "@mui/material";
 import styled from "styled-components";
 import { ReactComponent as LastLogo } from "../src/assets/FAQTitle.svg";
 import CloseIcon from "@mui/icons-material/Close";
@@ -35,17 +34,77 @@ const TitleContainer = styled.div`
   margin-bottom: 30px;
 `;
 
-// Стили модального окна
-const ModalContent = styled(Box)`
-  background: white;
-  width: 90%;
-  max-width: 700px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin: auto;
-  position: relative;
+const ModalOverlay = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+ 
 `;
+
+const ModalContent = styled(Box)`
+  background: #f9f9e5;
+  width: 80%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+
+  @media (max-width: 1024px) {
+    width: 90%;
+    max-width: 700px;
+  }
+
+  @media (max-width: 768px) {
+    width: 95%;
+    max-width: 90%;
+    padding: 16px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    max-width: 95%;
+    padding: 12px;
+    border-radius: 8px;
+  }
+`;
+
+const CloseButton = styled(IconButton)`
+  position: absolute;
+  top: 10px;
+  right: 10px; /* Перемещаем кнопку в правый верхний угол */
+  background: white;
+  border: 2px solid #ccc;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background: #f2f2f2;
+  }
+
+  @media (max-width: 480px) {
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+  }
+`;
+
 
 const App = () => {
   const [openModal, setOpenModal] = useState(null);
@@ -53,7 +112,7 @@ const App = () => {
 
   const handleOpen = (modal) => setOpenModal(modal);
   const handleClose = () => {
-    setOpenNestedModal(null); // Закрываем вложенную модалку
+    setOpenNestedModal(null);
     setOpenModal(null);
   };
 
@@ -63,19 +122,16 @@ const App = () => {
       <HeroSection />
 
       <Box sx={{ backgroundImage: "url('/mail_background.svg')" }}>
-        <Element name="features"></Element>
-        <FeaturesSection />
+        <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
 
         {/* Кнопки для открытия модальных окон */}
-        <Box sx={{ textAlign: "center", mt: 4 }}>
+        {/* <Box sx={{ textAlign: "center", mt: 4 }}>
           <button onClick={() => handleOpen("atm")}>Открыть DropCashSection</button>
           <button onClick={() => handleOpen("cash")}>Открыть ResivingCash</button>
           <button onClick={() => handleOpen("courier")}>Открыть DeliveryComponent</button>
           <button onClick={() => handleOpen("check")}>Открыть TransferToThaiAccount</button>
-          <button onClick={() => handleOpen("about")}>Открыть AboutUs</button>
-        </Box>
+        </Box> */}
 
-        <Element name="faq"></Element>
         <Wrapper>
           <TitleContainer>
             <LastLogo />
@@ -85,60 +141,39 @@ const App = () => {
       </Box>
       <Footer />
 
-      {/* Главные модальные окна */}
-      <Modal open={openModal === "atm"} onClose={handleClose}>
-        <ModalContent>
-          <IconButton sx={{ position: "absolute", top: 10, right: 10 }} onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-          <DropCashSection setOpenNestedModal={setOpenNestedModal} />
-        </ModalContent>
-      </Modal>
+      <Modal open={Boolean(openModal)} onClose={handleClose}>
+        <ModalOverlay>
+          <Slide direction="left" in={Boolean(openModal)} mountOnEnter unmountOnExit>
+            <ModalContent>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ flexGrow: 1 }} /> {/* Раздвигает кнопку вправо */}
+                <CloseButton onClick={handleClose}>
+                  <CloseIcon />
+                </CloseButton>
+              </Box>
 
-      <Modal open={openModal === "cash"} onClose={handleClose}>
-        <ModalContent>
-          <IconButton sx={{ position: "absolute", top: 10, right: 10 }} onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-          <ResivingCash setOpenNestedModal={setOpenNestedModal} />
-        </ModalContent>
-      </Modal>
+              {/* Контент модального окна */}
+              {openModal === "atm" && <DropCashSection />}
+              {openModal === "cash" && <ResivingCash />}
+              {openModal === "courier" && <DeliveryComponent />}
+              {openModal === "check" && <TransferToThaiAccount />}
+              {openModal === "about" && <AboutUs />}
+            </ModalContent>
+          </Slide>
+        </ModalOverlay>
 
-      <Modal open={openModal === "courier"} onClose={handleClose}>
-        <ModalContent>
-          <IconButton sx={{ position: "absolute", top: 10, right: 10 }} onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-          <DeliveryComponent setOpenNestedModal={setOpenNestedModal} />
-        </ModalContent>
-      </Modal>
-
-      <Modal open={openModal === "check"} onClose={handleClose}>
-        <ModalContent>
-          <IconButton sx={{ position: "absolute", top: 10, right: 10 }} onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-          <TransferToThaiAccount setOpenNestedModal={setOpenNestedModal} />
-        </ModalContent>
-      </Modal>
-
-      <Modal open={openModal === "about"} onClose={handleClose}>
-        <ModalContent>
-          <IconButton sx={{ position: "absolute", top: 10, right: 10 }} onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-          <AboutUs setOpenNestedModal={setOpenNestedModal} />
-        </ModalContent>
       </Modal>
 
       {/* Вложенное модальное окно */}
       <Modal open={Boolean(openNestedModal)} onClose={() => setOpenNestedModal(null)}>
-        <ModalContent>
-          <IconButton sx={{ position: "absolute", top: 10, right: 10 }} onClick={() => setOpenNestedModal(null)}>
-            <CloseIcon />
-          </IconButton>
-          <Typography>Вложенное модальное окно для {openNestedModal}</Typography>
-        </ModalContent>
+        <ModalOverlay>
+          <ModalContent>
+            <CloseButton onClick={() => setOpenNestedModal(null)}>
+              <CloseIcon />
+            </CloseButton>
+            <Typography>Вложенное модальное окно для {openNestedModal}</Typography>
+          </ModalContent>
+        </ModalOverlay>
       </Modal>
     </>
   );

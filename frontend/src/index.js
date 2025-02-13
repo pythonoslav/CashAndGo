@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client"; // Новый импорт для React 18
 import App from "./App";
-
-import GlobalStyles from "./styles/GlobalStyles";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 
@@ -85,7 +83,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Сброс глобальных стилей */}
+      <CssBaseline /> 
       <App />
     </ThemeProvider>
   </React.StrictMode>
