@@ -50,11 +50,11 @@ const ModalOverlay = styled(Box)`
 
 const ModalContent = styled(Box)`
   background: #f9f9e5;
-  width: 80%;
+  width: 70%;
   max-height: 80vh;
   overflow-y: auto;
-  padding: 24px;
-  border-radius: 12px;
+  padding: 6px;
+  border-radius: 50px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   position: relative;
   display: flex;
@@ -83,7 +83,7 @@ const ModalContent = styled(Box)`
 const CloseButton = styled(IconButton)`
   position: absolute;
   top: 10px;
-  right: 10px; /* Перемещаем кнопку в правый верхний угол */
+  right: 10px; 
   background: white;
   border: 2px solid #ccc;
   z-index: 10;
@@ -123,15 +123,7 @@ const App = () => {
 
       <Box sx={{ backgroundImage: "url('/mail_background.svg')" }}>
         <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
-
-        {/* Кнопки для открытия модальных окон */}
-        {/* <Box sx={{ textAlign: "center", mt: 4 }}>
-          <button onClick={() => handleOpen("atm")}>Открыть DropCashSection</button>
-          <button onClick={() => handleOpen("cash")}>Открыть ResivingCash</button>
-          <button onClick={() => handleOpen("courier")}>Открыть DeliveryComponent</button>
-          <button onClick={() => handleOpen("check")}>Открыть TransferToThaiAccount</button>
-        </Box> */}
-
+        <AboutUs/>
         <Wrapper>
           <TitleContainer>
             <LastLogo />
@@ -157,7 +149,6 @@ const App = () => {
               {openModal === "cash" && <ResivingCash />}
               {openModal === "courier" && <DeliveryComponent />}
               {openModal === "check" && <TransferToThaiAccount />}
-              {openModal === "about" && <AboutUs />}
             </ModalContent>
           </Slide>
         </ModalOverlay>

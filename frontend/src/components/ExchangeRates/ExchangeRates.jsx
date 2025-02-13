@@ -9,15 +9,15 @@ const ExchangeRates = ({ currencyRates }) => {
         borderRadius: 5,
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
         p: 3,
-        maxWidth: 700, // Фиксированная ширина (как у Calculator)
-        width: "98%", // Чтобы сохранять адаптивность
+        maxWidth: 700, 
+        width: "98%", 
         mx: "auto",
         height: "521px",
 
         display: "flex",
         flexDirection: "column",
         "@media (max-width: 768px)": {
-          maxWidth: "95%", // Уменьшение ширины на мобильных
+          maxWidth: "95%", 
         },
       }}
     >

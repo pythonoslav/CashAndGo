@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
-import { Box, Typography, Link, List, ListItem, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import { ReactComponent as ATM_drop_cash } from "../../assets/ATM_drop_cash_full.svg";
 import { ReactComponent as DropCash } from "../../assets/drop_cash_text.svg";
 import { scroller } from "react-scroll";
-
+import { ReactComponent as KassicornButton } from "../../assets/Kassicorn_logo.svg"
+import { ReactComponent as BangkokButton } from "../../assets/Bangkok_bank_logo.svg"
+import { ReactComponent as KrungthaiButton } from "../../assets/Krungthai.svg"
 
 const DropContainer = styled(Box)`
   position: relative;
@@ -24,8 +26,24 @@ const Wrapper = styled(Box)`
   margin: 0 auto;
 `;
 
-const DropCashSection = ({setOpenIndex}) => {
-    
+const ButtonContainer = styled(Box)`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start; /* Центрируем по горизонтали */
+  gap: 12px; /* Добавляем промежутки между кнопками */
+  margin-top: 20px;
+`;
+
+const BankButton = styled.div`
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+const DropCashSection = ({ setOpenIndex }) => {
+
     const handleScroll = (index) => {
         setOpenIndex(index);
         scroller.scrollTo("faq", {
@@ -35,8 +53,7 @@ const DropCashSection = ({setOpenIndex}) => {
         });
 
     }
-    
-    
+
     return (
         <DropContainer>
             <Wrapper>
@@ -142,7 +159,7 @@ const DropCashSection = ({setOpenIndex}) => {
                                     marginBottom: "16px",
                                     width: "68%",
                                     '@media (max-width: 768px)': {
-                                        fontSize: "16px", // Уменьшаем шрифт на мобильных
+                                        fontSize: "16px",
                                         lineHeight: "22px",
                                         textAlign: "left"
                                     },
@@ -150,128 +167,13 @@ const DropCashSection = ({setOpenIndex}) => {
                                 Просто найдите ближайший банкомат банков из списка
                                 и следуйте инструкциям:
                             </Typography>
-                            <List
-                                sx={{
-                                    paddingLeft: "16px",
-                                    listStyleType: "disc",
-                                    margin: 0,
-                                    '@media (max-width: 768px)': {
-                                        paddingLeft: "0",
-                                    },
-                                }}
-                            >
-                                <ListItem
-                                    sx={{
-                                        display: "list-item",
-                                        padding: 0,
-                                        position: "relative",
-                                        "&::before": {
-                                            content: '""',
-                                            position: "absolute",
-                                            left: "-20px",
-                                            top: "50%",
-                                            transform: "translateY(-50%)",
-                                            width: "5px",
-                                            height: "5px",
-                                            backgroundColor: "green",
-                                            borderRadius: "50%",
-                                            '@media (max-width: 768px)': {
-                                                left: "0",
-                                            },
-                                        },
-                                    }}
-                                >
-                                        <Link
-                                            component="button"
-                                            underline="hover"
-                                            onClick={() => handleScroll(0)}
-                                            sx={{
-                                                color: "green",
-                                                fontWeight: "600",
-                                                fontSize: "24px",
-                                                '@media (max-width: 768px)': {
-                                                    marginLeft: "10px",
-                                                },
-                                            }}
-                                        >
-                                            Kasikorn bank
-                                        </Link>
-                                </ListItem>
-                                <ListItem
-                                    sx={{
-                                        display: "list-item",
-                                        padding: 0,
-                                        position: "relative",
-                                        "&::before": {
-                                            content: '""',
-                                            position: "absolute",
-                                            left: "-20px",
-                                            top: "50%",
-                                            transform: "translateY(-50%)",
-                                            width: "5px",
-                                            height: "5px",
-                                            backgroundColor: "blue",
-                                            borderRadius: "50%",
-                                            '@media (max-width: 768px)': {
-                                                left: "0",
-                                            },
-                                        },
-                                    }}
-                                >
-                                    <Link
-                                        component="button"
-                                        underline="hover"
-                                        onClick={() => handleScroll(1)}
-                                        sx={{
-                                            color: "blue",
-                                            fontWeight: "600",
-                                            fontSize: "24px",
-                                            '@media (max-width: 768px)': {
-                                                marginLeft: "10px",
-                                            },
-                                        }}
-                                    >
-                                        Bangkok bank
-                                    </Link>
-                                </ListItem>
-                                <ListItem
-                                    sx={{
-                                        display: "list-item",
-                                        padding: 0,
-                                        position: "relative",
-                                        "&::before": {
-                                            content: '""',
-                                            position: "absolute",
-                                            left: "-20px",
-                                            top: "50%",
-                                            transform: "translateY(-50%)",
-                                            width: "5px",
-                                            height: "5px",
-                                            backgroundColor: "#06C3FF",
-                                            borderRadius: "50%",
-                                            '@media (max-width: 768px)': {
-                                                left: "0",
-                                            },
-                                        },
-                                    }}
-                                >
-                                    <Link
-                                        component="button"
-                                        underline="hover"
-                                        onClick={() => handleScroll(2)}
-                                        sx={{
-                                            color: "#06C3FF",
-                                            fontWeight: "600",
-                                            fontSize: "24px",
-                                            '@media (max-width: 768px)': {
-                                                marginLeft: "10px",
-                                            },
-                                        }}
-                                    >
-                                        KrungThai bank
-                                    </Link>
-                                </ListItem>
-                            </List>
+                            <ButtonContainer>
+                                <BankButton><KassicornButton /></BankButton>
+                                <BankButton><BangkokButton /></BankButton>
+                                <BankButton><KrungthaiButton /></BankButton>
+                            </ButtonContainer>
+
+
                         </Box>
                     </Grid>
                 </Grid>

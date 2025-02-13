@@ -31,7 +31,7 @@ const AboutUs = () => {
         <Typography
           variant="h4"
           sx={{
-            fontWeight: "bold",
+            fontWeight: "900",
             color: "#000",
             marginBottom: "20px",
           }}
@@ -46,9 +46,10 @@ const AboutUs = () => {
             color: "#0E1111",
             lineHeight: "1.6",
             marginBottom: "20px",
+            
           }}
         >
-          <strong style={{ color: "#004DB4", fontSize: "32px" }}>
+          <strong style={{ color: "#004DB4", fontSize: "32px",  fontWeight: "900", }}>
             Cash <strong style={{ color: "#F87000" }}>&</strong> Go
           </strong>{" "}
           - the way you EX change - лицензированный сервис обмена валюты в Таиланде. Наш сервис - это быстрый и простой способ обменять валюту в любой части Таиланда. Понятные методы получения наличных делают процедуру обмена прозрачной и доступной для каждого.

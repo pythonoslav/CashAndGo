@@ -4,7 +4,7 @@ import { ReactComponent as ScooterIcon } from "../DeliveryComponent/assets/Scote
 import { ReactComponent as Title } from "../DeliveryComponent/assets/CourierDeleveryTEXT.svg";
 import { ReactComponent as TelegramIcon } from "../../assets/telegram-icon.svg";
 import { ReactComponent as WhatsAppIcon }from "../../assets/whatsapp-icon.svg";
-
+import { ReactComponent as Timer } from "../../assets/time_picture.svg"
 
 const telegramLink = "https://t.me/"; // Телеги пока что нет
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
@@ -177,10 +177,24 @@ const CourierDelivery = () => {
             flex: 1,
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
+            flexDirection: "column"
           }}
         >
           <ScooterIcon style={{ height: "auto" }} />
+          <Box sx={{
+            display: "flex",
+            flexDirection: "inline",
+            justifyContent: "flex-start",
+            ml: 6
+          }}>
+            <Typography
+            sx={{
+              color: "#0E1111",
+              fontWeight: "600",
+              fontSize: "24px"
+            }}> Экономим Ваше время! <br/>Доставка за 1 час</Typography>
+            <Timer style={{height: "90px", width: 'auto'}}/>
+          </Box>
         </Box>
       </Box>
     </Box >

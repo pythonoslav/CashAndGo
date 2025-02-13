@@ -37,8 +37,8 @@ const CustomCarousel = () => {
                     display: "flex",
                     justifyContent: "flex-start",
                     alignItems: "flex-start",
-                    mb: "30px",
-                    height: '1024',
+                    mb: "20px",
+                    
                 }}
             >
                 <RecivingCash sx={{ width: '750px' }} />
@@ -51,7 +51,7 @@ const CustomCarousel = () => {
                     lineHeight: "24px",
                     color: "#0E1111",
                     marginBottom: "16px",
-                    width: "40%",
+                    width: "100%",
                     marginBottom: "2rem",
                     '@media (max-width: 768px)': {
                         fontSize: "16px", // Уменьшаем шрифт на мобильных
@@ -59,7 +59,7 @@ const CustomCarousel = () => {
                         textAlign: "left"
                     },
                 }}
-            >Это офис с динамичной энергией и атмосферой, сочетающий эффективность, эстетику, комфорт и инновации</Typography>
+            >Обменяйте более 20 видов валют по лучшему курсу в комфортном и современном офисе Cash & Go</Typography>
 
             {/* Swiper */}
             <Swiper
@@ -119,28 +119,36 @@ const CustomCarousel = () => {
                 <ArrowButtonRight />
             </IconButton>
 
-            <Typography 
+            <Typography
                 variant="h3"
                 onClick={() => window.open("https://maps.app.goo.gl/5hc6Zqmuhj6ovRFx5?g_st=com.google.maps.preview.copy", "_blank", "noopener,noreferrer")}
                 sx={{
-                    fontSize: "36px",
+                    fontSize: "24px",
                     fontWeight: "900",
                     lineHeight: "45px",
                     color: "#0E1111",
-                    marginBottom: "16px",
-                    width: "70%",
+                    width: "100%",
                     marginTop: '2rem',
-                    marginBottom: "2rem",
                     cursor: 'pointer',
                     '@media (max-width: 768px)': {
-                        fontSize: "16px", 
+                        fontSize: "16px",
                         lineHeight: "22px",
                         textAlign: "left"
                     },
                     '&:hover span': {
-                        textDecoration: "underline", // Подчеркивание при наведении
+                        textDecoration: "underline", 
                     }
                 }}>Адрес: <span>5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand</span></Typography>
+
+            <Typography
+            sx={{
+                fontSize: "14px",
+                fontWeight: "500",
+                width: "100%",
+                color: "#F87000",
+            }}>
+                Нажмите, чтобы открыть местоположение на карте
+            </Typography>
         </Box>
 
 
