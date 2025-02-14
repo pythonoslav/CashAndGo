@@ -4,7 +4,7 @@ import HeroSection from "./components/HeroSection/HeroSection";
 import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
 import FAQ from "./components/FAQComponent/FAQComponent";
 import Footer from "./components/Footer/Footer";
-import { Box, Modal, IconButton, Typography, Slide } from "@mui/material";
+import { Box, Modal, IconButton, Slide } from "@mui/material";
 import styled from "styled-components";
 import { ReactComponent as LastLogo } from "../src/assets/FAQTitle.svg";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,6 +15,9 @@ import ResivingCash from "./components/RecivingCash/ResivingCash";
 import DeliveryComponent from "./components/DeliveryComponent/DeliveryComponent";
 import TransferToThaiAccount from "./components/TransferComponent/TransferToThaiAccaount";
 import AboutUs from "./components/AboutUsComponent/AbaoutUs";
+import InstructionsKasikorn from "./components/FAQComponent/InstructionsKasikorn";
+import CustomCarousel from "./components/Carousel/Carousel";
+import ReviewsCarousel from "./components/Reviews/Reviews";
 
 const Wrapper = styled.div`
   max-width: 1400px; 
@@ -32,6 +35,7 @@ const TitleContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   margin-bottom: 30px;
+  margin-left: '2rem';
 `;
 
 const ModalOverlay = styled(Box)`
@@ -50,7 +54,7 @@ const ModalOverlay = styled(Box)`
 
 const ModalContent = styled(Box)`
   background: #f9f9e5;
-  width: 70%;
+  width: 60%;
   max-height: 80vh;
   overflow-y: auto;
   padding: 6px;
@@ -124,11 +128,14 @@ const App = () => {
       <Box sx={{ backgroundImage: "url('/mail_background.svg')" }}>
         <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
         <AboutUs/>
+        <CustomCarousel  />
+        <ReviewsCarousel />
         <Wrapper>
           <TitleContainer>
-            <LastLogo />
+            <LastLogo style={{marginLeft: '2rem'}}/>
           </TitleContainer>
         </Wrapper>
+        
         <FAQ />
       </Box>
       <Footer />
@@ -162,7 +169,10 @@ const App = () => {
             <CloseButton onClick={() => setOpenNestedModal(null)}>
               <CloseIcon />
             </CloseButton>
-            <Typography>Вложенное модальное окно для {openNestedModal}</Typography>
+              {openNestedModal === "kassicorn" && <InstructionsKasikorn />}
+              {openNestedModal === "ba" && <ResivingCash />}
+              {openNestedModal === "courier" && <DeliveryComponent />}
+              {openNestedModal === "check" && <TransferToThaiAccount />}
           </ModalContent>
         </ModalOverlay>
       </Modal>

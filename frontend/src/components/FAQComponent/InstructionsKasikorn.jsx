@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 
 import step1 from "../FAQComponent/assets/KasikornStep/KasikornStep1.png";
 import step2 from "../FAQComponent/assets/KasikornStep/KasikornStep2.png";
-import step3 from "../FAQComponent/assets/KasikornStep/KasikornStep3.JPG";
+import step3 from "../FAQComponent/assets/KasikornStep/KasikornStep3.png";
 import step4 from "../FAQComponent/assets/KasikornStep/KasikornStep4.png";
 
 
@@ -103,10 +103,11 @@ const InstructionsKasikorn = () => {
                 >
                     <img
                         src={step3}
-                        alt="Шаг 3"
+                        alt="Шаг 2"
                         style={{
-                            width: "80%",
-                            height: "auto",
+                            width: "100%",
+                            height: "300px",
+                            objectFit: "cover",
                             borderRadius: "8px",
                             marginBottom: "8px",
                         }}

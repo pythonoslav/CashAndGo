@@ -56,17 +56,17 @@ const TransferToThaiAccount = () => {
         {/* Правый блок */}
         <Box sx={{ flex: 1, textAlign: "left" }}>
           {/* Заголовок */}
-          <TitleSVG />
+          <TitleSVG style={{marginBottom: '2rem'}}/>
 
           {/* Описание */}
           <Typography
             variant="body1"
             sx={{
-              fontSize: "24px",
+              fontSize: "28px",
               color: "#0E1111",
-              marginBottom: "20px",
+              marginBottom: "2rem",
               fontWeight: "600",
-              width: "50%",
+              width: "90%",
             }}
           >
             Обменивайте валюту с зачислением на Ваш тайский счет любого банка Таиланда!
@@ -75,11 +75,11 @@ const TransferToThaiAccount = () => {
           <Typography
             variant="body1"
             sx={{
-              fontSize: "18px",
+              fontSize: "22px",
               color: "#0E1111",
-              marginBottom: "10px",
+              marginBottom: "2rem",
               fontWeight: "300",
-              width: "50%",
+              width: "80%",
             }}
           >
             Выгодный курс и быстрый обмен. Удобный вариант для оплаты жилья и крупных покупок.
@@ -88,11 +88,11 @@ const TransferToThaiAccount = () => {
           <Typography
             variant="body1"
             sx={{
-              fontSize: "18px",
+              fontSize: "22px",
               color: "#0E1111",
-              marginBottom: "20px",
+              marginBottom: "3.5rem",
               fontWeight: "300",
-              width: "50%",
+              width: "80%",
             }}
           >
             Свяжитесь с нами в мессенджере и узнайте актуальный курс.
@@ -103,7 +103,7 @@ const TransferToThaiAccount = () => {
             sx={{
               color: "#0E1111",
               fontWeight: "bold",
-              marginBottom: "10px",
+              marginBottom: "2rem",
               fontSize: "24px",
               width: "70%",
             }}

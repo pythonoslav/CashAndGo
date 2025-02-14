@@ -30,15 +30,16 @@ const ButtonContainer = styled(Box)`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start; /* Центрируем по горизонтали */
-  gap: 12px; /* Добавляем промежутки между кнопками */
-  margin-top: 20px;
+  gap: 3rem; /* Добавляем промежутки между кнопками */
+  margin-left: 0.5rem;
 `;
 
 const BankButton = styled.div`
   transition: transform 0.3s ease-in-out;
+  transform: scale(1.1);
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 `;
 
@@ -76,7 +77,7 @@ const DropCashSection = ({ setOpenIndex }) => {
                         sx={{
                             display: "flex",
                             justifyContent: "flex-start",
-                            paddingLeft: '3.2rem',
+                            paddingLeft: '2rem',
                             '@media (max-width: 768px)': {
                                 marginBottom: "20px", // Отступ для мобильных устройств
                             },
@@ -108,7 +109,7 @@ const DropCashSection = ({ setOpenIndex }) => {
                             {/* Заголовок SVG */}
                             <Box
                                 sx={{
-                                    marginBottom: "20px",
+                                    marginBottom: "2.5rem",
                                     '@media (max-width: 768px)': {
                                         maxWidth: "100%",
                                         display: "flex",
@@ -121,12 +122,12 @@ const DropCashSection = ({ setOpenIndex }) => {
                             <Typography
                                 variant="body1"
                                 sx={{
-                                    fontSize: "18px",
-                                    fontWeight: "300",
-                                    lineHeight: "24px",
+                                    fontSize: "24px",
+                                    fontWeight: "400",
+                                    lineHeight: "25px",
                                     color: "#0E1111",
-                                    marginBottom: "16px",
-                                    width: "70%",
+                                    marginBottom: "50px",
+                                    width: "100%",
                                     '@media (max-width: 768px)': {
                                         fontSize: "16px", // Уменьшаем шрифт на мобильных
                                         lineHeight: "22px",
@@ -139,8 +140,10 @@ const DropCashSection = ({ setOpenIndex }) => {
                                     component="span"
                                     sx={{
                                         fontWeight: "bold",
+                                        fontSize: "24px",
                                         display: "block",
                                         lineHeight: "31px",
+                                        marginTop: '1rem',  
                                         '@media (max-width: 768px)': {
                                             lineHeight: "26px",
                                         },
@@ -152,12 +155,12 @@ const DropCashSection = ({ setOpenIndex }) => {
                             <Typography
                                 variant="body1"
                                 sx={{
-                                    fontSize: "18px",
+                                    fontSize: "22px",
                                     fontWeight: "300",
                                     lineHeight: "24px",
                                     color: "#0E1111",
-                                    marginBottom: "16px",
-                                    width: "68%",
+                                    marginBottom: "4rem",
+                                    width: "95%",
                                     '@media (max-width: 768px)': {
                                         fontSize: "16px",
                                         lineHeight: "22px",

@@ -40,3 +40,6 @@ main {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+.leaflet-bottom .leaflet-right {
+  display: none !important;
+}

@@ -32,12 +32,13 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
+          zoom: 1,
           margin: 0,
           padding: 0,
           boxSizing: "border-box",
           fontFamily: "'Inter', sans-serif",
           color: "#fff",
-         // background: "url('/background.svg') no-repeat center top",
+          // background: "url('/background.svg') no-repeat center top",
           backgroundSize: "cover", // Сохраняем пропорции SVG
           minHeight: "100vh",
           overflowX: "hidden",
@@ -74,6 +75,13 @@ const theme = createTheme({
         "::-webkit-scrollbar-thumb:hover": {
           background: "#555",
         },
+        ".leaflet-control-attribution": {
+          display: "none !important",
+        },
+        ".leaflet-top.leaflet-left .leaflet-control-zoom": {
+          left: "10px !important",
+          top: "10px !important",
+        }
       },
     },
   },
@@ -83,7 +91,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline /> 
+      <CssBaseline />
       <App />
     </ThemeProvider>
   </React.StrictMode>

@@ -36,12 +36,21 @@ const HeroSection = () => {
           const response = await fetch("/api/get_currencies_data");
           const data = await response.json();
     
-          // Модифицируем массив: заменяем "RUB(cash)" на "RUB(наличные)"
-          const updatedRates = data.result.map((currency) =>
-            currency.code === "RUB(cash)"
-              ? { ...currency, code: "RUB(наличные)" }
-              : currency
-          );
+          // Фильтруем массив, убираем USDT и заменяем RUB-значения
+          const updatedRates = data.result
+            .filter((currency) => currency.code !== "USDT")
+            .map((currency) => {
+              switch (currency.code) {
+                case "RUB(cash)":
+                  return { ...currency, code: "RUB(наличные)" };
+                case "RUB(online transfer)":
+                  return { ...currency, code: "RUB(онлайн перевод)" };
+                case "RUB(cash settlement)":
+                  return { ...currency, code: "RUB(безналичный расчет)" };
+                default:
+                  return currency;
+              }
+            });
     
           setCurrencyRates(updatedRates);
         } catch (error) {
@@ -51,6 +60,7 @@ const HeroSection = () => {
     
       fetchCurrencyRates();
     }, []);
+    
     
 
   return (
@@ -80,7 +90,7 @@ const HeroSection = () => {
           </Box>
 
           {/* Текст */}
-          <Box sx={{ textAlign: "left", mt: { xs: -8, md: -3 }, maxWidth: "600px" }}>
+          <Box sx={{ textAlign: "left", mt: { xs: -8, md: -3 }, maxWidth: "700px" }}>
             <Typography variant="h4" sx={{ fontSize: { xs: "22px", md: "46px" }, fontWeight: "900", color: "white" }}>
               БЫСТРЫЙ И НАДЕЖНЫЙ
             </Typography>

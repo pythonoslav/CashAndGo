@@ -3,10 +3,11 @@ import { Box, Typography, Button, Stack, List, ListItem, ListItemText } from "@m
 import { ReactComponent as ScooterIcon } from "../DeliveryComponent/assets/Scoter.svg";
 import { ReactComponent as Title } from "../DeliveryComponent/assets/CourierDeleveryTEXT.svg";
 import { ReactComponent as TelegramIcon } from "../../assets/telegram-icon.svg";
-import { ReactComponent as WhatsAppIcon }from "../../assets/whatsapp-icon.svg";
+import { ReactComponent as WhatsAppIcon } from "../../assets/whatsapp-icon.svg";
 import { ReactComponent as Timer } from "../../assets/time_picture.svg"
+import zIndex from "@mui/material/styles/zIndex";
 
-const telegramLink = "https://t.me/"; // Телеги пока что нет
+const telegramLink = "https://t.me/";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 
 
@@ -15,7 +16,7 @@ const CourierDelivery = () => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  
+
   return (
     <Box
       sx={{
@@ -52,10 +53,14 @@ const CourierDelivery = () => {
               color: "#0E1111",
               marginBottom: "20px",
               fontWeight: "600",
+              width: "140%", // Делаем шире родительского блока
+              display: "block", // Гарантирует, что текст растянется
+              textAlign: "left", // Выравнивание
             }}
           >
             Курьерская служба Cash & Go осуществляет доставку тайских бат в любое место Пхукета, Бангкока, Паттайи.
           </Typography>
+
 
           {/* Шаги */}
           <List sx={{ marginBottom: "20px" }}>
@@ -154,16 +159,16 @@ const CourierDelivery = () => {
             <Button
               variant="contained"
               startIcon={<TelegramIcon />}
-              sx={{ borderRadius: "50px", padding: "15px 20px", maxWidth: '293px', backgroundColor: "#27a7e7"}}
+              sx={{ borderRadius: "50px", padding: "15px 20px", maxWidth: '293px', backgroundColor: "#27a7e7" }}
               onClick={() => openLink(telegramLink)}
             >
               Обменять в Telegram
             </Button>
             <Button
               variant="contained"
-              
+
               startIcon={<WhatsAppIcon />}
-              sx={{ borderRadius: "50px", padding: "15px 20px", maxWidth: '293px', backgroundColor: "#2cb742"}}
+              sx={{ borderRadius: "50px", padding: "15px 20px", maxWidth: '293px', backgroundColor: "#2cb742" }}
               onClick={() => openLink(whatsappLink)}
             >
               Обменять в WhatsApp
@@ -177,25 +182,45 @@ const CourierDelivery = () => {
             flex: 1,
             display: "flex",
             justifyContent: "center",
-            flexDirection: "column"
+            flexDirection: "column",
+            ml: -3,
+            position: "relative", // Устанавливаем позицию родительскому контейнеру
           }}
         >
-          <ScooterIcon style={{ height: "auto" }} />
-          <Box sx={{
-            display: "flex",
-            flexDirection: "inline",
-            justifyContent: "flex-start",
-            ml: 6
-          }}>
-            <Typography
+          {/* Иконка скутера */}
+          <ScooterIcon style={{ height: "650px", zIndex: 1, position: "relative" }} />
+
+          {/* Блок с таймером, который будет поверх скутера */}
+          <Box
             sx={{
-              color: "#0E1111",
-              fontWeight: "600",
-              fontSize: "24px"
-            }}> Экономим Ваше время! <br/>Доставка за 1 час</Typography>
-            <Timer style={{height: "90px", width: 'auto'}}/>
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              ml: 6,
+              position: "absolute", // Размещаем поверх
+              bottom: "-10px", 
+              left: "45%", // Смещаем вправо, можно подкорректировать
+              transform: "translateX(-99%)", // Центрируем относительно родителя
+              zIndex: 2, // Выше скутера
+              padding: "8px 12px",
+              borderRadius: "8px",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "#0E1111",
+                fontWeight: "600",
+                fontSize: "24px",
+                mr: 1,
+              }}
+            >
+              Экономим Ваше время! <br />Доставка за 1 час
+            </Typography>
+            <Timer style={{ height: "90px", width: 'auto' }} />
           </Box>
         </Box>
+
       </Box>
     </Box >
   );

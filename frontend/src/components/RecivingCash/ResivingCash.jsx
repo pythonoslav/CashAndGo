@@ -28,7 +28,7 @@ const CustomCarousel = () => {
                 margin: "0 auto",
                 position: "relative",
                 overflow: "hidden",
-                paddingTop: "4rem"
+                marginBottom: "2rem"
             }}
         >
 
@@ -38,6 +38,7 @@ const CustomCarousel = () => {
                     justifyContent: "flex-start",
                     alignItems: "flex-start",
                     mb: "20px",
+                    ml: "2rem"
                     
                 }}
             >
@@ -58,6 +59,7 @@ const CustomCarousel = () => {
                         lineHeight: "22px",
                         textAlign: "left"
                     },
+                    ml: "2rem"
                 }}
             >Обменяйте более 20 видов валют по лучшему курсу в комфортном и современном офисе Cash & Go</Typography>
 
@@ -137,7 +139,8 @@ const CustomCarousel = () => {
                     },
                     '&:hover span': {
                         textDecoration: "underline", 
-                    }
+                    },
+                    ml: "2rem"
                 }}>Адрес: <span>5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand</span></Typography>
 
             <Typography
@@ -146,6 +149,7 @@ const CustomCarousel = () => {
                 fontWeight: "500",
                 width: "100%",
                 color: "#F87000",
+                ml: "2rem"
             }}>
                 Нажмите, чтобы открыть местоположение на карте
             </Typography>

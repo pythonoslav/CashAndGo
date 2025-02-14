@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import Vector from "../../assets/vector_button.svg";
 import InstructionsKasikorn from "./InstructionsKasikorn";
@@ -7,8 +7,9 @@ import InstructionsKrungThai from "./InstructionsKrungThai"
 import InstructionsOnlineTransfer from "./InstructionsOnlineTransfer";
 
 
-const FAQ = ({ openIndex, setOpenIndex }) => {
+const FAQ = () => {
 
+    const [ openIndex, setOpenIndex ] = useState(null)
     const handleToggle = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
@@ -27,7 +28,7 @@ const FAQ = ({ openIndex, setOpenIndex }) => {
         >
             <Box
                 sx={{
-                    maxWidth: "1440px",
+                    maxWidth: "1400px",
                     width: "100%",
                     height: "100%",
                     margin: "0 auto",

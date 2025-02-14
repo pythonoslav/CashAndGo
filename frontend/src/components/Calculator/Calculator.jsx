@@ -251,8 +251,8 @@ const Calculator = ({ currenciesRates }) => {
           }}
         >
           Текущий курс: {activeTab === "buy"
-            ? getCurrencyRate(currencyFrom)?.sell
-            : getCurrencyRate(currencyFrom)?.buy}
+            ? getCurrencyRate(currencyFrom)?.sell.toFixed(5)
+            : getCurrencyRate(currencyFrom)?.buy.toFixed(5)}
         </Box>
         {/* To Amount */}
         <Grid item xs={12}>
