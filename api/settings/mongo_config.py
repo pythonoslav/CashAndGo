@@ -82,7 +82,7 @@ async def save_thb_rates(all_rates, tether: dict):
         if ticker in all_rates:
             rate = all_rates[ticker]
             thb_to_currency = 1 / rate
-            add_result(quotecurrency=ticker, buy=thb_to_currency * 1.01, sell=thb_to_currency / 1.0075)
+            add_result(quotecurrency=ticker, sell=thb_to_currency * 1.01, buy=thb_to_currency / 1.0075)
 
     if "KZT" in all_rates:
         kzt_rate = all_rates["KZT"]
@@ -92,7 +92,7 @@ async def save_thb_rates(all_rates, tether: dict):
         usdt_price_in_thb = tether['tether']['thb']
         modified_usdt_price = usdt_price_in_thb * modifier
         unmodified_usdt_price = usdt_price_in_thb * subtractor
-        add_result(quotecurrency="USDT", buy=modified_usdt_price, sell=unmodified_usdt_price)
+        add_result(quotecurrency="USDT", sell=modified_usdt_price, buy=unmodified_usdt_price)
 
     # Обработка RUB отдельно, чтобы получить необходимые курсы
     if "RUB" in all_rates:
@@ -113,7 +113,7 @@ async def save_thb_rates(all_rates, tether: dict):
         if ticker not in priority_tickers and ticker in all_rates:
             rate = all_rates[ticker]
             thb_to_currency = 1 / rate
-            add_result(ticker, thb_to_currency * modifier, thb_to_currency * subtractor)
+            add_result(ticker, sell=thb_to_currency * modifier, buy=thb_to_currency * subtractor)
 
     # Создаем объект для вставки
     document_to_insert = {
