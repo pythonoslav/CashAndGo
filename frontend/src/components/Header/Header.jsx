@@ -45,13 +45,14 @@ const Header = () => {
                             width: "90%",
                             maxWidth: "600px",
                             height: "60px",
-                            zIndex: 1000,
+                            zIndex: 3000,
                             backgroundColor: "#FFFFFF",
                             borderRadius: "50px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                            
                         }}
                     >
                         <Toolbar
@@ -68,7 +69,7 @@ const Header = () => {
                                     backgroundColor: "#F87000",
                                     width: "40px",
                                     height: "40px",
-                                    borderRadius: "50%",
+                                    borderRadius: "50px",
                                     color: "white",
                                 }}
                                 onClick={handleMenuOpen}
@@ -118,9 +119,9 @@ const Header = () => {
                         </Menu>
                     </AppBar>
                 </>) :
-                    <AppBar position="fixed" sx={{ top: 30, left: "50%", transform: "translateX(-50%)", width: "108%", maxWidth: "1440px", height: "67.2px", zIndex: 1000, backgroundColor: "transparent", borderRadius: "30px", boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.5)" }}>
-                        <Box sx={{ position: "absolute", top: 0, left: 0, width: "68%", height: "100%", backgroundColor: "#ffffff", borderRadius: "36px", zIndex: 1 }} />
-                        <Box sx={{ position: "absolute", bottom: 0, right: 0, width: "60%", height: "100%", backgroundColor: "#f87000", borderRadius: "36px", zIndex: 0 }} />
+                    <AppBar position="fixed" sx={{ top: 30, left: "50%", transform: "translateX(-50%)", width: "108%", maxWidth: "1440px", height: "67.2px", zIndex: 12000, backgroundColor: "transparent", borderRadius: "50px", boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.5)" }}>
+                        <Box sx={{ position: "absolute", top: 0, left: 0, width: "68%", height: "100%", backgroundColor: "#ffffff", borderRadius: "36px", zIndex: 2 }} />
+                        <Box sx={{ position: "absolute", bottom: 0, right: 0, width: "60%", height: "100%", backgroundColor: "#f87000", borderRadius: "36px", zIndex: 1 }} />
 
                         <Toolbar sx={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", padding: "0 24px" }}>
                             {/* Логотип и переключатель языка */}

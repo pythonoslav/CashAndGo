@@ -5,7 +5,6 @@ import { ReactComponent as Title } from "../DeliveryComponent/assets/CourierDele
 import { ReactComponent as TelegramIcon } from "../../assets/telegram-icon.svg";
 import { ReactComponent as WhatsAppIcon } from "../../assets/whatsapp-icon.svg";
 import { ReactComponent as Timer } from "../../assets/time_picture.svg"
-import zIndex from "@mui/material/styles/zIndex";
 
 const telegramLink = "https://t.me/";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
@@ -28,6 +27,7 @@ const CourierDelivery = () => {
         padding: "20px",
         gap: "20px",
         width: "100%",
+        mb: '2rem'
       }}
     >
       <Box
@@ -179,16 +179,18 @@ const CourierDelivery = () => {
         {/* Правый блок */}
         <Box
           sx={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            ml: -3,
-            position: "relative", // Устанавливаем позицию родительскому контейнеру
+            position: "absolute",
+            right: "-10%", // Немного за границы, но не выходит из экрана
+            top: "50%",
+            transform: "translateY(-50%)",
+            maxWidth: "100%",
+            overflow: "hidden", // Гарантируем, что он не вызовет скроллинг
+            clipPath: "inset(0px 10px 0px 0px)", // Визуально обрезаем правую часть
+
           }}
         >
           {/* Иконка скутера */}
-          <ScooterIcon style={{ height: "650px", zIndex: 1, position: "relative" }} />
+          <ScooterIcon style={{ height: "650px", zIndex: 1, position: "relative", overflow: 'hidden' }} />
 
           {/* Блок с таймером, который будет поверх скутера */}
           <Box
@@ -199,7 +201,7 @@ const CourierDelivery = () => {
               alignItems: "center",
               ml: 6,
               position: "absolute", // Размещаем поверх
-              bottom: "-10px", 
+              bottom: "-10px",
               left: "45%", // Смещаем вправо, можно подкорректировать
               transform: "translateX(-99%)", // Центрируем относительно родителя
               zIndex: 2, // Выше скутера

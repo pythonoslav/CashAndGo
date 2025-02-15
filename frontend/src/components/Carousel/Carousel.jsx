@@ -137,14 +137,18 @@ const CustomCarousel = () => {
                     </Typography>
 
                     <Typography
+                        onClick={() => window.open("https://maps.app.goo.gl/5hc6Zqmuhj6ovRFx5?g_st=com.google.maps.preview.copy", "_blank", "noopener,noreferrer")}
                         sx={{
                             fontSize: "32px",
                             fontWeight: "900",
                             color: "#0E1111",
-                        }}
-                    >
-                        Адрес: 5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
-                    </Typography>
+                            cursor: 'pointer',
+                            '&:hover span': {
+                                textDecoration: "underline",
+
+                            },
+                        }}>Адрес: <span>5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand</span></Typography>
+
                 </Box>
 
                 {/* Правая колонка - Карта */}

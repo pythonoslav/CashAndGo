@@ -28,40 +28,40 @@ const HeroSection = () => {
     { country_code: "sa", code: "SAR", buy: 9.12, sell: 9.28 },
     { country_code: "qa", code: "QAR", buy: 9.45, sell: 9.68 },
     { country_code: "bh", code: "BHD", buy: 91.25, sell: 93.49 },
-    ]);
+  ]);
 
-    useEffect(() => {
-      const fetchCurrencyRates = async () => {
-        try {
-          const response = await fetch("/api/get_currencies_data");
-          const data = await response.json();
-    
-          // Фильтруем массив, убираем USDT и заменяем RUB-значения
-          const updatedRates = data.result
-            .filter((currency) => currency.code !== "USDT")
-            .map((currency) => {
-              switch (currency.code) {
-                case "RUB(cash)":
-                  return { ...currency, code: "RUB(наличные)" };
-                case "RUB(online transfer)":
-                  return { ...currency, code: "RUB(онлайн перевод)" };
-                case "RUB(cash settlement)":
-                  return { ...currency, code: "RUB(безналичный расчет)" };
-                default:
-                  return currency;
-              }
-            });
-    
-          setCurrencyRates(updatedRates);
-        } catch (error) {
-          console.error("Ошибка загрузки данных о курсах валют:", error);
-        }
-      };
-    
-      fetchCurrencyRates();
-    }, []);
-    
-    
+  useEffect(() => {
+    const fetchCurrencyRates = async () => {
+      try {
+        const response = await fetch("/api/get_currencies_data");
+        const data = await response.json();
+
+        // Фильтруем массив, убираем USDT и заменяем RUB-значения
+        const updatedRates = data.result
+          .filter((currency) => currency.code !== "USDT")
+          .map((currency) => {
+            switch (currency.code) {
+              case "RUB(cash)":
+                return { ...currency, code: "RUB(наличные)" };
+              case "RUB(online transfer)":
+                return { ...currency, code: "RUB(онлайн перевод)" };
+              case "RUB(cash settlement)":
+                return { ...currency, code: "RUB(безналичный расчет)" };
+              default:
+                return currency;
+            }
+          });
+
+        setCurrencyRates(updatedRates);
+      } catch (error) {
+        console.error("Ошибка загрузки данных о курсах валют:", error);
+      }
+    };
+
+    fetchCurrencyRates();
+  }, []);
+
+
 
   return (
     <Box
@@ -83,7 +83,7 @@ const HeroSection = () => {
     >
       <Container maxWidth={false} sx={{ maxWidth: '1440px', width: "90%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         {/* Header Content */}
-        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center", justifyContent: "space-between", width: "100%", mt: { xs: 0, md: -10   } }}>
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center", justifyContent: "space-between", width: "100%", mt: { xs: 0, md: -10 } }}>
           {/* Логотип */}
           <Box sx={{ flexShrink: 0, display: "flex", justifyContent: "center", svg: { width: "700px", height: "auto" }, "@media (max-width: 768px)": { svg: { width: "350px" } } }}>
             <LogoSVG />
@@ -91,7 +91,15 @@ const HeroSection = () => {
 
           {/* Текст */}
           <Box sx={{ textAlign: "left", mt: { xs: -8, md: -3 }, maxWidth: "700px" }}>
-            <Typography variant="h4" sx={{ fontSize: { xs: "22px", md: "46px" }, fontWeight: "900", color: "white" }}>
+            <Typography
+              variant="h4"
+              sx={{
+                fontSize: { xs: "22px", md: "42px" },
+                fontWeight: "900",
+                color: "white",
+                lineHeight: { xs: "1.2", md: "1.3" } // Динамическое значение line-height
+              }}
+            >
               БЫСТРЫЙ И НАДЕЖНЫЙ
             </Typography>
             <Typography variant="h6" sx={{ fontSize: { xs: "16px", md: "30px" }, fontWeight: "600", lineHeight: "31px", color: "white", mt: 2 }}>

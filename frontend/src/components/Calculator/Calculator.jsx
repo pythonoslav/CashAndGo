@@ -110,7 +110,7 @@ const Calculator = ({ currenciesRates }) => {
       result = valueInTHB / toRate.buy; // Конвертируем в целевую валюту
     }
   
-    setConvertedAmount(result.toFixed(5));
+    setConvertedAmount(result.toFixed(2));
   };
 
   return (
@@ -251,8 +251,8 @@ const Calculator = ({ currenciesRates }) => {
           }}
         >
           Текущий курс: {activeTab === "buy"
-            ? getCurrencyRate(currencyFrom)?.sell.toFixed(5)
-            : getCurrencyRate(currencyFrom)?.buy.toFixed(5)}
+            ? getCurrencyRate(currencyFrom)?.sell.toFixed(2)
+            : getCurrencyRate(currencyFrom)?.buy.toFixed(2)}
         </Box>
         {/* To Amount */}
         <Grid item xs={12}>

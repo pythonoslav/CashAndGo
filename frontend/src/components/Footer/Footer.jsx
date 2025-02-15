@@ -48,6 +48,7 @@ const Footer = () => {
           <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>КОНТАКТЫ</Typography>
           <Typography sx={{ fontSize: "14px", color: "#C0C0C0" }}>тел. +66 95-876-3588</Typography>
           <Typography sx={{ fontSize: "14px", color: "#C0C0C0", textDecoration: "none" }}>e-mail info@cashandgo.exchange</Typography>
+          <Typography sx={{ fontSize: "14px", color: "#C0C0C0", textDecoration: "none" }}>Адрес: 5/27A Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand</Typography>
           <Typography sx={{ fontSize: "18px", fontWeight: "bold", mt: 2 }}>СОЦИАЛЬНЫЕ СЕТИ</Typography>
            {/* Иконки соцсетей */}
            <Box sx={{ display: "flex", justifyContent: "end", gap: "15px", mt: 1 }}>
