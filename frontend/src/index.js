@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client"; // Новый импорт для React
 import App from "./App";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
-// Создаем тему с глобальными стилями
 const theme = createTheme({
   typography: {
     fontFamily: "'Inter', sans-serif",
@@ -14,62 +13,58 @@ const theme = createTheme({
       styleOverrides: {
         html: {
           width: "100vw",
+          maxWidth: "100vw",
           overflowX: "hidden",
           fontSize: "16px",
-          "-webkit-text-size-adjust": "100%", // Исправляем текст в Safari
+          "-webkit-text-size-adjust": "100%",
         },
 
         body: {
           margin: 0,
           padding: 0,
-          width: "100%",
-          minHeight: "100dvh", // Исправление проблем с vh в Safari
+          width: "100vw",
+          minHeight: "100dvh",
+          maxWidth: "100vw",
           boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "center",
           overflowX: "hidden",
-          "-webkit-font-smoothing": "antialiased", // Улучшение шрифтов в macOS
+          "-webkit-font-smoothing": "antialiased",
           "-moz-osx-font-smoothing": "grayscale",
         },
 
         "#root": {
-          width: "100%",
-          height: "100%",
+          width: "100vw",
           maxWidth: "100vw",
+          height: "100%",
           display: "flex",
           flexDirection: "column",
+          overflowX: "hidden",
         },
 
-        // **Fix Retina scaling (Mac)**
-        "@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)": {
-          body: {
-            transform: "scale(0.85)",
-            transformOrigin: "top left",
-          },
-        },
 
-        // **Fix aspect ratio in Chrome 21:9 + уменьшение на 10%**
+        // **Fix aspect ratio in Chrome 21:9**
         "@media screen and (min-aspect-ratio: 21/9)": {
           body: {
-            transform: "scale(0.9)", // Уменьшаем контент на 10%
-            transformOrigin: "top center",
+            maxWidth: "100vw",
+            overflowX: "hidden",
           },
           img: {
-            maxWidth: "90%", // Делаем чуть меньше ширину
+            maxWidth: "100%", // Разрешаем растягивание
             height: "auto",
-            aspectRatio: "16/9",
-            objectFit: "contain",
+            objectFit: "contain", // Запрещаем странное обрезание
           },
           video: {
-            maxWidth: "90%",
+            maxWidth: "100%",
             height: "auto",
-            aspectRatio: "16/9",
-            objectFit: "cover",
+            objectFit: "cover", // Отключаем aspect-ratio 16:9
           },
           ".container": {
-            maxWidth: "85vw", // Немного сужаем контейнер
+            maxWidth: "100vw",
+            width: "100vw", // Разрешаем контейнеру растягиваться
+            overflowX: "hidden",
           },
         },
 
@@ -94,6 +89,7 @@ const theme = createTheme({
     },
   },
 });
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
