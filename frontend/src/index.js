@@ -11,20 +11,22 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        // Базовые стили для html
         html: {
-          width: "100vw",
-          maxWidth: "100vw",
+          width: "100%",       // Вместо 100vw
+          maxWidth: "100%",    // Вместо 100vw
           overflowX: "hidden",
           fontSize: "16px",
-          "-webkit-text-size-adjust": "100%",
+          "-webkit-text-size-adjust": "100%", // Предотвращаем авто-увеличение на iOS
         },
 
+        // Стили для body
         body: {
           margin: 0,
           padding: 0,
-          width: "100vw",
-          minHeight: "100dvh",
-          maxWidth: "100vw",
+          width: "100%",       // Вместо 100vw
+          minHeight: "100vh",  // Можно использовать 100dvh, но осторожно с моб. браузерами
+          maxWidth: "100%",    // Вместо 100vw
           boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
@@ -35,35 +37,43 @@ const theme = createTheme({
           "-moz-osx-font-smoothing": "grayscale",
         },
 
+        // Стили для #root
         "#root": {
-          width: "100vw",
-          maxWidth: "100vw",
+          width: "100%",       // Вместо 100vw
+          maxWidth: "100%",
           height: "100%",
           display: "flex",
           flexDirection: "column",
           overflowX: "hidden",
         },
 
+        // Фиксируем Retina Mac только на >=768px + Retina
+        "@media (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)": {
+          body: {
+            // Уменьшаем масштаб, если нужно исправить рендер на Mac Retina
+            transform: "scale(0.9)",
+            transformOrigin: "top left",
+          },
+        },
 
-        // **Fix aspect ratio in Chrome 21:9**
+        // Фикс для 21:9
         "@media screen and (min-aspect-ratio: 21/9)": {
           body: {
-            maxWidth: "100vw",
             overflowX: "hidden",
           },
           img: {
-            maxWidth: "100%", // Разрешаем растягивание
+            maxWidth: "100%",
             height: "auto",
-            objectFit: "contain", // Запрещаем странное обрезание
+            objectFit: "contain",
           },
           video: {
             maxWidth: "100%",
             height: "auto",
-            objectFit: "cover", // Отключаем aspect-ratio 16:9
+            objectFit: "cover",
           },
           ".container": {
-            maxWidth: "100vw",
-            width: "100vw", // Разрешаем контейнеру растягиваться
+            maxWidth: "100%",
+            width: "100%",
             overflowX: "hidden",
           },
         },
@@ -73,13 +83,13 @@ const theme = createTheme({
         ol: { margin: 0, padding: 0, listStyle: "none" },
         button: { fontFamily: "'Inter', sans-serif", cursor: "pointer" },
 
-        // **Scrollbar styling**
+        // Стили скроллбара
         "::-webkit-scrollbar": { width: "8px" },
         "::-webkit-scrollbar-track": { background: "#f1f1f1", borderRadius: "10px" },
         "::-webkit-scrollbar-thumb": { background: "#888", borderRadius: "10px" },
         "::-webkit-scrollbar-thumb:hover": { background: "#555" },
 
-        // **Fix Leaflet map controls**
+        // Фиксы для Leaflet
         ".leaflet-control-attribution": { display: "none !important" },
         ".leaflet-top.leaflet-left .leaflet-control-zoom": {
           left: "10px !important",
@@ -89,7 +99,6 @@ const theme = createTheme({
     },
   },
 });
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

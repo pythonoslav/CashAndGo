@@ -43,12 +43,22 @@
   </head>
   <script>
     (function() {
-      if (window.devicePixelRatio > 1) { // Если устройство Retina или HiDPI
-        var meta = document.createElement('meta');
-        meta.name = "viewport";
-        meta.content = "width=" + (window.screen.width * window.devicePixelRatio) + ", initial-scale=" + (1 / window.devicePixelRatio);
-        document.getElementsByTagName('head')[0].appendChild(meta);
+      var head = document.getElementsByTagName('head')[0];
+      var meta = document.createElement('meta');
+      meta.name = "viewport";
+      
+      if (window.devicePixelRatio > 1) {
+        // Retina или HiDPI дисплей
+        meta.content = "width="
+          + (window.screen.width * window.devicePixelRatio)
+          + ", initial-scale="
+          + (1 / window.devicePixelRatio);
+      } else {
+        // Обычный дисплей
+        meta.content = "width=device-width, initial-scale=1";
       }
+  
+      head.appendChild(meta);
     })();
   </script>
   <body>

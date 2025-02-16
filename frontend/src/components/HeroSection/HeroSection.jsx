@@ -4,7 +4,6 @@ import Calculator from "../Calculator/Calculator";
 import ExchangeRates from "../ExchangeRates/ExchangeRates";
 import { useEffect, useState } from "react";
 
-
 const HeroSection = () => {
   const [currencyRates, setCurrencyRates] = useState([
     { country_code: "us", code: "USD", buy: 34.21516, sell: 34.96113 },
@@ -61,8 +60,6 @@ const HeroSection = () => {
     fetchCurrencyRates();
   }, []);
 
-
-
   return (
     <Box
       sx={{
@@ -74,64 +71,129 @@ const HeroSection = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
-        padding: "20px 0",
+        py: "20px",
         backgroundImage: "url('/background_top2.svg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Container maxWidth={false} sx={{ maxWidth: '1440px', width: "90%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        {/* Header Content */}
-        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: "center", justifyContent: "space-between", width: "100%", mt: { xs: 0, md: -10 } }}>
-          {/* Логотип */}
-          <Box sx={{ flexShrink: 0, display: "flex", justifyContent: "center", svg: { width: "700px", height: "auto" }, "@media (max-width: 768px)": { svg: { width: "350px" } } }}>
-            <LogoSVG />
-          </Box>
-
-          {/* Текст */}
-          <Box sx={{ textAlign: "left", mt: { xs: -8, md: -3 }, maxWidth: "700px" }}>
-            <Typography
-              variant="h4"
-              sx={{
-                fontSize: { xs: "22px", md: "42px" },
-                fontWeight: "900",
-                color: "white",
-                lineHeight: { xs: "1.2", md: "1.3" } 
-              }}
-            >
-              БЫСТРЫЙ И НАДЕЖНЫЙ
-            </Typography>
-            <Typography variant="h6" sx={{ fontSize: { xs: "16px", md: "30px" }, fontWeight: "600", lineHeight: "31px", color: "white", mt: 2 }}>
-              ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ<br />НА БАТЫ ПО САМОМУ ВЫГОДНОМУ<br />КУРСУ ПО ВСЕМУ ТАЙЛАНДУ
-            </Typography>
-          </Box>
-        </Box>
-
-        {/* Контент: Калькулятор и Курс валют */}
+      <Container
+        maxWidth={false}
+        sx={{
+          width: "100%",             // Расширяем на всю ширину
+          maxWidth: "1440px",
+          px: { xs: 2, md: 3 },      // Отступы слева/справа
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {/* Верхний блок: Логотип + Текст */}
         <Box
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
-            gap: "50px",
-            alignItems: "stretch", // Одинаковая высота для всех дочерних элементов
-            justifyContent: "center",
+            alignItems: "center",
+            justifyContent: "space-between",
             width: "100%",
-            mt: { xs: -4, md: -15 },
+            mt: { xs: 0, md: -8 }, // Уменьшаем отрицательный отступ для md
           }}
         >
-          <Box sx={{ flex: 1, minWidth: "350px", maxWidth: "700px", height: "100%" }}>
-            <Calculator currenciesRates={currencyRates} />
+          {/* Логотип */}
+          <Box
+            sx={{
+              flexShrink: 0,
+              display: "flex",
+              justifyContent: "center",
+              width: { xs: "100%", md: "auto" },
+              svg: {
+                width: { xs: "300px", md: "700px" },
+                height: "auto",
+              },
+            }}
+          >
+            <LogoSVG />
           </Box>
 
-          <Box sx={{ flex: 1, minWidth: "350px", maxWidth: "700px", height: "100%" }}>
-            <ExchangeRates currencyRates={currencyRates} />
+          {/* Текст */}
+          <Box
+            sx={{
+              mt: { xs: 2, md: -2 }, // Убираем большой отрицательный отступ
+              textAlign: { xs: "center", md: "left" },
+              maxWidth: "700px",
+              width: "100%",
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                fontSize: { xs: "20px", md: "42px" },    // Было 16 и 22, теперь чуть крупнее
+                fontWeight: "900",
+                color: "white",
+                lineHeight: { xs: "1.3", md: "1.3" },    // Можно чуть увеличить на мобилке
+              }}
+            >
+              БЫСТРЫЙ И НАДЕЖНЫЙ
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: { xs: "18px", md: "30px" },    // Было 16px → делаем 18px на мобилке
+                fontWeight: "600",
+                lineHeight: { xs: "1.4", md: "31px" },
+                color: "white",
+                mt: 2,
+              }}
+            >
+              ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ <br />
+              НА БАТЫ ПО САМОМУ ВЫГОДНОМУ <br />
+              КУРСУ ПО ВСЕМУ ТАЙЛАНДУ
+            </Typography>
           </Box>
         </Box>
 
+        {/* Калькулятор и Курс валют */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            gap: "30px",                // Уменьшаем разрыв
+            alignItems: "stretch",
+            justifyContent: "center",
+            width: "100%",
+            mt: { xs: 2, md: -10 },    // Сокращаем отрицательный отступ
+          }}
+        >
+          {/* Калькулятор */}
+          <Box
+            sx={{
+              flex: 1,
+              width: "100%",
+              maxWidth: "600px",        // Немного меньше, чтобы не было огромного поля
+              mx: "auto",
+            }}
+          >
+            <Calculator currenciesRates={currencyRates} />
+          </Box>
+
+          {/* Курс валют */}
+          <Box
+            sx={{
+              flex: 1,
+              width: "100%",
+              maxWidth: "600px",
+              mx: "auto",
+            }}
+          >
+            <ExchangeRates currencyRates={currencyRates} />
+          </Box>
+        </Box>
       </Container>
     </Box>
   );
 };
 
 export default HeroSection;
+
+
