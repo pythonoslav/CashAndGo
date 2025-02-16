@@ -97,7 +97,7 @@ async def save_thb_rates(all_rates, tether: dict):
     # Обработка RUB отдельно, чтобы получить необходимые курсы
     if "RUB" in all_rates:
         rub_rate = all_rates["RUB"]
-        add_result(quotecurrency="RUB(online transfer)", buy=rub_rate * 1.065, sell=rub_rate / 1.02, position=0)  # online transfer
+        add_result(quotecurrency="RUB(online transfer)", buy=rub_rate * 1.09, sell=rub_rate / 1.01, position=0)  # online transfer
         add_result(quotecurrency="RUB(cash settlement)", buy=rub_rate * 1.2, sell=rub_rate / 1.05, position=5)  # cash settlement
 
 
