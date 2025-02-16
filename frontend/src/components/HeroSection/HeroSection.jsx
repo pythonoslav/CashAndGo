@@ -97,7 +97,7 @@ const HeroSection = () => {
                 fontSize: { xs: "22px", md: "42px" },
                 fontWeight: "900",
                 color: "white",
-                lineHeight: { xs: "1.2", md: "1.3" } // Динамическое значение line-height
+                lineHeight: { xs: "1.2", md: "1.3" } 
               }}
             >
               БЫСТРЫЙ И НАДЕЖНЫЙ

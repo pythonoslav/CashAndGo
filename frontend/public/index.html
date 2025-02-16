@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="https://cashandgo.exchange/var1.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#000000" />
        <!-- SEO: Title & Description -->
        <title>Cash & Go - быстрый и надежный обмен валюты и криптовалюты в Таиланде</title>
@@ -42,6 +41,16 @@
    
     <title>Cash & Go - currency exchange</title>
   </head>
+  <script>
+    (function() {
+      if (window.devicePixelRatio > 1) { // Если устройство Retina или HiDPI
+        var meta = document.createElement('meta');
+        meta.name = "viewport";
+        meta.content = "width=" + (window.screen.width * window.devicePixelRatio) + ", initial-scale=" + (1 / window.devicePixelRatio);
+        document.getElementsByTagName('head')[0].appendChild(meta);
+      }
+    })();
+  </script>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
