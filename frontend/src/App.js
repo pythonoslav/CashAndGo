@@ -63,6 +63,7 @@ const ModalContent = styled(Box)`
   position: relative;
   display: flex;
   flex-direction: column;
+  background-image: "url('/mail_background.svg')";
 
 
   @media (max-width: 1024px) {
