@@ -72,10 +72,10 @@ const ExchangeRates = ({ currencyRates }) => {
                   </Box>
                 </TableCell>
                 <TableCell align="right" sx={{ fontSize: "1.2rem" }}>
-                  {currency.buy.toFixed(2)}
+                  {currency.sell.toFixed(2)}
                 </TableCell>
                 <TableCell align="right" sx={{ fontSize: "1.2rem" }}>
-                  {currency.sell.toFixed(2)}
+                  {currency.buy.toFixed(2)}
                 </TableCell>
               </TableRow>
             ))}

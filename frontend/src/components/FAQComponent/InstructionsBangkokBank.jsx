@@ -12,8 +12,9 @@ const InstructionsBangkokBank = () => {
             sx={{
                 maxWidth: "90%", 
                 margin: "0 auto",
-                borderRadius: "15px", 
-                padding: "15px", 
+                borderRadius: "50px", 
+                padding: "25px", 
+                backgroundColor: '#ffff'
             }}
         >
             <Typography
@@ -51,7 +52,6 @@ const InstructionsBangkokBank = () => {
                         textAlign: "left",
                         padding: "10px",
                         borderRadius: "10px",
-                        backgroundColor: "#ffffff",
                     }}
                 >
                     <img
@@ -106,7 +106,8 @@ const InstructionsBangkokBank = () => {
                         alt="Шаг 3"
                         style={{
                             width: "100%",
-                            height: "auto",
+                            height: "300px",
+                            objectFit: "cover",
                             borderRadius: "8px",
                             marginBottom: "8px",
                         }}

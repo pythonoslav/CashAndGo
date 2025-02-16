@@ -11,10 +11,11 @@ const InstructionsKasikorn = () => {
     return (
         <Box
             sx={{
-                maxWidth: "90%", // Уменьшили ширину
+                maxWidth: "90%", 
                 margin: "0 auto",
-                borderRadius: "15px", // Уменьшили радиус
-                padding: "15px", // Уменьшили отступ
+                borderRadius: "50px", 
+                padding: "25px", 
+                backgroundColor: '#ffff'
             }}
         >
             <Typography
@@ -52,7 +53,6 @@ const InstructionsKasikorn = () => {
                         textAlign: "left",
                         padding: "10px",
                         borderRadius: "10px",
-                        backgroundColor: "#ffffff",
                     }}
                 >
                     <img
