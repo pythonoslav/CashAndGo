@@ -1,14 +1,12 @@
 import React from "react";
 import { Box, Typography, Button, Stack } from "@mui/material";
-import { ReactComponent as TransferSVG } from "../TransferComponent/assets/TransferSVG.svg"; // Замените на ваш SVG
-import { ReactComponent as TitleSVG } from "../TransferComponent/assets/TitleSVG.svg"; // Замените на ваш SVG
-import { ReactComponent as TelegramIcon } from "../TransferComponent/assets/TelegramIcon.svg"; // Замените на ваш SVG
+import { ReactComponent as TransferSVG } from "../TransferComponent/assets/TransferSVG.svg";
+import { ReactComponent as TitleSVG } from "../TransferComponent/assets/TitleSVG.svg";
+import { ReactComponent as TelegramIcon } from "../TransferComponent/assets/TelegramIcon.svg";
 import { ReactComponent as WhatsAppIcon } from "../TransferComponent/assets/WhatsupIcon.svg";
 
-
-const telegramLink = "https://t.me/"; // Телеги пока что нет
+const telegramLink = "https://t.me/";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
-
 
 const TransferToThaiAccount = () => {
   const openLink = (url) => {
@@ -18,134 +16,117 @@ const TransferToThaiAccount = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: { xs: "column", md: "row" },
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: "12px",
-        padding: "20px",
-        gap: "20px",
         width: "100%",
-        marginBottom: "4rem"
+        p: 2,
+        textAlign: "left",
+        position: "relative",
+        overflow: "hidden", // скрывает выступающее содержимое
       }}
     >
-      <Box
-        sx={{
-          maxWidth: "1440px",
-          width: "100%",
-          height: "100%",
-          margin: "0 auto",
-          position: "relative",
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-        }}
-      >
-        {/* Левый блок */}
-        <Box
+      {/* Заголовок (SVG) */}
+      <Box sx={{ width: "100%", maxWidth: 300, mb: 2, position: "relative", zIndex: 2 }}>
+        <TitleSVG style={{ width: "100%", height: "auto" }} />
+      </Box>
+
+      {/* Текстовый блок */}
+      <Box sx={{ position: "relative", zIndex: 2, pr: "20px" }}>
+        <Typography
           sx={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            mr: { xs: "0", md: "20px" },
+            fontSize: "16px",
+            fontWeight: 600,
+            lineHeight: "18px",
+            color: "#0E1111",
+            mb: '2rem',
+            width: "95%",
           }}
         >
-          <TransferSVG style={{ height: "auto" }} />
-        </Box>
+          Обменивайте валюту с зачислением на Ваш тайский счет любого банка Таиланда!
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "14px",
+            fontWeight: 300,
+            lineHeight: "20px",
+            color: "#0E1111",
+            mb: 1,
+            width: "65%"
+          }}
+        >
+          Выгодный курс и быстрый обмен. Удобный вариант для оплаты жилья и крупных покупок.
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "14px",
+            fontWeight: 300,
+            lineHeight: "20px",
+            color: "#0E1111",
+            mb: 1,
+            width: "65%"
+          }}
+        >
+          Свяжитесь с нами в мессенджере и узнайте актуальный курс.
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "#0E1111",
+            mb: 2,
+          }}
+        >
+          Рассчитайте <br /> курс индивидуально!
+        </Typography>
 
-        {/* Правый блок */}
-        <Box sx={{ flex: 1, textAlign: "left" }}>
-          {/* Заголовок */}
-          <TitleSVG style={{marginBottom: '2rem'}}/>
-
-          {/* Описание */}
-          <Typography
-            variant="body1"
+        <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+          <Button
+            variant="contained"
+            disableRipple
+            startIcon={<TelegramIcon />}
+            onClick={() => openLink(telegramLink)}
             sx={{
-              fontSize: "28px",
-              color: "#0E1111",
-              marginBottom: "2rem",
-              fontWeight: "600",
-              width: "90%",
+              borderRadius: "50%",
+              width: "40px",
+              height: "40px",
+              minWidth: "40px",
+              p: 0,
+              backgroundColor: "transparent", // убираем фон
+              boxShadow: "none",              // убираем тень
+              "&:hover": {
+                backgroundColor: "rgba(0,0,0,0.1)", // или прозрачное изменение
+              },
             }}
-          >
-            Обменивайте валюту с зачислением на Ваш тайский счет любого банка Таиланда!
-          </Typography>
-
-          <Typography
-            variant="body1"
+          />
+          <Button
+            variant="contained"
+            startIcon={<WhatsAppIcon />}
+            onClick={() => openLink(whatsappLink)}
             sx={{
-              fontSize: "22px",
-              color: "#0E1111",
-              marginBottom: "2rem",
-              fontWeight: "300",
-              width: "80%",
+              borderRadius: "50%",
+              width: "40px",
+              height: "40px",
+              minWidth: "40px",
+              p: 0,
+              backgroundColor: "transparent", // убираем фон
+              boxShadow: "none",              // убираем тень
+              "&:hover": {
+                backgroundColor: "rgba(0,0,0,0.1)", // или прозрачное изменение
+              },
             }}
-          >
-            Выгодный курс и быстрый обмен. Удобный вариант для оплаты жилья и крупных покупок.
-          </Typography>
+          />
+        </Stack>
+      </Box>
 
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: "22px",
-              color: "#0E1111",
-              marginBottom: "3.5rem",
-              fontWeight: "300",
-              width: "80%",
-            }}
-          >
-            Свяжитесь с нами в мессенджере и узнайте актуальный курс.
-          </Typography>
-
-          <Typography
-            variant="body1"
-            sx={{
-              color: "#0E1111",
-              fontWeight: "bold",
-              marginBottom: "2rem",
-              fontSize: "24px",
-              width: "70%",
-            }}
-          >
-            Рассчитайте <br /> курс индивидуально!
-          </Typography>
-
-          <Stack direction="row" spacing={4} mt={4} ml={2}>
-            <Button
-              variant="contained"
-              color="none"
-              startIcon={<TelegramIcon />}
-              sx={{
-                borderRadius: "50%",
-                width: "30px",
-                height: "30px",
-                minWidth: "30px",
-                padding: "0",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onClick={() => openLink(telegramLink)}
-            />
-            <Button
-              variant="contained"
-              color="none"
-              startIcon={<WhatsAppIcon />}
-              sx={{
-                borderRadius: "50%",
-                width: "30px",
-                height: "30px",
-                minWidth: "30px",
-                padding: "0",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onClick={() => openLink(whatsappLink)}
-            />
-          </Stack>
-        </Box>
+      {/* Абсолютно позиционированное изображение справа, фиксированной ширины */}
+      <Box
+        sx={{
+          position: "absolute",
+          right: "-40px", // Отрицательный отступ для выхода за правый край
+          top: "40%",
+          width: "230px", // Фиксированная ширина, которая не изменяется
+          zIndex: 1,
+        }}
+      >
+        <TransferSVG style={{ width: "100%", height: "auto" }} />
       </Box>
     </Box>
   );

@@ -53,11 +53,12 @@ const ModalOverlay = styled(Box)`
 const ModalContent = styled(Box)`
   background: url('backgraund_modal.svg') center center / cover no-repeat;
   width: 60%;
-  max-height: 80vh;
+  max-height: calc(100vh - 40px); /* Вычтем отступы */
   overflow-y: auto;
   padding: 20px;
   border-radius: 50px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -80,6 +81,7 @@ const ModalContent = styled(Box)`
     border-radius: 8px;
   }
 `;
+
 
 
 const CloseButton = styled(IconButton)`

@@ -3,345 +3,215 @@ import { Box, Typography, Button, IconButton } from "@mui/material";
 import Vector from "../../assets/vector_button.svg";
 import InstructionsKasikorn from "./InstructionsKasikorn";
 import InstructionsBangkokBank from "./InstructionsBangkokBank";
-import InstructionsKrungThai from "./InstructionsKrungThai"
+import InstructionsKrungThai from "./InstructionsKrungThai";
 import InstructionsOnlineTransfer from "./InstructionsOnlineTransfer";
 
-
 const FAQ = () => {
+    const [openIndex, setOpenIndex] = useState(null);
 
-    const [ openIndex, setOpenIndex ] = useState(null)
     const handleToggle = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "50px",
-                padding: "20px",
-                gap: "20px",
-                width: "100%",
-            }}
-        >
+        <Box sx={{ display: "flex", justifyContent: "center", p: 1.5, width: "100%" }}>
             <Box
                 sx={{
-                    maxWidth: "1400px",
                     width: "100%",
-                    height: "100%",
-                    margin: "0 auto",
-                    position: "relative",
-                    display: "flex",
-                    borderRadius: "50px",
+                    maxWidth: 600, // При необходимости можно убрать или изменить
                     backgroundColor: "#ffffff",
+                    borderRadius: "16px",
+                    p: 1.5,
                 }}
             >
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                        justifyContent: "center",
-                        padding: "20px",
-                        gap: "20px",
-                        width: "100%",
-                    }}
-                >
-                    {/* FAQ Item 1 */}
-                    <Box
+                {/* FAQ Item 1 */}
+                <Box sx={{ borderBottom: "1px solid #f5f5f5", mb: 1 }}>
+                    <Button
+                        onClick={() => handleToggle(0)}
                         sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                             width: "100%",
-                            maxWidth: "1350px", // Ограничение ширины
-                            marginLeft: "auto", // Центрирование
-                            marginRight: "auto", // Центрирование
+                            textTransform: "none",
+                            p: 0,
+                            py: 1,
                         }}
                     >
-                        <Button
-                            onClick={() => handleToggle(0)}
+                        {/* Левый контейнер: две строки */}
+                        <Box sx={{ textAlign: "left" }}>
+                            <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0E1111" }}>
+                                Как снять валюту в банкомате
+                            </Typography>
+                            <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#76B942" }}>
+                                Kasikorn?
+                            </Typography>
+                        </Box>
+
+                        <IconButton
                             sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                width: "100%",
-                                textTransform: "none",
-                                fontSize: "16px",
-                                borderBottom: "1px solid #F5F5F5",
-                                padding: "10px 0",
-                                alignItems: "center",
+                                backgroundColor: "#0055D4",
+                                color: "#fff",
+                                width: "20px",
+                                height: "20px",
+                                borderRadius: "50%",
+                                "&:hover": {
+                                    backgroundColor: "#0033A0",
+                                },
+                                position: "absolute",
+                                right: "10px",
+                                bottom: "6px",
                             }}
                         >
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    fontWeight: "900",
-                                    fontSize: "32px",
-                                    color: "#0E1111",
-                                }}
-                            >
-                                <Typography sx={{ fontWeight: "900", fontSize: "32px", color: "#0E1111" }}>
-                                    Как снять валюту в банкомате{" "}
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        color: "#76B942",
-                                        fontWeight: "900",
-                                        fontSize: "32px",
-                                        marginLeft: "5px",
-                                    }}
-                                >
-                                    Kasikorn
-                                </Typography>
-                            </Box>
-                            <IconButton
-                                sx={{
+                            <img
+                                src={Vector}
+                                alt="Через банкомат"
+                                style={{ width: "14px", height: "14px" }}
+                            />
+                        </IconButton>
+                    </Button>
+                    {openIndex === 0 && <InstructionsKasikorn />}
+                </Box>
 
-                                    backgroundColor: "#0055D4",
-                                    color: "#fff",
-                                    width: "30px",
-                                    height: "30px",
-                                    borderRadius: "50%",
-                                    paddingTop: "5px",
-                                    "&:hover": {
-                                        backgroundColor: "#0033A0",
-                                    },
-                                    position: "absolute", // Абсолютное позиционирование
-                                    right: "10px", // Расположить кнопку в 10px от правого края
-                                    bottom: "20px",
-                                }}
-                            >
-                                <img
-                                    src={Vector}
-                                    alt="Через банкомат"
-                                    style={{ width: "18px", height: "18px" }}
-                                />
-                            </IconButton>
-                        </Button>
-                        {openIndex === 0 && (
-                            <InstructionsKasikorn />
-                        )}
-                    </Box>
-
-                    {/* FAQ Item 2 */}
-                    <Box
+                {/* FAQ Item 2 */}
+                <Box sx={{ borderBottom: "1px solid #f5f5f5", mb: 1 }}>
+                    <Button
+                        onClick={() => handleToggle(1)}
                         sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                             width: "100%",
-                            maxWidth: "1350px", // Ограничение ширины
-                            marginLeft: "auto", // Центрирование
-                            marginRight: "auto", // Центрирование
+                            textTransform: "none",
+                            p: 0,
+                            py: 1,
                         }}
                     >
-                        <Button
-                            onClick={() => handleToggle(1)}
+                        <Box sx={{ textAlign: "left" }}>
+                            <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0E1111" }}>
+                                Как снять валюту в банкомате
+                            </Typography>
+                            <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#085ac4" }}>
+                                Bangkok Bank?
+                            </Typography>
+                        </Box>
+                        <IconButton
                             sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                width: "100%",
-                                textTransform: "none",
-                                fontSize: "16px",
-                                borderBottom: "1px solid #F5F5F5",
-                                padding: "10px 0",
-                                alignItems: "center",
+                                backgroundColor: "#0055D4",
+                                color: "#fff",
+                                width: "20px",
+                                height: "20px",
+                                borderRadius: "50%",
+                                "&:hover": {
+                                    backgroundColor: "#0033A0",
+                                },
+                                position: "absolute",
+                                right: "10px",
+                                bottom: "6px",
                             }}
                         >
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    fontWeight: "900",
-                                    fontSize: "32px",
-                                    color: "#0E1111",
-                                }}
-                            >
-                                <Typography sx={{ fontWeight: "900", fontSize: "32px", color: "#0E1111" }}>
-                                    Как снять валюту в банкомате{" "}
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        color: "#085ac4",
-                                        fontWeight: "900",
-                                        fontSize: "32px",
-                                        marginLeft: "5px",
-                                    }}
-                                >
-                                    Bangkok Bank
-                                </Typography>
-                            </Box>
-                            <IconButton
-                                sx={{
+                            <img
+                                src={Vector}
+                                alt="Через банкомат"
+                                style={{ width: "14px", height: "14px" }}
+                            />
+                        </IconButton>
+                    </Button>
+                    {openIndex === 1 && <InstructionsBangkokBank />}
+                </Box>
 
-                                    backgroundColor: "#0055D4",
-                                    color: "#fff",
-                                    width: "30px",
-                                    height: "30px",
-                                    borderRadius: "50%",
-                                    paddingTop: "5px",
-                                    "&:hover": {
-                                        backgroundColor: "#0033A0",
-                                    },
-                                    position: "absolute", // Абсолютное позиционирование
-                                    right: "10px", // Расположить кнопку в 10px от правого края
-                                    bottom: "20px",
-                                }}
-                            >
-                                <img
-                                    src={Vector}
-                                    alt="Через банкомат"
-                                    style={{ width: "18px", height: "18px" }}
-                                />
-                            </IconButton>
-                        </Button>
-                        {openIndex === 1 && (
-                            <InstructionsBangkokBank />
-                        )}
-                    </Box>
-                    {/* FAQ Item 3 */}
-                    <Box
+                {/* FAQ Item 3 */}
+                <Box sx={{ borderBottom: "1px solid #f5f5f5", mb: 1 }}>
+                    <Button
+                        onClick={() => handleToggle(2)}
                         sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                             width: "100%",
-                            maxWidth: "1350px", // Ограничение ширины
-                            marginLeft: "auto", // Центрирование
-                            marginRight: "auto", // Центрирование
+                            textTransform: "none",
+                            p: 0,
+                            py: 1,
                         }}
                     >
-                        <Button
-                            onClick={() => handleToggle(2)}
+                        <Box sx={{ textAlign: "left" }}>
+                            <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0E1111" }}>
+                                Как снять валюту в банкомате
+                            </Typography>
+                            <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0bb4fe" }}>
+                                Krunghtai?
+                            </Typography>
+                        </Box>
+                        <IconButton
                             sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                width: "100%",
-                                textTransform: "none",
-                                fontSize: "16px",
-                                borderBottom: "1px solid #F5F5F5",
-                                padding: "10px 0",
-                                alignItems: "center",
+                                backgroundColor: "#0055D4",
+                                color: "#fff",
+                                width: "20px",
+                                height: "20px",
+                                borderRadius: "50%",
+                                "&:hover": {
+                                    backgroundColor: "#0033A0",
+                                },
+                                position: "absolute",
+                                right: "10px",
+                                bottom: "6px",
                             }}
                         >
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    fontWeight: "900",
-                                    fontSize: "32px",
-                                    color: "#0E1111",
-                                }}
-                            >
-                                <Typography sx={{ fontWeight: "900", fontSize: "32px", color: "#0E1111" }}>
-                                    Как снять валюту в банкомате{" "}
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        color: "#0bb4fe",
-                                        fontWeight: "900",
-                                        fontSize: "32px",
-                                        marginLeft: "5px",
-                                    }}
-                                >
-                                    Krunghtai
-                                </Typography>
-                            </Box>
-                            <IconButton
-                                sx={{
-                                    backgroundColor: "#0055D4",
-                                    color: "#fff",
-                                    width: "30px",
-                                    height: "30px",
-                                    borderRadius: "50%",
-                                    paddingTop: "5px",
-                                    "&:hover": {
-                                        backgroundColor: "#0033A0",
-                                    },
-                                    position: "absolute", // Абсолютное позиционирование
-                                    right: "10px", // Расположить кнопку в 10px от правого края
-                                    bottom: "20px",
-                                }}
-                            >
-                                <img
-                                    src={Vector}
-                                    alt="Через банкомат"
-                                    style={{ width: "18px", height: "18px" }}
-                                />
-                            </IconButton>
-                        </Button>
-                        {openIndex === 2 && (
-                            <InstructionsKrungThai />
-                        )}
-                    </Box>
-                    {/* FAQ Item 4 */}
-                    <Box
+                            <img
+                                src={Vector}
+                                alt="Через банкомат"
+                                style={{ width: "14px", height: "14px" }}
+                            />
+                        </IconButton>
+                    </Button>
+                    {openIndex === 2 && <InstructionsKrungThai />}
+                </Box>
+
+                {/* FAQ Item 4 */}
+                <Box>
+                    <Button
+                        onClick={() => handleToggle(3)}
                         sx={{
-                            marginBottom: "20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                             width: "100%",
-                            maxWidth: "1350px", // Ограничение ширины
-                            marginLeft: "auto", // Центрирование
-                            marginRight: "auto", // Центрирование
+                            textTransform: "none",
+                            p: 0,
+                            py: 1,
                         }}
                     >
-                        <Button
-                            onClick={() => handleToggle(3)}
+                        <Box sx={{ textAlign: "left" }}>
+                            <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0E1111" }}>
+                                Как совершить обмен через
+                            </Typography>
+                            <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#f87000" }}>
+                                онлайн-перевод?
+                            </Typography>
+                        </Box>
+                        <IconButton
                             sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                width: "100%",
-                                textTransform: "none",
-                                fontSize: "16px",
-                                borderBottom: "1px solid #F5F5F5",
-                                padding: "10px 0",
-                                alignItems: "center",
+                                backgroundColor: "#0055D4",
+                                color: "#fff",
+                                width: "20px",
+                                height: "20px",
+                                borderRadius: "50%",
+                                "&:hover": {
+                                    backgroundColor: "#0033A0",
+                                },
+                                position: "absolute",
+                                right: "10px",
+                                bottom: "6px",
                             }}
                         >
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    fontWeight: "900",
-                                    fontSize: "32px",
-                                    color: "#0E1111",
-                                }}
-                            >
-                                <Typography sx={{ fontWeight: "900", fontSize: "32px", color: "#0E1111" }}>
-                                    Как совершить обмен через{" "}
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        color: "#f87000",
-                                        fontWeight: "900",
-                                        fontSize: "32px",
-                                        marginLeft: "5px",
-                                    }}
-                                >
-                                    онлайн перевод
-                                </Typography>
-                            </Box>
-                            <IconButton
-                                sx={{
-
-                                    backgroundColor: "#0055D4",
-                                    color: "#fff",
-                                    width: "30px",
-                                    height: "30px",
-                                    borderRadius: "50%",
-                                    paddingTop: "5px",
-                                    "&:hover": {
-                                        backgroundColor: "#0033A0",
-                                    },
-                                    position: "absolute", // Абсолютное позиционирование
-                                    right: "10px", // Расположить кнопку в 10px от правого края
-                                    bottom: "20px",
-                                }}
-                            >
-                                <img
-                                    src={Vector}
-                                    alt="Через банкомат"
-                                    style={{ width: "18px", height: "18px" }}
-                                />
-                            </IconButton>
-                        </Button>
-                        {openIndex === 3 && (
-                            <InstructionsOnlineTransfer />
-                        )}
-                    </Box>
+                            <img
+                                src={Vector}
+                                alt="Через банкомат"
+                                style={{ width: "14px", height: "14px" }}
+                            />
+                        </IconButton>
+                    </Button>
+                    {openIndex === 3 && <InstructionsOnlineTransfer />}
                 </Box>
             </Box>
         </Box>

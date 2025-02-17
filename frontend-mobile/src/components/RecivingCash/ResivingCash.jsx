@@ -1,23 +1,20 @@
 import React, { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import "swiper/css";
-import { ReactComponent as RecivingCash } from "../../assets/Receiving_cash.svg";
-import { ReactComponent as ArrowButtonRight } from "../RecivingCash/assets/ArrowButton.svg";
-import { ReactComponent as ArrowButtonLeft } from "../RecivingCash/assets/ArrowButtonBack.svg";
 
+// Стрелки (SVG)
+import { ReactComponent as RecivingCash } from "../../assets/Receiving_cash.svg";
+import ImageCarousel from "../Carousel/MainCarousel";
+
+// Пример изображений для карусели
 const images = [
     "/images/photo1.png",
     "/images/photo2.png",
     "/images/photo3.png",
     "/images/photo4.png",
-    "/images/photo1.png",
-    "/images/photo2.png",
-    "/images/photo3.png",
-    "/images/photo4.png",
-]; // Не убирать повторения, иначе карусель ломается
+];
 
-const CustomCarousel = () => {
+const OfficeCashModal = () => {
     const swiperRef = useRef(null);
 
     return (
@@ -26,135 +23,62 @@ const CustomCarousel = () => {
                 width: "100%",
                 position: "relative",
                 overflow: "hidden",
-                marginBottom: "1.5rem",
+                mt: -2,
             }}
         >
+            {/* Заголовок */}
             {/* Блок с SVG */}
             <Box
                 sx={{
                     display: "flex",
                     justifyContent: "flex-start",
                     alignItems: "flex-start",
-                    mb: "20px",
-                    ml: '2rem'
                 }}
             >
                 <RecivingCash sx={{ width: "750px" }} />
             </Box>
 
-            {/* Описание */}
+            {/* Короткий абзац-описание */}
             <Typography
-                variant="body1"
                 sx={{
-                    fontSize: "18px",
-                    fontWeight: "300",
-                    lineHeight: "24px",
+                    width: '93%',
+                    fontSize: "14px",
+                    fontWeight: 300,
+                    lineHeight: "17px",
                     color: "#0E1111",
-                    marginBottom: "2rem",
-                    ml: '2rem',
-                    "@media (max-width: 768px)": {
-                        fontSize: "16px",
-                        lineHeight: "22px",
-                        textAlign: "left",
-                    },
+                    mb: 2,
                 }}
             >
-                Обменяйте более 20 видов валют по лучшему курсу в комфортном и современном офисе Cash & Go
+                Обменяйте более 20 видов валют по лучшему курсу в комфортном
+                и современном офисе Cash & Go
             </Typography>
 
-            {/* Слайдер */}
-            <Swiper
-                onSwiper={(swiper) => (swiperRef.current = swiper)}
-                slidesPerView={1.5}
-                centeredSlides={true}
-                loopedSlides={images.length}
-                spaceBetween={30}
-                loop={true}
-                initialSlide={1}
-                breakpoints={{
-                    640: { slidesPerView: 1.1, spaceBetween: 20 },
-                    1024: { slidesPerView: 1.5, spaceBetween: 30 },
-                }}
-            >
-                {images.map((image, index) => (
-                    <SwiperSlide key={index}>
-                        <Box
-                            sx={{
-                                width: "100%",
-                                height: "600px",
-                                backgroundImage: `url(${image})`,
-                                backgroundSize: "cover",
-                                backgroundPosition: "center",
-                                borderRadius: "30px",
-                                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-                            }}
-                        />
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+            {/* Карусель */}
+            <ImageCarousel />
 
-            {/* Кнопки переключения */}
-            <IconButton
-                onClick={() => swiperRef.current?.slidePrev()}
+            {/* Часы работы */}
+            <Typography
                 sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "90px",
-                    color: "#fff",
-                    zIndex: 2,
-                    transform: "translateY(-50%)",
+                    fontSize: "16px",
+                    fontWeight: 700,
+                    color: "#0E1111",
+                    mt: 2,
                 }}
             >
-                <ArrowButtonLeft />
-            </IconButton>
-            <IconButton
-                onClick={() => swiperRef.current?.slideNext()}
-                sx={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "90px",
-                    color: "#fff",
-                    zIndex: 2,
-                    transform: "translateY(-50%)",
-                }}
-            >
-                <ArrowButtonRight />
-            </IconButton>
+                Часы работы: <br />
+                ЕЖЕДНЕВНО С 9:00 ДО 18:00
+            </Typography>
 
             {/* Адрес */}
             <Typography
-                variant="h3"
-                onClick={() =>
-                    window.open(
-                        "https://maps.app.goo.gl/5hc6Zqmuhj6ovRFx5?g_st=com.google.maps.preview.copy",
-                        "_blank",
-                        "noopener,noreferrer"
-                    )
-                }
                 sx={{
-                    ml: '2rem',
-                    fontSize: "24px",
-                    fontWeight: "900",
-                    lineHeight: "45px",
+                    fontSize: "16px",
+                    fontWeight: 700,
                     color: "#0E1111",
-                    width: "100%",
-                    marginTop: "2rem",
-                    cursor: "pointer",
-                    "@media (max-width: 768px)": {
-                        fontSize: "16px",
-                        lineHeight: "22px",
-                        textAlign: "left",
-                    },
-                    "&:hover span": {
-                        textDecoration: "underline",
-                    },
+                    mt: 2,
                 }}
             >
-                Адрес:{" "}
-                <span>
-                    5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130,
-                    Thailand
-                </span>
+                Адрес:
             </Typography>
             <Typography
                 onClick={() =>
@@ -165,19 +89,19 @@ const CustomCarousel = () => {
                     )
                 }
                 sx={{
-                    ml: '2rem',
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    width: "100%",
-                    color: "#F87000",
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    color: "#0E1111",
+                    lineHeight: "20px",
                     cursor: "pointer",
-                    mb: "1.5rem",
+                    textDecoration: "underline" ,
+                    mb: 2,
                 }}
             >
-                Нажмите, чтобы открыть местоположение на карте
+                5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
             </Typography>
         </Box>
     );
 };
 
-export default CustomCarousel;
+export default OfficeCashModal;

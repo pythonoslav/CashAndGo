@@ -8,17 +8,13 @@ const ExchangeRates = ({ currencyRates }) => {
         backgroundColor: "#f9f9f9",
         borderRadius: 5,
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-        p: 3,
-        maxWidth: 700, 
-        width: "98%", 
+        p: 2,
+        width: "100%",
+        maxWidth: "100%",
         mx: "auto",
-        height: "521px",
-
         display: "flex",
         flexDirection: "column",
-        "@media (max-width: 768px)": {
-          maxWidth: "95%", 
-        },
+        height: "521px",  // Фиксируем высоту под мобильный дизайн
       }}
     >
       {/* Заголовок */}
@@ -29,52 +25,89 @@ const ExchangeRates = ({ currencyRates }) => {
           mb: 2,
           color: "black",
           textAlign: "left",
-          fontSize: { xs: 16, md: 32 },
+          fontSize: "16px", // Только мобильное значение
         }}
       >
         Курс валют
       </Typography>
 
       {/* Таблица с прокруткой */}
-      <TableContainer className="custom-scrollbar"
+      <TableContainer
+        sx={{
+          flex: 1,          // Занимает всё доступное пространство
+          overflowY: "auto" // Вертикальная прокрутка
+        }}
       >
-
-        <Table>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: "bold", color: "black", fontSize: "1.2rem" }}>Валюта</TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "black", fontSize: "1.2rem" }} align="right">Покупка</TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "black", fontSize: "1.2rem" }} align="right">Продажа</TableCell>
+              <TableCell
+                sx={{
+                  fontWeight: "bold",
+                  color: "black",
+                  fontSize: "14px"
+                }}
+              >
+                Валюта
+              </TableCell>
+              <TableCell
+                align="right"
+                sx={{
+                  fontWeight: "bold",
+                  color: "black",
+                  fontSize: "14px"
+                }}
+              >
+                Покупка
+              </TableCell>
+              <TableCell
+                align="right"
+                sx={{
+                  fontWeight: "bold",
+                  color: "black",
+                  fontSize: "14px"
+                }}
+              >
+                Продажа
+              </TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {currencyRates.map((currency) => (
               <TableRow
                 key={currency.code}
-                sx={{ "&:last-child td, &:last-child th": { border: 0, paddingBottom: "8px" } }}
+                sx={{
+                  "&:last-child td, &:last-child th": {
+                    border: 0,
+                    paddingBottom: "8px",
+                  },
+                }}
               >
-                <TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-
                     <img
                       src={
                         currency.country_code
                           ? `https://flagicons.lipis.dev/flags/4x3/${currency.country_code}.svg`
-                          : "/images/usdt.jpg" 
+                          : "/images/usdt.jpg"
                       }
                       alt={currency.code || "USDT"}
-                      style={{ width: "24px", height: "18px", borderRadius: "3px" }}
+                      style={{
+                        width: "20px",
+                        height: "15px",
+                        borderRadius: "3px",
+                      }}
                     />
-
-                    <Typography sx={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+                    <Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
                       {currency.code}
                     </Typography>
                   </Box>
                 </TableCell>
-                <TableCell align="right" sx={{ fontSize: "1.2rem" }}>
+                <TableCell align="right" sx={{ fontSize: "14px" }}>
                   {currency.buy.toFixed(2)}
                 </TableCell>
-                <TableCell align="right" sx={{ fontSize: "1.2rem" }}>
+                <TableCell align="right" sx={{ fontSize: "14px" }}>
                   {currency.sell.toFixed(2)}
                 </TableCell>
               </TableRow>

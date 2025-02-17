@@ -71,7 +71,7 @@ const logos = [
         sx={{
           display: "grid",
           gridTemplateColumns: {
-            xs: "repeat(2, 1fr)", // 2 в строке для мобильных
+            xs: "repeat(5, 1fr)", // 2 в строке для мобильных
             sm: "repeat(3, 1fr)", // 3 в строке для планшетов
             md: "repeat(4, 1fr)", // 4 в строке для больших экранов
             lg: "repeat(5, 1fr)", // 5 в строке для десктопа

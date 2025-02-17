@@ -125,13 +125,13 @@ const ReviewsCarousel = () => {
 
     return (
         <Box position="relative" width="100%" maxWidth="1400px" mx="auto" py={4} mb={3} >
-            <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "flex-start", mb: "20px", ml: "2rem" }}>
-                <ReviewsTitle sx={{ width: "750px" }} />
+            <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "flex-start", mb: "20px", ml: "2rem",  width: "220px" }}>
+                <ReviewsTitle sx={{ width: "550px", height: 'auto' }} />
             </Box>
             <Swiper
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                 slidesPerView="auto"
-                spaceBetween={20}
+                spaceBetween={15}
                 allowTouchMove={false} // Отключаем ручное перелистывание
                 style={{
                     display: "flex",
@@ -139,7 +139,7 @@ const ReviewsCarousel = () => {
                     overflow: "hidden" // Прячем лишние слайды
                 }}
                 breakpoints={{
-                    640: { slidesPerView: 1.1, spaceBetween: 15 },
+                    640: { slidesPerView: 1.8, spaceBetween: 15 },
                     1024: { slidesPerView: 4.2, spaceBetween: 20 },
                     1440: { slidesPerView: 4.2, spaceBetween: 30 },
                 }}

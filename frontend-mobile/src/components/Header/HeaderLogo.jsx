@@ -7,12 +7,12 @@ const LogoWrapper = styled.div`
   align-items: center;
 
   svg {
-    width: 200px; /* Размер логотипа */
+    width: 300px; /* Размер логотипа */
     height: auto;
 
     /* Адаптация для мобильных */
     @media (max-width: 768px) {
-      width: 80px;
+      width: 110px;
     }
   }
 `;

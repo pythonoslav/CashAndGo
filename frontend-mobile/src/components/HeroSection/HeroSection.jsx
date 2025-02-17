@@ -3,6 +3,7 @@ import { ReactComponent as LogoSVG } from "../../assets/main_logo.svg";
 import Calculator from "../Calculator/Calculator";
 import ExchangeRates from "../ExchangeRates/ExchangeRates";
 import { useEffect, useState } from "react";
+import { Element } from "react-scroll";
 
 const HeroSection = () => {
   const [currencyRates, setCurrencyRates] = useState([
@@ -81,9 +82,8 @@ const HeroSection = () => {
       <Container
         maxWidth={false}
         sx={{
-          width: "100%",             // Расширяем на всю ширину
-          maxWidth: "1440px",
-          px: { xs: 2, md: 3 },      // Отступы слева/справа
+          width: "100%",
+          px: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -93,11 +93,11 @@ const HeroSection = () => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
+            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "center",
             width: "100%",
-            mt: { xs: 0, md: -8 }, // Уменьшаем отрицательный отступ для md
+            mt: "-2rem", // Поднимаем весь блок вверх
           }}
         >
           {/* Логотип */}
@@ -106,9 +106,9 @@ const HeroSection = () => {
               flexShrink: 0,
               display: "flex",
               justifyContent: "center",
-              width: { xs: "100%", md: "auto" },
+              width: "100%",
               svg: {
-                width: { xs: "300px", md: "700px" },
+                width: "400px",  
                 height: "auto",
               },
             }}
@@ -119,8 +119,8 @@ const HeroSection = () => {
           {/* Текст */}
           <Box
             sx={{
-              mt: { xs: 2, md: -2 }, // Убираем большой отрицательный отступ
-              textAlign: { xs: "center", md: "left" },
+              mt: "-5rem", // Уменьшаем расстояние от логотипа до текста
+              textAlign: "left",
               maxWidth: "700px",
               width: "100%",
             }}
@@ -128,10 +128,10 @@ const HeroSection = () => {
             <Typography
               variant="h4"
               sx={{
-                fontSize: { xs: "20px", md: "42px" },    // Было 16 и 22, теперь чуть крупнее
+                fontSize: "24px",
                 fontWeight: "900",
                 color: "white",
-                lineHeight: { xs: "1.3", md: "1.3" },    // Можно чуть увеличить на мобилке
+                lineHeight: "1.3",
               }}
             >
               БЫСТРЫЙ И НАДЕЖНЫЙ
@@ -139,11 +139,11 @@ const HeroSection = () => {
             <Typography
               variant="h6"
               sx={{
-                fontSize: { xs: "18px", md: "30px" },    // Было 16px → делаем 18px на мобилке
-                fontWeight: "600",
-                lineHeight: { xs: "1.4", md: "31px" },
+                fontSize: "18px",
+                fontWeight: "500",
+                lineHeight: "1.4",
                 color: "white",
-                mt: 2,
+                mt: 1, // Поднимаем текст, уменьшая отступ сверху
               }}
             >
               ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ <br />
@@ -153,34 +153,34 @@ const HeroSection = () => {
           </Box>
         </Box>
 
-        {/* Калькулятор и Курс валют */}
+        {/* Блок с калькулятором и курсом валют */}
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            gap: "30px",                // Уменьшаем разрыв
-            alignItems: "stretch",
+            flexDirection: "column",
+            gap: "30px",
+            alignItems: "center",
             justifyContent: "center",
             width: "100%",
-            mt: { xs: 2, md: -10 },    // Сокращаем отрицательный отступ
+            mt: 2,
           }}
         >
           {/* Калькулятор */}
           <Box
             sx={{
-              flex: 1,
               width: "100%",
-              maxWidth: "600px",        // Немного меньше, чтобы не было огромного поля
+              maxWidth: "600px",
               mx: "auto",
             }}
           >
             <Calculator currenciesRates={currencyRates} />
           </Box>
 
+          <Element name="features"></Element>
+
           {/* Курс валют */}
           <Box
             sx={{
-              flex: 1,
               width: "100%",
               maxWidth: "600px",
               mx: "auto",
@@ -195,5 +195,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-
-

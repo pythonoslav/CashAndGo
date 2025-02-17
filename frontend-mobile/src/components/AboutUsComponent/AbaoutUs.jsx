@@ -13,9 +13,9 @@ const AboutUs = () => {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column", // Для адаптивного расположения содержимого
-        padding: "40px 20px",
+        padding: "40px 30px",
         backgroundColor: "#ffffff",
-        borderRadius: "70px",
+        borderRadius: "35px",
         margin: "20px auto",
         maxWidth: "1400px",
         boxShadow: "0px 0px 21.6px rgba(0, 0, 0, 0.05)",
@@ -31,6 +31,7 @@ const AboutUs = () => {
         <Typography
           variant="h4"
           sx={{
+            fontSize: "24px",
             fontWeight: "900",
             color: "#000",
             marginBottom: "20px",
@@ -42,14 +43,14 @@ const AboutUs = () => {
         <Typography
           variant="body1"
           sx={{
-            fontSize: "18px",
+            fontSize: "16x",
             color: "#0E1111",
             lineHeight: "1.6",
             marginBottom: "20px",
             
           }}
         >
-          <strong style={{ color: "#004DB4", fontSize: "32px",  fontWeight: "900", }}>
+          <strong style={{ color: "#004DB4", fontSize: "16px",  fontWeight: "900", }}>
             Cash <strong style={{ color: "#F87000" }}>&</strong> Go
           </strong>{" "}
           - the way you EX change - лицензированный сервис обмена валюты в Таиланде. Наш сервис - это быстрый и простой способ обменять валюту в любой части Таиланда. Понятные методы получения наличных делают процедуру обмена прозрачной и доступной для каждого.
@@ -58,7 +59,7 @@ const AboutUs = () => {
         <Typography
           variant="body1"
           sx={{
-            fontSize: "18px",
+            fontSize: "16px",
             color: "#0E1111",
             lineHeight: "1.6",
             marginBottom: "20px",
@@ -70,7 +71,7 @@ const AboutUs = () => {
         <Typography
           variant="body1"
           sx={{
-            fontSize: "18px",
+            fontSize: "16px",
             color: "#0E1111",
             lineHeight: "1.6",
           }}

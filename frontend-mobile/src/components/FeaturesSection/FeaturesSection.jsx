@@ -56,103 +56,114 @@ const FeatureIcon = styled.div`
 const FeatureCard = ({ icon, title, description, id_name, onClick }) => {
   return (
     <Box
-      onClick={() => onClick(id_name)} // Вызываем openModal с id_name
+      onClick={() => onClick(id_name)}
       sx={{
-        width: "330px",
+        width: "100%",             // Почти вся ширина экрана
         backgroundColor: "#fff",
-        borderRadius: "20px",
+        borderRadius: "16px",
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-        padding: "20px",
-        textAlign: "left",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        padding: "16px",
+        margin: "0 auto",
         cursor: "pointer",
+        position: "relative",     // Для абсолютного позиционирования стрелки
+        display: "flex",
+        flexDirection: "row",     // Размещаем текст и иконку в ряд
+        alignItems: "flex-start", // Выравниваем по верхней границе
         justifyContent: "space-between",
-        height: "100%",
-        position: "relative",
         transition: "transform 0.2s",
+        mb: 3, // Отступ между карточками
         "&:hover": {
-          transform: "scale(1.05)", // Немного увеличиваем карточку при наведении
+          transform: "scale(1.03)",
         },
       }}
     >
-      <Typography
-        variant="h6"
-        sx={{
-          mt: 2,
-          fontSize: "30px",
-          fontWeight: "600",
-          color: "#000",
-          textAlign: "left",
-          width: "75%",
-          lineHeight: 1.2,
-        }}
-      >
-        {Array.isArray(title)
-          ? title.map((line, index) => (
-              <React.Fragment key={index}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))
-          : title}
-      </Typography>
-
-      <Typography
-        variant="h6"
-        sx={{
-          mt: 2,
-          fontSize: "22px",
-          fontWeight: "300",
-          color: "#555",
-          marginBottom: "20px",
-          textAlign: "left",
-          width: "75%",
-        }}
-      >
-        {Array.isArray(description)
-          ? description.map((line, index) => (
-              <React.Fragment key={index}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))
-          : description}
-      </Typography>
-
-      {icon}
-
-      <Box sx={{ position: "relative", width: "100%", mt: 7, mb: -2 }}>
-        <IconButton
-          component={Link}
-          to={id_name}
-          smooth={true}
-          duration={500}
-          offset={-90}
-          spy={true}
+      {/* Левая часть: Заголовок + описание */}
+      <Box sx={{ flex: 1, textAlign: "left" }}>
+        {/* Заголовок карточки */}
+        <Typography
+          variant="h6"
           sx={{
-            backgroundColor: "#0055D4",
-            color: "#fff",
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-            paddingTop: "5px",
-            "&:hover": {
-              backgroundColor: "#0033A0",
-            },
-            position: "absolute",
-            right: "10px",
-            bottom: "20px",
+            fontSize: "16px",
+            fontWeight: 600,
+            color: "#000",
+            lineHeight: '18px',
           }}
         >
-          <img
-            src={Vector}
-            alt="Стрелка"
-            style={{ width: "20px", height: "20px" }}
-          />
-        </IconButton>
+          {Array.isArray(title)
+            ? title.map((line, index) => (
+              <React.Fragment key={index}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))
+            : title}
+        </Typography>
+
+        {/* Описание карточки */}
+        <Typography
+          variant="body2"
+          sx={{
+            mt: 1,
+            fontSize: "14px",
+            fontWeight: 300,
+            color: "#555",
+            lineHeight: '17px',
+
+          }}
+        >
+          {Array.isArray(description)
+            ? description.map((line, index) => (
+              <React.Fragment key={index}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))
+            : description}
+        </Typography>
       </Box>
+
+      {/* Правая часть: Иконка */}
+      <Box
+      sx={{
+        transform: "translateX(-30px)", // сдвиг влево, настраивайте по необходимости
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "90px",
+        height: "90px",
+      }}
+    >
+      {React.cloneElement(icon, { style: { width: "100%", height: "100%" } })}
+    </Box>
+
+      {/* Кнопка-стрелка в правом нижнем углу карточки */}
+      <IconButton
+        component={Link}
+        to={id_name}
+        smooth={true}
+        duration={500}
+        offset={-90}
+        spy={true}
+        sx={{
+          backgroundColor: "#0055D4",
+          color: "#fff",
+          width: "20px",
+          height: "20px",
+          borderRadius: "50%",
+          "&:hover": {
+            backgroundColor: "#0033A0",
+          },
+          position: "absolute",  // Абсолютное позиционирование
+          right: "16px",
+          bottom: "16px",
+        }}
+      >
+        <img
+          src={Vector}
+          alt="Стрелка"
+          style={{ width: "14px", height: "14px" }}
+        />
+      </IconButton>
     </Box>
   );
 };
@@ -193,15 +204,16 @@ const FeaturesSection = ({ openModal, closeModal }) => {
           <WaysToGetCashSVG />
         </TitleContainer>
 
-        <Grid container spacing={3} marginTop={2}>
+        {/* Список карточек: одна колонка */}
+        <Grid container spacing={2} sx={{ width: "100%", margin: 0 }}>
           {features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid item xs={12} key={index}>
               <FeatureCard
                 icon={feature.icon}
                 title={feature.title}
                 description={feature.description}
                 id_name={feature.id_name}
-                onClick={openModal} // Передаем openModal в карточку
+                onClick={openModal}
               />
             </Grid>
           ))}
