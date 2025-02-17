@@ -131,15 +131,29 @@ const Header = () => {
 
                         {/* Навигация */}
                         <Box sx={{ display: "flex", gap: "3.6vw", flexGrow: 1, justifyContent: "center" }}>
-                            <Button component={Link} to="features" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>НАЛИЧНЫЕ</Button>
+                            <Button component={Link} to="features" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>КУРС</Button>
                             <Button component={Link} to="about" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>О НАС</Button>
-                            <Button component={Link} to="faq" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>FAQ</Button>
+                            <Button component={Link} to="faq" smooth={true} duration={500} offset={90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>КОНТАКТЫ</Button>
                         </Box>
 
                         {/* Блок обмена валюты и иконки */}
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Box sx={{ backgroundColor: "#f87000", padding: "10px 20px", borderRadius: "20px", display: "flex", alignItems: "center" }}>
-                                <Typography sx={{ color: "#F9F9E5", fontWeight: "bold", fontSize: "1.2rem", marginRight: "12px" }}>ОБМЕНЯТЬ ВАЛЮТУ</Typography>
+                                <Typography
+                                    sx={{
+                                        color: "#F9F9E5",
+                                        fontWeight: "bold",
+                                        fontSize: "1.15rem",
+                                        marginRight: "12px",
+                                        cursor: "pointer", // Добавляем курсор, чтобы было понятно, что элемент кликабельный
+                                        "&:hover": {
+                                            textDecoration: "underline", // Подчеркивание при наведении
+                                        },
+                                    }}
+                                    onClick={() => window.open("https://t.me/your_telegram_bot", "_blank")}
+                                >
+                                    ОБМЕНЯТЬ ВАЛЮТУ
+                                </Typography>
                                 <img
                                     src={Vector}
                                     alt=" "

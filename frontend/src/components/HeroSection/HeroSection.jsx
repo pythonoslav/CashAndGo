@@ -3,6 +3,7 @@ import { ReactComponent as LogoSVG } from "../../assets/main_logo.svg";
 import Calculator from "../Calculator/Calculator";
 import ExchangeRates from "../ExchangeRates/ExchangeRates";
 import { useEffect, useState } from "react";
+import { Element } from "react-scroll";
 
 const HeroSection = () => {
   const [currencyRates, setCurrencyRates] = useState([
@@ -123,6 +124,7 @@ const HeroSection = () => {
               textAlign: { xs: "center", md: "left" },
               maxWidth: "700px",
               width: "100%",
+              ml: '2rem'
             }}
           >
             <Typography
@@ -176,7 +178,7 @@ const HeroSection = () => {
           >
             <Calculator currenciesRates={currencyRates} />
           </Box>
-
+          <Element name="features"></Element>
           {/* Курс валют */}
           <Box
             sx={{

@@ -43,24 +43,35 @@
   </head>
   <script>
     (function() {
-      var head = document.getElementsByTagName('head')[0];
-      var meta = document.createElement('meta');
-      meta.name = "viewport";
-      
-      if (window.devicePixelRatio > 1) {
-        // Retina или HiDPI дисплей
-        meta.content = "width="
-          + (window.screen.width * window.devicePixelRatio)
-          + ", initial-scale="
-          + (1 / window.devicePixelRatio);
-      } else {
-        // Обычный дисплей
-        meta.content = "width=device-width, initial-scale=1";
+      function isMacDesktopRetina() {
+        const ua = navigator.userAgent;
+        // Mac OS X Desktop = 'Macintosh' / 'Mac OS X' без слов 'Mobile'
+        const isMacDesktop = ua.includes('Mac') && !ua.includes('Mobile');
+        return isMacDesktop && window.devicePixelRatio > 1;
       }
-  
+    
+      const head = document.getElementsByTagName('head')[0];
+      const meta = document.createElement('meta');
+      meta.name = 'viewport';
+    
+      if (isMacDesktopRetina()) {
+        // Только Mac Retina (десктоп)
+        // Ширина = screen.width * dpr, масштаб = 1/dpr
+        meta.content =
+          'width=' +
+          window.screen.width * window.devicePixelRatio +
+          ', initial-scale=' +
+          1 / window.devicePixelRatio;
+      } else {
+        // Обычные устройства (включая iPhone, Android, PC без Retina)
+        meta.content = 'width=device-width, initial-scale=1';
+      }
+    
       head.appendChild(meta);
+
+      
     })();
-  </script>
+    </script>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>

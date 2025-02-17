@@ -1,0 +1,215 @@
+import React, { useState } from "react";
+import Header from "./components/Header/Header";
+import HeroSection from "./components/HeroSection/HeroSection";
+import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
+import FAQ from "./components/FAQComponent/FAQComponent";
+import Footer from "./components/Footer/Footer";
+import { Box, Modal, IconButton, Slide, useMediaQuery } from "@mui/material";
+import styled from "styled-components";
+import { ReactComponent as LastLogo } from "../src/assets/FAQTitle.svg";
+import CloseIcon from "@mui/icons-material/Close";
+
+// Импортируем секции для модалок
+import DropCashSection from "./components/DropCashSection/DropCashSections";
+import ResivingCash from "./components/RecivingCash/ResivingCash";
+import DeliveryComponent from "./components/DeliveryComponent/DeliveryComponent";
+import TransferToThaiAccount from "./components/TransferComponent/TransferToThaiAccaount";
+import AboutUs from "./components/AboutUsComponent/AbaoutUs";
+import InstructionsKasikorn from "./components/FAQComponent/InstructionsKasikorn";
+import CustomCarousel from "./components/Carousel/Carousel";
+import ReviewsCarousel from "./components/Reviews/Reviews";
+import InstructionsBangkokBank from "./components/FAQComponent/InstructionsBangkokBank";
+import InstructionsKrungThai from "./components/FAQComponent/InstructionsKrungThai";
+
+/* 
+  Вместо Wrapper можно использовать Box со стилями.
+  Но оставим styled-components, если нужно более гибко.
+*/
+const MainWrapper = styled(Box)`
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  /* при необходимости: padding: 0 1rem; */
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  margin-left: 2rem;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+`;
+
+const ModalOverlay = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+`;
+
+const ModalContent = styled(Box)`
+  background: #f9f9e5;
+  width: 60%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 20px;
+  border-radius: 50px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 1024px) {
+    width: 90%;
+    max-width: 700px;
+  }
+
+  @media (max-width: 768px) {
+    width: 95%;
+    max-width: 90%;
+    padding: 16px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    max-width: 95%;
+    padding: 12px;
+    border-radius: 8px;
+  }
+`;
+
+const CloseButton = styled(IconButton)`
+  background: white;
+  border: 2px solid #ccc;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #f2f2f2;
+  }
+
+  @media (max-width: 480px) {
+    width: 32px;
+    height: 32px;
+  }
+`;
+
+const App = () => {
+  const [openModal, setOpenModal] = useState(null);
+  const [openNestedModal, setOpenNestedModal] = useState(null);
+  const isMobile = useMediaQuery("(max-width:768px)");
+
+  const handleOpen = (modal) => setOpenModal(modal);
+  const handleClose = () => {
+    setOpenNestedModal(null);
+    setOpenModal(null);
+  };
+
+  return (
+    <Box sx={{ width: "100%", overflowX: "hidden", margin: 0, padding: 0 }}>
+      {/* Вот тут мы всё заворачиваем в MainWrapper */}
+      
+        <Header />
+        <HeroSection />
+
+        <Box
+          sx={{
+            backgroundImage: "url('/mail_background.svg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            pt: { xs: 2, md: 4 },
+            pb: { xs: 2, md: 4 },
+            px: { xs: 1, md: 0 },
+          }}
+        >
+          <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
+          <AboutUs />
+          <CustomCarousel />
+          <ReviewsCarousel />
+          <TitleContainer>
+            <LastLogo
+              style={{
+                marginLeft: isMobile ? "0" : "2rem",
+                width: isMobile ? "200px" : "auto",
+              }}
+            />
+          </TitleContainer>
+          <FAQ />
+        </Box>
+
+        <Footer />
+  
+
+      {/* Модалки */}
+      <Modal open={Boolean(openModal)} onClose={handleClose}>
+        <ModalOverlay>
+          <Slide direction="left" in={Boolean(openModal)} mountOnEnter unmountOnExit>
+            <ModalContent>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ flexGrow: 1 }} />
+                <CloseButton onClick={handleClose}>
+                  <CloseIcon />
+                </CloseButton>
+              </Box>
+
+              {/* Контент модального окна */}
+              {openModal === "atm" && (
+                <DropCashSection setOpenNestedModal={setOpenNestedModal} />
+              )}
+              {openModal === "cash" && <ResivingCash />}
+              {openModal === "courier" && <DeliveryComponent />}
+              {openModal === "check" && <TransferToThaiAccount />}
+            </ModalContent>
+          </Slide>
+        </ModalOverlay>
+      </Modal>
+
+      {/* Вложенное модальное окно (FAQ банков) */}
+      <Modal
+        open={Boolean(openNestedModal)}
+        onClose={() => setOpenNestedModal(null)}
+      >
+        <ModalOverlay>
+          <Slide
+            direction="left"
+            in={Boolean(openNestedModal)}
+            mountOnEnter
+            unmountOnExit
+          >
+            <ModalContent>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ flexGrow: 1 }} />
+                <CloseButton onClick={() => setOpenNestedModal(null)}>
+                  <CloseIcon />
+                </CloseButton>
+              </Box>
+
+              {/* Контент вложенного окна */}
+              {openNestedModal === "Kassicorn" && <InstructionsKasikorn />}
+              {openNestedModal === "Bangkok" && <InstructionsBangkokBank />}
+              {openNestedModal === "Krungthai" && <InstructionsKrungThai />}
+            </ModalContent>
+          </Slide>
+        </ModalOverlay>
+      </Modal>
+    </Box>
+  );
+};
+
+export default App;

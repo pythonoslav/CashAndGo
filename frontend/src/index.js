@@ -47,13 +47,9 @@ const theme = createTheme({
           overflowX: "hidden",
         },
 
-        // Фиксируем Retina Mac только на >=768px + Retina
-        "@media (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)": {
-          body: {
-            // Уменьшаем масштаб, если нужно исправить рендер на Mac Retina
-            transform: "scale(0.9)",
-            transformOrigin: "top left",
-          },
+        ".mac-retina body": {
+          transform: "scale(0.9)",
+          transformOrigin: 'top left',
         },
 
         // Фикс для 21:9

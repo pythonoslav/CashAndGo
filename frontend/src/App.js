@@ -20,17 +20,8 @@ import CustomCarousel from "./components/Carousel/Carousel";
 import ReviewsCarousel from "./components/Reviews/Reviews";
 import InstructionsBangkokBank from "./components/FAQComponent/InstructionsBangkokBank";
 import InstructionsKrungThai from "./components/FAQComponent/InstructionsKrungThai";
+import { Element } from "react-scroll";
 
-/* 
-  Вместо Wrapper можно использовать Box со стилями.
-  Но оставим styled-components, если нужно более гибко.
-*/
-const MainWrapper = styled(Box)`
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  /* при необходимости: padding: 0 1rem; */
-`;
 
 const TitleContainer = styled.div`
   display: flex;
@@ -60,7 +51,7 @@ const ModalOverlay = styled(Box)`
 `;
 
 const ModalContent = styled(Box)`
-  background: #f9f9e5;
+  background: url('backgraund_modal.svg') center center / cover no-repeat;
   width: 60%;
   max-height: 80vh;
   overflow-y: auto;
@@ -89,6 +80,7 @@ const ModalContent = styled(Box)`
     border-radius: 8px;
   }
 `;
+
 
 const CloseButton = styled(IconButton)`
   background: white;
@@ -123,7 +115,6 @@ const App = () => {
 
   return (
     <Box sx={{ width: "100%", overflowX: "hidden", margin: 0, padding: 0 }}>
-      {/* Вот тут мы всё заворачиваем в MainWrapper */}
       
         <Header />
         <HeroSection />
@@ -139,6 +130,7 @@ const App = () => {
           }}
         >
           <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
+          <Element name="about"></Element>
           <AboutUs />
           <CustomCarousel />
           <ReviewsCarousel />
@@ -152,7 +144,7 @@ const App = () => {
           </TitleContainer>
           <FAQ />
         </Box>
-
+        <Element name="faq"></Element>
         <Footer />
   
 

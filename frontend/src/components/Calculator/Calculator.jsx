@@ -9,7 +9,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-
+import telegramIcon from "../../assets/telegram-icon.svg";
 
 
 
@@ -82,22 +82,22 @@ const Calculator = ({ currenciesRates }) => {
 
   const handleConvert = (value, fromCurrency, toCurrency) => {
     setAmount(value);
-  
+
     if (!value) {
       setConvertedAmount("");
       return;
     }
-  
+
     const fromRate = getCurrencyRate(fromCurrency);
     const toRate = getCurrencyRate(toCurrency);
-  
+
     if (!fromRate || !toRate) {
       setConvertedAmount("");
       return;
     }
-  
+
     let result;
-  
+
     if (fromCurrency === "THB") {
       // Если конвертируем из THB в другую валюту
       result = value / toRate.buy;
@@ -109,7 +109,7 @@ const Calculator = ({ currenciesRates }) => {
       const valueInTHB = value * fromRate.sell; // Конвертируем в THB
       result = valueInTHB / toRate.buy; // Конвертируем в целевую валюту
     }
-  
+
     setConvertedAmount(result.toFixed(2));
   };
 
@@ -186,57 +186,57 @@ const Calculator = ({ currenciesRates }) => {
                 margin: "0 15px",
               }}
             />
-              <Select
-                value={currencyFrom}
-                onChange={(e) => {
-                  setCurrencyFrom(e.target.value);
-                  handleConvert(amount, e.target.value, currencyTo);
-                }}
-                variant="standard"
-                disableUnderline
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  fontWeight: "bold",
-                  fontSize: { xs: 12, md: 18 },
-                }}
-              >
-                {currencies.map((currency) => (
-                  <MenuItem
-                    key={currency.code}
-                    value={currency.code}
+            <Select
+              value={currencyFrom}
+              onChange={(e) => {
+                setCurrencyFrom(e.target.value);
+                handleConvert(amount, e.target.value, currencyTo);
+              }}
+              variant="standard"
+              disableUnderline
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                fontWeight: "bold",
+                fontSize: { xs: 12, md: 18 },
+              }}
+            >
+              {currencies.map((currency) => (
+                <MenuItem
+                  key={currency.code}
+                  value={currency.code}
+                  sx={{
+                    fontSize: { xs: 12, md: 16 },
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <Box
                     sx={{
-                      fontSize: { xs: 12, md: 16 },
                       display: "flex",
                       alignItems: "center",
-                      gap: 2,
+                      gap: 1,
                     }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1, 
+                    <img
+                      src={currency.flag}
+                      alt={currency.code}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        border: "1px solid #ccc",
                       }}
-                    >
-                        <img
-                          src={currency.flag}
-                          alt={currency.code}
-                          style={{
-                            width: "20px", 
-                            height: "20px", 
-                            borderRadius: "50%", 
-                            objectFit: "cover", 
-                            border: "1px solid #ccc", 
-                          }}
-                        />
-                      {currency.code}
-                    </Box>
-                  </MenuItem>
-                ))}
-              </Select>
-            
+                    />
+                    {currency.code}
+                  </Box>
+                </MenuItem>
+              ))}
+            </Select>
+
           </Box>
         </Grid>
         <Box
@@ -300,83 +300,120 @@ const Calculator = ({ currenciesRates }) => {
                 margin: "0 15px",
               }}
             />
-              <Select
-                value={currencyTo}
-                onChange={(e) => {
-                  setCurrencyTo(e.target.value);
-                  handleConvert(amount, currencyFrom, e.target.value);
-                }}
-                variant="standard"
-                disableUnderline
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  fontWeight: "bold",
-                  fontSize: { xs: 12, md: 18 },
-                }}
-              >
-                {currencies.map((currency) => (
-                  <MenuItem
-                    key={currency.code}
-                    value={currency.code}
+            <Select
+              value={currencyTo}
+              onChange={(e) => {
+                setCurrencyTo(e.target.value);
+                handleConvert(amount, currencyFrom, e.target.value);
+              }}
+              variant="standard"
+              disableUnderline
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                fontWeight: "bold",
+                fontSize: { xs: 12, md: 18 },
+              }}
+            >
+              {currencies.map((currency) => (
+                <MenuItem
+                  key={currency.code}
+                  value={currency.code}
+                  sx={{
+                    fontSize: { xs: 12, md: 16 },
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <Box
                     sx={{
-                      fontSize: { xs: 12, md: 16 },
                       display: "flex",
                       alignItems: "center",
-                      gap: 2,
+                      gap: 1,
                     }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1, 
+
+                    <img
+                      src={currency.flag}
+                      alt={currency.code}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        border: "1px solid #ccc",
                       }}
-                    >
-                     
-                        <img
-                          src={currency.flag}
-                          alt={currency.code}
-                          style={{
-                            width: "20px", 
-                            height: "20px", 
-                            borderRadius: "50%", 
-                            objectFit: "cover", 
-                            border: "1px solid #ccc", 
-                          }}
-                        />
-                      {currency.code}
-                    </Box>
-                  </MenuItem>
-                ))}
-              </Select>
+                    />
+                    {currency.code}
+                  </Box>
+                </MenuItem>
+              ))}
+            </Select>
           </Box>
         </Grid>
       </Grid>
 
       {/* Button */}
-      <Button
-        variant="contained"
-        fullWidth={false}
+      <Box
         sx={{
-          backgroundColor: "#f87000",
-          color: "#fff",
-          fontWeight: "bold",
-          mt: 3,
-          borderRadius: "20px", 
-          display: "block",
-          textTransform: "none",
-          letterSpacing: "0",
-          mx: "auto", 
-          "&:hover": {
-            backgroundColor: "#ff9000",
-          },
-          transform: 'scale(1.2)'
+          display: "flex",
+          gap: 2, // расстояние между кнопками
+          justifyContent: "center",
+          mt: '0.4rem',
+          mb: '0.4rem'
         }}
       >
-        Способы получения наличных
-      </Button>
+        <Button
+          variant="contained"
+          fullWidth={false}
+          sx={{
+            backgroundColor: "#f87000",
+            color: "#fff",
+            fontWeight: "bold",
+            borderRadius: "24px", // Чуть больше радиус для пропорций
+            textTransform: "none",
+            letterSpacing: "0",
+            padding: "12px 24px", // Делаем больше внутренние отступы
+            minWidth: "220px", // Минимальная ширина для равномерности
+            "&:hover": {
+              backgroundColor: "#ff9000",
+            },
+          }}
+        >
+          Способы получения наличных
+        </Button>
+
+        <Button
+          variant="contained"
+          fullWidth={false}
+          sx={{
+            backgroundColor: "#27a7e7",
+            color: "#fff",
+            fontWeight: "bold",
+            borderRadius: "24px",
+            textTransform: "none",
+            letterSpacing: "0",
+
+            padding: "12px 24px",
+            minWidth: "220px",
+            "&:hover": {
+              backgroundColor: "#2baaff",
+            },
+          }}
+          endIcon={
+            <Box
+              component="img"
+              src={telegramIcon}
+              sx={{ width: 24, height: 24 }} // Чуть увеличиваем иконку
+            />
+          }
+        >
+          Обменять в Telegram
+        </Button>
+      </Box>
+
     </Box>
   );
 };
