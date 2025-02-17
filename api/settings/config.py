@@ -49,7 +49,7 @@ class Settings:
 
     @property
     def api_key(self):
-        return self._get_env("ACCOUNT_KEY")
+        return self._get_env("API_KEY", "e94bd4d653c6149c7af98fe1")
 
     @property
     def exchange_to_rate_request(self):
