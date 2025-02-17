@@ -14,7 +14,7 @@ async def fetch_all_thb(api_settings):
         try:
             thb_convert = await client.get(
                 api_settings.all_thb,
-                auth=(api_settings.account_id, api_settings.api_key)
+                headers={"Authorization": f"Bearer {api_settings.api_key}"}  # Используем Bearer Token
             )
 
             response_tether = await client.get(
