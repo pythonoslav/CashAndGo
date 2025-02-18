@@ -31,11 +31,7 @@ const BankButton = styled.button`
   padding: 0;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
-  transform: scale(1.1);
-
-  &:hover {
-    transform: scale(1.1);
-  }
+  transform: scale(1.4);
 `;
 
 const DropCashSection = ({ setOpenNestedModal }) => {
@@ -49,7 +45,7 @@ const DropCashSection = ({ setOpenNestedModal }) => {
           left: "-5px",
           bottom: "-2px",
           zIndex: 1,
-          width: "270px",
+          width: "250px",
           height: "auto",
         }}
       >
@@ -97,7 +93,7 @@ const DropCashSection = ({ setOpenNestedModal }) => {
             lineHeight: "22px",
             color: "#0E1111",
             mb: 2,
-            marginLeft: "5rem", // Обычное положение
+            marginBottom: "2rem", // Обычное положение
           }}
         >
           Просто найдите ближайший банкомат банка из списка

@@ -125,7 +125,7 @@ const ReviewsCarousel = () => {
 
     return (
         <Box position="relative" width="100%" maxWidth="1400px" mx="auto" py={4} mb={3} >
-            <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "flex-start", mb: "20px", ml: "2rem",  width: "220px" }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "flex-start", mb: "20px", ml: "2rem", width: "220px" }}>
                 <ReviewsTitle sx={{ width: "550px", height: 'auto' }} />
             </Box>
             <Swiper
@@ -204,6 +204,7 @@ const ReviewsCarousel = () => {
                         padding: '8px 16px',      // Отступы внутри кнопки
                         textTransform: 'none',    // Отключаем капс
                         fontWeight: 'bold',
+                        fontSize: '1.05rem',
                         '&:hover': {
                             backgroundColor: '#f87000',
                             opacity: 0.85,

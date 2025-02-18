@@ -35,7 +35,8 @@ const ExchangeRates = ({ currencyRates }) => {
       <TableContainer
         sx={{
           flex: 1,          // Занимает всё доступное пространство
-          overflowY: "auto" // Вертикальная прокрутка
+          overflowY: "auto",
+          overflowX: 'hidden' // Вертикальная прокрутка
         }}
       >
         <Table stickyHeader>

@@ -62,15 +62,15 @@ const Calculator = ({ currenciesRates }) => {
   // Функция для поиска курса по коду валюты
   const getCurrencyRate = (code) => {
     let searchCode = code;
-  
+
     // Подставляем нужную версию RUB
     if (code === "RUB") {
       searchCode = "RUB(безналичный расчет)"; // Или RUB(онлайн перевод), если надо
     }
-  
+
     return currenciesRates.find((c) => c.code === searchCode);
   };
-  
+
 
   const currencies = [
     { code: "RUB", flag: 'https://flagicons.lipis.dev/flags/4x3/ru.svg' },
@@ -87,30 +87,71 @@ const Calculator = ({ currenciesRates }) => {
       return;
     }
 
+    //Если значения  одинаковые 
+    if(fromCurrency == toCurrency){
+      setConvertedAmount(value);
+      return;
+    }
+  
+    // Если в конвертации участвует THB, используем значение из таблицы напрямую
+    if (fromCurrency === "THB") {
+      const targetRate = getCurrencyRate(toCurrency);
+      if (!targetRate) {
+        setConvertedAmount("");
+        return;
+      }
+      // При конвертации из THB – делим введённое значение на курс покупки целевой валюты
+      setConvertedAmount((value / targetRate.buy).toFixed(2));
+      return;
+    }
+    if (toCurrency === "THB") {
+      const sourceRate = getCurrencyRate(fromCurrency);
+      if (!sourceRate) {
+        setConvertedAmount("");
+        return;
+      }
+      // При конвертации в THB – умножаем введённое значение на курс продажи исходной валюты
+      setConvertedAmount((value * sourceRate.sell).toFixed(2));
+      return;
+    }
+  
+    // Если исходная валюта – RUB, то берем курс RUB(безналичный расчет) и конвертируем через THB
+    if (fromCurrency === "RUB") {
+      const rubRate = getCurrencyRate("RUB"); // вернёт RUB(безналичный расчет)
+      const targetRate = getCurrencyRate(toCurrency);
+      if (!rubRate || !targetRate) {
+        setConvertedAmount("");
+        return;
+      }
+      // Сначала конвертируем RUB в THB, затем THB в целевую валюту
+      const valueInTHB = value * rubRate.sell;
+      setConvertedAmount((valueInTHB / targetRate.buy).toFixed(2));
+      return;
+    }
+    // Если целевая валюта – RUB, то также конвертируем через THB с учетом курса RUB
+    if (toCurrency === "RUB") {
+      const rubRate = getCurrencyRate("RUB");
+      const sourceRate = getCurrencyRate(fromCurrency);
+      if (!rubRate || !sourceRate) {
+        setConvertedAmount("");
+        return;
+      }
+      const valueInTHB = value * sourceRate.sell;
+      setConvertedAmount((valueInTHB / rubRate.buy).toFixed(2));
+      return;
+    }
+  
+    // Для всех остальных пар валют – конвертируем через THB
     const fromRate = getCurrencyRate(fromCurrency);
     const toRate = getCurrencyRate(toCurrency);
-
     if (!fromRate || !toRate) {
       setConvertedAmount("");
       return;
     }
-
-    let result;
-    if (fromCurrency === "THB") {
-      // Если конвертируем из THB в другую валюту
-      result = value / toRate.buy;
-    } else if (toCurrency === "THB") {
-      // Если конвертируем в THB
-      result = value * fromRate.sell;
-    } else {
-      // Если конвертируем между двумя валютами через THB
-      const valueInTHB = value * fromRate.sell;
-      result = valueInTHB / toRate.buy;
-    }
-
+    const valueInTHB = value * fromRate.sell;
+    const result = valueInTHB / toRate.buy;
     setConvertedAmount(result.toFixed(2));
   };
-
 
 
   return (
@@ -395,7 +436,13 @@ const Calculator = ({ currenciesRates }) => {
             textTransform: "none",
             letterSpacing: "0",
             padding: "12px 24px",
-            minWidth: "220px",
+            minWidth: "300px", // Сделал ширину такой же, как у второй кнопки
+            height: "45px", // Устанавливаем одинаковую высоту
+            fontSize: "1.05rem", // Увеличенный шрифт
+            lineHeight: "1", // Сохранение высоты текста
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             "&:hover": {
               backgroundColor: "#ff9000",
             },
@@ -415,7 +462,13 @@ const Calculator = ({ currenciesRates }) => {
             textTransform: "none",
             letterSpacing: "0",
             padding: "12px 24px",
-            minWidth: "260px",
+            minWidth: "300px",
+            height: "45px", // Одинаковая высота с первой кнопкой
+            fontSize: "1.05rem",
+            lineHeight: "1",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             "&:hover": {
               backgroundColor: "#2baaff",
             },
@@ -424,13 +477,15 @@ const Calculator = ({ currenciesRates }) => {
             <Box
               component="img"
               src={telegramIcon}
-              sx={{ width: 24, height: 24 }}
+              sx={{ width: 20, height: 20 }}
             />
           }
         >
           Обменять в Telegram
         </Button>
       </Box>
+
+
     </Box>
   );
 };

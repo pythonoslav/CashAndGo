@@ -4,7 +4,7 @@ import HeroSection from "./components/HeroSection/HeroSection";
 import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
 import FAQ from "./components/FAQComponent/FAQComponent";
 import Footer from "./components/Footer/Footer";
-import { Box, Modal, IconButton, Slide, useMediaQuery } from "@mui/material";
+import { Box, Modal, IconButton, Slide } from "@mui/material";
 import styled from "styled-components";
 import { ReactComponent as LastLogo } from "../src/assets/FAQTitle.svg";
 import CloseIcon from "@mui/icons-material/Close";
@@ -24,7 +24,6 @@ import { Element } from "react-scroll";
 import PrivacyPolicy from "./components/Privacy/PrivacyPolicy";
 import TermsAndConditions from "./components/Privacy/TermsAndConditions";
 import CookiePolicy from "./components/Privacy/CookiePolicy";
-
 
 const TitleContainer = styled.div`
   display: flex;
@@ -47,8 +46,7 @@ const ModalOverlay = styled(Box)`
   align-items: center;
   justify-content: center;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 5%;  /* Сместить вниз */
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
@@ -58,7 +56,7 @@ const ModalOverlay = styled(Box)`
 const ModalContent = styled(Box)`
   background: url('backgraund_modal.svg') center center / cover no-repeat;
   width: 60%;
-  max-height: 80vh;
+  max-height: 70vh;
   overflow-y: auto;
   padding: 20px;
   border-radius: 50px;
@@ -88,7 +86,6 @@ const ModalContent = styled(Box)`
   }
 `;
 
-
 const CloseButton = styled(IconButton)`
   background: white;
   border: 2px solid #ccc;
@@ -113,7 +110,6 @@ const App = () => {
   const [openModal, setOpenModal] = useState(null);
   const [openNestedModal, setOpenNestedModal] = useState(null);
 
-
   const handleOpen = (modal) => setOpenModal(modal);
   const handleClose = () => {
     setOpenNestedModal(null);
@@ -122,37 +118,37 @@ const App = () => {
 
   return (
     <Box sx={{ width: "100%", overflowX: "hidden", margin: 0, padding: 0 }}>
-      
-        <Header />
-        <HeroSection />
+      {/* Убираем Header, если модальное окно открыто */}
+      {openModal === null && <Header />}
 
-        <Box
-          sx={{
-            backgroundImage: "url('/mail_background.svg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            pt: { xs: 2, md: 4 },
-            pb: { xs: 2, md: 4 },
-            px: { xs: 1, md: 0 },
-          }}
-        >
-          <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
-          <Element name="about"></Element>
-          <AboutUs />
-          <CustomCarousel />
-          <ReviewsCarousel />
-          <TitleContainer>
-            <LastLogo
-              style={{
-                width: "220px",
-              }}
-            />
-          </TitleContainer>
-          <FAQ />
-        </Box>
-        <Element name="faq"></Element>
-        <Footer setOpenModal={setOpenModal}/>
-  
+      <HeroSection />
+
+      <Box
+        sx={{
+          backgroundImage: "url('/mail_background.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          pt: { xs: 2, md: 4 },
+          pb: { xs: 2, md: 4 },
+          px: { xs: 1, md: 0 },
+        }}
+      >
+        <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
+        <Element name="about"></Element>
+        <AboutUs />
+        <CustomCarousel />
+        <ReviewsCarousel />
+        <TitleContainer>
+          <LastLogo
+            style={{
+              width: "220px",
+            }}
+          />
+        </TitleContainer>
+        <FAQ />
+      </Box>
+      <Element name="faq"></Element>
+      <Footer setOpenModal={setOpenModal} />
 
       {/* Модалки */}
       <Modal open={Boolean(openModal)} onClose={handleClose}>
@@ -167,9 +163,7 @@ const App = () => {
               </Box>
 
               {/* Контент модального окна */}
-              {openModal === "atm" && (
-                <DropCashSection setOpenNestedModal={setOpenNestedModal} />
-              )}
+              {openModal === "atm" && <DropCashSection setOpenNestedModal={setOpenNestedModal} />}
               {openModal === "cash" && <ResivingCash />}
               {openModal === "courier" && <DeliveryComponent />}
               {openModal === "check" && <TransferToThaiAccount />}
@@ -182,17 +176,9 @@ const App = () => {
       </Modal>
 
       {/* Вложенное модальное окно (FAQ банков) */}
-      <Modal
-        open={Boolean(openNestedModal)}
-        onClose={() => setOpenNestedModal(null)}
-      >
+      <Modal open={Boolean(openNestedModal)} onClose={() => setOpenNestedModal(null)}>
         <ModalOverlay>
-          <Slide
-            direction="left"
-            in={Boolean(openNestedModal)}
-            mountOnEnter
-            unmountOnExit
-          >
+          <Slide direction="left" in={Boolean(openNestedModal)} mountOnEnter unmountOnExit>
             <ModalContent>
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ flexGrow: 1 }} />

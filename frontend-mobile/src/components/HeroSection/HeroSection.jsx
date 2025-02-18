@@ -89,7 +89,6 @@ const HeroSection = () => {
           alignItems: "center",
         }}
       >
-        {/* Верхний блок: Логотип + Текст */}
         <Box
           sx={{
             display: "flex",
@@ -176,7 +175,7 @@ const HeroSection = () => {
             <Calculator currenciesRates={currencyRates} />
           </Box>
 
-          <Element name="features"></Element>
+          <Element name="kurs"></Element>
 
           {/* Курс валют */}
           <Box

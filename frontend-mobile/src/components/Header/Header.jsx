@@ -1,5 +1,6 @@
 import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
+import { scroller } from "react-scroll"; // <-- Импортируем scroller
 import HeaderLogo from "./HeaderLogo";
 import telegramIcon from "../../assets/telegram-icon.svg";
 import whatsappIcon from "../../assets/whatsapp-icon.svg";
@@ -12,13 +13,24 @@ const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
-    const isMobile = useMediaQuery("(max-width: 378px)"); // Отслеживаем мобильное разрешение
+    const isMobile = useMediaQuery("(max-width: 378px)");
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleMenuClose = () => {
         setAnchorEl(null);
+    };
+
+    // Функция для плавного скролла к нужному блоку
+    const scrollToSection = (sectionName) => {
+        scroller.scrollTo(sectionName, {
+            duration: 800,       // Время прокрутки (мс)
+            delay: 0,           // Задержка перед началом
+            smooth: "easeInOutQuart", // Тип анимации
+            offset: -60,        // Если нужно подкорректировать позицию (учёт высоты header)
+        });
+        handleMenuClose(); // Закрываем меню после клика
     };
 
     const openLink = (url) => {
@@ -46,7 +58,7 @@ const Header = () => {
                     alignItems: "center",
                     width: "100%",
                     maxWidth: "95%",
-                    margin: "0 auto", // Центрируем Toolbar
+                    margin: "0 auto",
                     padding: "0 10px",
                 }}
             >
@@ -67,7 +79,7 @@ const Header = () => {
                     </IconButton>
                     <HeaderLogo
                         style={{
-                            width: isMobile ? "120px" : "180px", // Уменьшаем на мобилках
+                            width: isMobile ? "120px" : "180px",
                             height: "auto",
                         }}
                     />
@@ -89,9 +101,7 @@ const Header = () => {
                                     textDecoration: "underline",
                                 },
                             }}
-                            onClick={() => {
-                                console.log("Обменять валюту");
-                            }}
+                            onClick={() => scrollToSection("kurs")} // пример: скролл к блоку "КУРС"
                         >
                             ОБМЕНЯТЬ <br /> ВАЛЮТУ
                         </Typography>
@@ -107,7 +117,10 @@ const Header = () => {
                             width: isMobile ? "32px" : "36px",
                             height: isMobile ? "32px" : "36px",
                             borderRadius: "50%",
-                            "& img": { width: isMobile ? "28px" : "30px", height: isMobile ? "28px" : "30px" },
+                            "& img": {
+                                width: isMobile ? "28px" : "30px",
+                                height: isMobile ? "28px" : "30px",
+                            },
                         }}
                         onClick={() => openLink(telegramLink)}
                     >
@@ -119,7 +132,10 @@ const Header = () => {
                             width: isMobile ? "32px" : "36px",
                             height: isMobile ? "32px" : "36px",
                             borderRadius: "50%",
-                            "& img": { width: isMobile ? "28px" : "30px", height: isMobile ? "28px" : "30px" },
+                            "& img": {
+                                width: isMobile ? "28px" : "30px",
+                                height: isMobile ? "28px" : "30px",
+                            },
                         }}
                         onClick={() => openLink(whatsappLink)}
                     >
@@ -143,10 +159,30 @@ const Header = () => {
                     },
                 }}
             >
-                <MenuItem onClick={handleMenuClose}>НАЛИЧНЫЕ</MenuItem>
-                <MenuItem onClick={handleMenuClose}>О НАС</MenuItem>
-                <MenuItem onClick={handleMenuClose}>FAQ</MenuItem>
-                <MenuItem onClick={handleMenuClose}>КОНТАКТЫ</MenuItem>
+                <MenuItem
+                    onClick={() => scrollToSection("kurs")}
+                    sx={{
+                        "&:hover, &:active": {
+                            textDecoration: "underline",
+                        },
+                    }}
+                >КУРС</MenuItem>
+                <MenuItem
+                    onClick={() => scrollToSection("about")}
+                    sx={{
+                        "&:hover, &:active": {
+                            textDecoration: "underline",
+                        },
+                    }}
+                >О НАС</MenuItem>
+                <MenuItem
+                    onClick={() => scrollToSection("faq")}
+                    sx={{
+                        "&:hover, &:active": {
+                            textDecoration: "underline",
+                        },
+                    }}
+                >КОНТАКТЫ</MenuItem>
             </Menu>
         </AppBar>
     );

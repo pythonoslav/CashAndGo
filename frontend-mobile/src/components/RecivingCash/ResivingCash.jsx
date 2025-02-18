@@ -100,6 +100,26 @@ const OfficeCashModal = () => {
             >
                 5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
             </Typography>
+            <Typography
+                onClick={() =>
+                    window.open(
+                        "https://maps.app.goo.gl/5hc6Zqmuhj6ovRFx5?g_st=com.google.maps.preview.copy",
+                        "_blank",
+                        "noopener,noreferrer"
+                    )
+                }
+                sx={{
+                
+                    fontSize: "12px",
+                    fontWeight: "500",
+                    width: "100%",
+                    color: "#F87000",
+                    cursor: "pointer",
+                    mb: "1.5rem",
+                }}
+            >
+                Нажмите, чтобы открыть местоположение на карте
+            </Typography>
         </Box>
     );
 };
