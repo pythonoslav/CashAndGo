@@ -21,6 +21,9 @@ import ReviewsCarousel from "./components/Reviews/Reviews";
 import InstructionsBangkokBank from "./components/FAQComponent/InstructionsBangkokBank";
 import InstructionsKrungThai from "./components/FAQComponent/InstructionsKrungThai";
 import { Element } from "react-scroll";
+import PrivacyPolicy from "./components/Privacy/PrivacyPolicy";
+import TermsAndConditions from "./components/Privacy/TermsAndConditions";
+import CookiePolicy from "./components/Privacy/CookiePolicy";
 
 
 const TitleContainer = styled.div`
@@ -73,6 +76,7 @@ const ModalContent = styled(Box)`
     width: 95%;
     max-width: 90%;
     padding: 16px;
+    overflow-y: "auto",
   }
 
   @media (max-width: 480px) {
@@ -80,6 +84,7 @@ const ModalContent = styled(Box)`
     max-width: 95%;
     padding: 12px;
     border-radius: 8px;
+    overflow-y: "auto",
   }
 `;
 
@@ -107,7 +112,7 @@ const CloseButton = styled(IconButton)`
 const App = () => {
   const [openModal, setOpenModal] = useState(null);
   const [openNestedModal, setOpenNestedModal] = useState(null);
-  const isMobile = useMediaQuery("(max-width:768px)");
+
 
   const handleOpen = (modal) => setOpenModal(modal);
   const handleClose = () => {
@@ -146,7 +151,7 @@ const App = () => {
           <FAQ />
         </Box>
         <Element name="faq"></Element>
-        <Footer />
+        <Footer setOpenModal={setOpenModal}/>
   
 
       {/* Модалки */}
@@ -168,6 +173,9 @@ const App = () => {
               {openModal === "cash" && <ResivingCash />}
               {openModal === "courier" && <DeliveryComponent />}
               {openModal === "check" && <TransferToThaiAccount />}
+              {openModal === "privacy" && <PrivacyPolicy />}
+              {openModal === "terms" && <TermsAndConditions />}
+              {openModal === "cookie" && <CookiePolicy />}
             </ModalContent>
           </Slide>
         </ModalOverlay>

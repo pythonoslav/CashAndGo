@@ -4,21 +4,20 @@ import telegramFooter from "../Footer/assets/telegram_botlane.svg";
 import whatsappFooter from "../Footer/assets/whatsapp_bot.svg";
 import instagramFooter from "../Footer/assets/insta.svg";
 
-const Footer = () => {
+const Footer = ({setOpenModal}) => {
   return (
     <Box
       sx={{
         width: "100%",
         display: "flex",
         justifyContent: "center",
-        
       }}
     >
       <Box
         sx={{
           width: "100%",
-          maxWidth: 600,               // При необходимости меняйте под макет
-          backgroundColor: "#0E0E0E",  // Основной чёрный фон
+          maxWidth: 600,
+          backgroundColor: "#0E0E0E",
           color: "#fff",
           p: 3,
           display: "flex",
@@ -26,7 +25,55 @@ const Footer = () => {
           gap: 2,
         }}
       >
-        {/* Верхняя строка: "Контакты" и логотип справа */}
+        {/* Верхний блок с ссылками */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            flexWrap: "wrap",
+            mb: 2,
+          }}
+        >
+          <Typography
+            onClick={() => setOpenModal("privacy")}
+            sx={{
+              fontSize: "14px",
+              color: "#C0C0C0",
+              textDecoration: "underline",
+              cursor: "pointer",
+              "&:hover": { color: "#ffffff" },
+            }}
+          >
+            Политика конфиденциальности
+          </Typography>
+          <Typography
+            onClick={() => setOpenModal("terms")}
+            sx={{
+              fontSize: "14px",
+              color: "#C0C0C0",
+              textDecoration: "underline",
+              cursor: "pointer",
+              "&:hover": { color: "#ffffff" },
+            }}
+          >
+            Условия и положения
+          </Typography>
+          <Typography
+            onClick={() => setOpenModal("cookie")}
+            sx={{
+              fontSize: "14px",
+              color: "#C0C0C0",
+              textDecoration: "underline",
+              cursor: "pointer",
+              "&:hover": { color: "#ffffff" },
+            }}
+          >
+            Обработка файлов cookie
+          </Typography>
+        </Box>
+
+        {/* Контакты и логотип */}
         <Box
           sx={{
             display: "flex",
@@ -34,12 +81,9 @@ const Footer = () => {
             justifyContent: "space-between",
           }}
         >
-          {/* Блок "Контакты" */}
           <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>
             КОНТАКТЫ
           </Typography>
-
-          {/* Логотип справа */}
           <Box sx={{ width: "120px" }}>
             <LogoSVG style={{ width: "100%", height: "auto" }} />
           </Box>

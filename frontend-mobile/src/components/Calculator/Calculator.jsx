@@ -54,14 +54,23 @@ const ActiveTabIndicator = styled.div`
 
 const Calculator = ({ currenciesRates }) => {
   const [activeTab, setActiveTab] = useState("buy");
-  const [currencyFrom, setCurrencyFrom] = useState("USD");
-  const [currencyTo, setCurrencyTo] = useState("USD");
+  const [currencyFrom, setCurrencyFrom] = useState("RUB");
+  const [currencyTo, setCurrencyTo] = useState("THB");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
 
   // Функция для поиска курса по коду валюты
-  const getCurrencyRate = (code) =>
-    currenciesRates.find((c) => c.code === code);
+  const getCurrencyRate = (code) => {
+    let searchCode = code;
+  
+    // Подставляем нужную версию RUB
+    if (code === "RUB") {
+      searchCode = "RUB(безналичный расчет)"; // Или RUB(онлайн перевод), если надо
+    }
+  
+    return currenciesRates.find((c) => c.code === searchCode);
+  };
+  
 
   const currencies = [
     { code: "RUB", flag: 'https://flagicons.lipis.dev/flags/4x3/ru.svg' },
@@ -102,13 +111,7 @@ const Calculator = ({ currenciesRates }) => {
     setConvertedAmount(result.toFixed(2));
   };
 
-  // Если требуется динамически обновлять курсы – можно добавить useEffect
-  useEffect(() => {
-    // Пример: fetch данных с API
-    // fetch("/api/get_currencies_data")
-    //   .then((res) => res.json())
-    //   .then((data) => { ... });
-  }, []);
+
 
   return (
     <Box

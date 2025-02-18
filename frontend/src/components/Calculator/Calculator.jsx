@@ -62,8 +62,8 @@ const ActiveTabIndicator = styled.div`
 
 const Calculator = ({ currenciesRates }) => {
   const [activeTab, setActiveTab] = useState("buy");
-  const [currencyFrom, setCurrencyFrom] = useState("USD");
-  const [currencyTo, setCurrencyTo] = useState("USD");
+  const [currencyFrom, setCurrencyFrom] = useState("RUB");
+  const [currencyTo, setCurrencyTo] = useState("THB");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
 
@@ -78,7 +78,17 @@ const Calculator = ({ currenciesRates }) => {
 
 
 
-  const getCurrencyRate = (code) => currenciesRates.find((c) => c.code === code);
+   // Функция для поиска курса по коду валюты
+   const getCurrencyRate = (code) => {
+    let searchCode = code;
+  
+    // Подставляем нужную версию RUB
+    if (code === "RUB") {
+      searchCode = "RUB(безналичный расчет)"; // Или RUB(онлайн перевод), если надо
+    }
+  
+    return currenciesRates.find((c) => c.code === searchCode);
+  };
 
   const handleConvert = (value, fromCurrency, toCurrency) => {
     setAmount(value);

@@ -4,7 +4,7 @@ import telegramFooter from '../Footer/assets/telegram_botlane.svg'
 import whatsappFooter from '../Footer/assets/whatsapp_bot.svg'
 import instagramFooter from '../Footer/assets/insta.svg'
 
-const Footer = () => {
+const Footer = ({setOpenModal}) => {
   return (
     <Box
       sx={{
@@ -26,6 +26,53 @@ const Footer = () => {
           alignItems: "center",
         }}
       >
+                {/* Верхний блок с ссылками */}
+                <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            flexWrap: "wrap",
+            mb: 2,
+          }}
+        >
+          <Typography
+            onClick={() => setOpenModal("privacy")}
+            sx={{
+              fontSize: "14px",
+              color: "#C0C0C0",
+              textDecoration: "underline",
+              cursor: "pointer",
+              "&:hover": { color: "#ffffff" },
+            }}
+          >
+            Политика конфиденциальности
+          </Typography>
+          <Typography
+            onClick={() => setOpenModal("terms")}
+            sx={{
+              fontSize: "14px",
+              color: "#C0C0C0",
+              textDecoration: "underline",
+              cursor: "pointer",
+              "&:hover": { color: "#ffffff" },
+            }}
+          >
+            Условия и положения
+          </Typography>
+          <Typography
+            onClick={() => setOpenModal("cookie")}
+            sx={{
+              fontSize: "14px",
+              color: "#C0C0C0",
+              textDecoration: "underline",
+              cursor: "pointer",
+              "&:hover": { color: "#ffffff" },
+            }}
+          >
+            Обработка файлов cookie
+          </Typography>
+        </Box>
         {/* Левый блок - Лого и лицензия */}
         <Box sx={{ flexShrink: 0, mt: -10}}>
           {/* Логотип */}

@@ -21,6 +21,9 @@ import ReviewsCarousel from "./components/Reviews/Reviews";
 import InstructionsBangkokBank from "./components/FAQComponent/InstructionsBangkokBank";
 import InstructionsKrungThai from "./components/FAQComponent/InstructionsKrungThai";
 import { Element } from "react-scroll";
+import PrivacyPolicy from "./components/Privacy/PrivacyPolicy";
+import TermsAndConditions from "./components/Privacy/TermsAndConditions";
+import CookiePolicy from "./components/Privacy/CookiePolicy";
 
 
 const TitleContainer = styled.div`
@@ -147,7 +150,7 @@ const App = () => {
           <FAQ />
         </Box>
         <Element name="faq"></Element>
-        <Footer />
+        <Footer setOpenModal={setOpenModal}/>
   
 
       {/* Модалки */}
@@ -169,6 +172,9 @@ const App = () => {
               {openModal === "cash" && <ResivingCash />}
               {openModal === "courier" && <DeliveryComponent />}
               {openModal === "check" && <TransferToThaiAccount />}
+              {openModal === "privacy" && <PrivacyPolicy />}
+              {openModal === "terms" && <TermsAndConditions />}
+              {openModal === "cookie" && <CookiePolicy />}
             </ModalContent>
           </Slide>
         </ModalOverlay>

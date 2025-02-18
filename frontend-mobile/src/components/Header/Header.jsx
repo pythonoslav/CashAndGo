@@ -1,4 +1,4 @@
-import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import HeaderLogo from "./HeaderLogo";
 import telegramIcon from "../../assets/telegram-icon.svg";
@@ -12,6 +12,7 @@ const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
+    const isMobile = useMediaQuery("(max-width: 378px)"); // Отслеживаем мобильное разрешение
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -28,7 +29,7 @@ const Header = () => {
         <AppBar
             position="fixed"
             sx={{
-                top: "10px", // Небольшой отступ от верха
+                top: "10px",
                 left: 0,
                 width: "100%",
                 height: "60px",
@@ -45,6 +46,7 @@ const Header = () => {
                     alignItems: "center",
                     width: "100%",
                     maxWidth: "95%",
+                    margin: "0 auto", // Центрируем Toolbar
                     padding: "0 10px",
                 }}
             >
@@ -53,71 +55,75 @@ const Header = () => {
                     <IconButton
                         sx={{
                             backgroundColor: "#F87000",
-                            width: "45px",
-                            height: "45px",
+                            width: "40px",
+                            height: "40px",
                             borderRadius: "50px",
                             color: "white",
+                            "& img": { width: "20px", height: "20px" },
                         }}
                         onClick={handleMenuOpen}
                     >
-                        <img src={MenuIcon} alt="Menu" style={{ width: "22px", height: "22px" }} />
+                        <img src={MenuIcon} alt="Menu" />
                     </IconButton>
                     <HeaderLogo
                         style={{
-                            width: "35%", 
-                            maxWidth: "350px",
-                            height: "auto"
+                            width: isMobile ? "120px" : "180px", // Уменьшаем на мобилках
+                            height: "auto",
                         }}
                     />
                 </Box>
 
                 {/* Средний блок: текст и стрелка */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <Typography
-                        sx={{
-                            fontWeight: "600",
-                            fontSize: "0.8rem",
-                            cursor: "pointer",
-                            color: "#004DB4",
-                            textAlign: "center",
-                            ml: '0.5rem',
-                            lineHeight: 1.2,
-                            "&:hover": {
-                                textDecoration: "underline",
-                            },
-                        }}
-                        onClick={() => {
-                            console.log("Обменять валюту");
-                        }}
-                    >
-                        ОБМЕНЯТЬ <br /> ВАЛЮТУ
-                    </Typography>
-                    <img src={Vector} alt="Vector" style={{ width: "55px", height: "20px" }} />
-                </Box>
+                {!isMobile && (
+                    <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                        <Typography
+                            sx={{
+                                fontWeight: "600",
+                                fontSize: "0.9rem",
+                                cursor: "pointer",
+                                color: "#004DB4",
+                                textAlign: "left",
+                                ml: "0.5rem",
+                                lineHeight: 1.2,
+                                "&:hover": {
+                                    textDecoration: "underline",
+                                },
+                            }}
+                            onClick={() => {
+                                console.log("Обменять валюту");
+                            }}
+                        >
+                            ОБМЕНЯТЬ <br /> ВАЛЮТУ
+                        </Typography>
+                        <img src={Vector} alt="Vector" style={{ width: "45px", height: "20px" }} />
+                    </Box>
+                )}
 
                 {/* Правый блок: иконки мессенджеров */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
                     <IconButton
                         sx={{
                             backgroundColor: "#FFFFFF",
-                            width: "36px",
-                            height: "36px",
+                            width: isMobile ? "32px" : "36px",
+                            height: isMobile ? "32px" : "36px",
                             borderRadius: "50%",
+                            "& img": { width: isMobile ? "28px" : "30px", height: isMobile ? "28px" : "30px" },
                         }}
                         onClick={() => openLink(telegramLink)}
                     >
-                        <img src={telegramIcon} alt="Telegram" style={{ width: "30px", height: "30px" }} />
+                        <img src={telegramIcon} alt="Telegram" />
                     </IconButton>
                     <IconButton
                         sx={{
                             backgroundColor: "#FFFFFF",
-                            width: "36px",
-                            height: "36px",
+                            width: isMobile ? "32px" : "36px",
+                            height: isMobile ? "32px" : "36px",
                             borderRadius: "50%",
+                            "& img": { width: isMobile ? "28px" : "30px", height: isMobile ? "28px" : "30px" },
                         }}
                         onClick={() => openLink(whatsappLink)}
                     >
-                        <img src={whatsappIcon} alt="WhatsApp" style={{ width: "30px", height: "30px" }} />
+                        <img src={whatsappIcon} alt="WhatsApp" />
                     </IconButton>
                 </Box>
             </Toolbar>

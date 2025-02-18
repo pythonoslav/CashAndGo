@@ -8,27 +8,27 @@ import { ReactComponent as BangkokButton } from "../../assets/Bangkok_bank_logo.
 import { ReactComponent as KrungthaiButton } from "../../assets/Krungthai.svg";
 
 const DropContainer = styled(Box)`
-  position: relative; /* Ключевой момент — родитель для абсолютного позиционирования */
+  position: relative;
   width: 100%;
-  overflow: hidden;   /* Чтобы скрыть часть иллюстрации, выходящую за пределы */
+  overflow: hidden;
   padding: 20px;
+
+  @media (max-width: 380px) {
+    padding: 16px; /* Чуть уменьшаем отступы */
+  }
 `;
 
-// Контейнер для текстов и логотипов
 const ContentWrapper = styled(Box)`
   position: relative;
-  z-index: 2;         /* Выше иллюстрации */
- /* Отодвигаем контент вправо, чтобы освободить место слева под иллюстрацию */
+  z-index: 2;
   text-align: left;
-  max-width: 100%;   /* При необходимости задайте ширину контента */
+  max-width: 100%;
 `;
 
-// Кнопка-логотип банка
 const BankButton = styled.button`
   background: none;
   border: none;
   padding: 0;
-  margin-left: 1rem;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   transform: scale(1.1);
@@ -41,19 +41,22 @@ const BankButton = styled.button`
 const DropCashSection = ({ setOpenNestedModal }) => {
   return (
     <DropContainer>
-      {/* Абсолютно позиционированная иллюстрация */}
+      {/* Иллюстрация (убирается на экранах < 380px) */}
       <Box
+        className="atm-image"
         sx={{
           position: "absolute",
-          left: "-5px",  
-          bottom: "-2px",    
-          zIndex: 1
+          left: "-5px",
+          bottom: "-2px",
+          zIndex: 1,
+          width: "270px",
+          height: "auto",
         }}
       >
-        <ATM_drop_cash style={{ width: "270px", height: "auto" }} />
+        <ATM_drop_cash style={{ width: "100%", height: "auto" }} />
       </Box>
 
-      {/* Основной контент (заголовок, текст, кнопки) */}
+      {/* Контент */}
       <ContentWrapper>
         {/* Заголовок (SVG) */}
         <Box sx={{ mb: 2 }}>
@@ -70,8 +73,8 @@ const DropCashSection = ({ setOpenNestedModal }) => {
             mb: 2,
           }}
         >
-          Обмен валюты через банкомат в первый раз у многих вызывает затруднение. 
-          Но на самом деле это самый быстрый и удобный способ обналичить деньги 
+          Обмен валюты через банкомат в первый раз у многих вызывает затруднение.
+          Но на самом деле это самый быстрый и удобный способ обналичить деньги
           <Typography
             component="span"
             sx={{
@@ -87,26 +90,28 @@ const DropCashSection = ({ setOpenNestedModal }) => {
 
         {/* Второй абзац */}
         <Typography
+          className="second-text"
           sx={{
             fontSize: "16px",
             fontWeight: 300,
-            marginLeft: '5rem',
             lineHeight: "22px",
             color: "#0E1111",
             mb: 2,
+            marginLeft: "5rem", // Обычное положение
           }}
         >
-          Просто найдите ближайший банкомат банка из списка 
+          Просто найдите ближайший банкомат банка из списка
           и следуйте инструкциям:
         </Typography>
 
-        {/* Логотипы банков в столбик, выравнивание по правому краю */}
+        {/* Логотипы банков (столбик по умолчанию, строка при < 380px) */}
         <Box
+          className="bank-buttons"
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-end",
-            ml: '1rem',
+            gap: "8px",
             mb: 2,
           }}
         >
@@ -121,6 +126,27 @@ const DropCashSection = ({ setOpenNestedModal }) => {
           </BankButton>
         </Box>
       </ContentWrapper>
+
+      {/* Медиа-запросы */}
+      <style>
+        {`
+          @media (max-width: 380px) {
+            .atm-image {
+              display: none; /* Убираем картинку */
+            }
+
+            .second-text {
+              margin-left: 0 !important; /* Убираем отступ */
+            }
+
+            .bank-buttons {
+              flex-direction: row !important;
+              justify-content: center;
+              gap: 10px;
+            }
+          }
+        `}
+      </style>
     </DropContainer>
   );
 };
