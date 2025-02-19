@@ -40,12 +40,10 @@ const HeroSection = () => {
           const updatedRates = data.result
             .map((currency) => {
               switch (currency.code) {
-                case "RUB(cash)":
-                  return { ...currency, code: "RUB(наличные)" };
                 case "RUB(online transfer)":
                   return { ...currency, code: "RUB(онлайн перевод)" };
                 case "RUB(cash settlement)":
-                  return { ...currency, code: "RUB(безналичный расчет)" };
+                  return { ...currency, code: "RUB(наличные)" };
                 default:
                   return currency;
               }

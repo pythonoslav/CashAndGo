@@ -87,6 +87,15 @@ const Calculator = ({ currenciesRates }) => {
     return currenciesRates.find((c) => c.code === searchCode);
   };
 
+
+  // Функция для переключения вкладки с пересчётом
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    // После смены вкладки пересчитываем
+    handleConvert(amount, currencyFrom, currencyTo);
+  };
+
+  
   const handleConvert = (value, fromCurrency, toCurrency) => {
     setAmount(value);
     if (!value) {
