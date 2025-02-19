@@ -118,7 +118,7 @@ const Calculator = ({ currenciesRates }) => {
           setConvertedAmount("");
           return;
         }
-        const valueInTHB = value * rubRate.sell;
+        const valueInTHB = value * rubRate.buy;
         setConvertedAmount((valueInTHB / targetRate.buy).toFixed(2));
         return;
       }
@@ -129,7 +129,7 @@ const Calculator = ({ currenciesRates }) => {
           setConvertedAmount("");
           return;
         }
-        const valueInTHB = value * sourceRate.sell;
+        const valueInTHB = value * sourceRate.buy;
         setConvertedAmount((valueInTHB / rubRate.buy).toFixed(2));
         return;
       }
@@ -139,7 +139,7 @@ const Calculator = ({ currenciesRates }) => {
         setConvertedAmount("");
         return;
       }
-      const valueInTHB = value * fromRate.sell;
+      const valueInTHB = value * fromRate.buy;
       const result = valueInTHB / toRate.buy;
       setConvertedAmount(result.toFixed(2));
     } else {

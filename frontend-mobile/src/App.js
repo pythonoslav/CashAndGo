@@ -56,7 +56,7 @@ const ModalOverlay = styled(Box)`
 const ModalContent = styled(Box)`
   background: url('backgraund_modal.svg') center center / cover no-repeat;
   width: 60%;
-  max-height: 70vh;
+  max-height: 85vh;
   overflow-y: auto;
   padding: 20px;
   border-radius: 50px;
