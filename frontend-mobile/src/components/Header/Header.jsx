@@ -7,7 +7,7 @@ import whatsappIcon from "../../assets/whatsapp-icon.svg";
 import MenuIcon from "../../assets/MenuBurger.svg";
 import Vector from "../Header/strelka.svg";
 
-const telegramLink = "https://t.me/";
+const telegramLink = "https://t.me/cashandgo_th";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 
 const Header = () => {

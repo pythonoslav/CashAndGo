@@ -38,7 +38,7 @@ const HeroSection = () => {
 
         // Фильтруем массив, убираем USDT и заменяем RUB-значения
         const updatedRates = data.result
-          .filter((currency) => currency.code !== "USDT")
+          
           .map((currency) => {
             switch (currency.code) {
               case "RUB(cash)":
@@ -185,7 +185,7 @@ const HeroSection = () => {
               mx: "auto",
             }}
           >
-            <ExchangeRates currencyRates={currencyRates} />
+            <ExchangeRates currencyRates={currencyRates.filter((currency) => currency.code !== "USDT")} />
           </Box>
         </Box>
       </Container>

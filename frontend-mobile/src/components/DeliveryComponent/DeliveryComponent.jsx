@@ -1,12 +1,11 @@
 import React from "react";
 import { Box, Typography, Button, Stack, List, ListItem } from "@mui/material";
-import { ReactComponent as ScooterIcon } from "../DeliveryComponent/assets/Scoter.svg";
 import { ReactComponent as Title } from "../DeliveryComponent/assets/CourierDeleveryTEXT.svg";
 import { ReactComponent as TelegramIcon } from "../DeliveryComponent/assets/tg_delivery.svg";
 import { ReactComponent as WhatsAppIcon } from "../DeliveryComponent/assets/wt_delivery.svg";
 import { ReactComponent as Timer } from "../../assets/time_picture.svg";
 
-const telegramLink = "https://t.me/";
+const telegramLink = "https://t.me/cashandgo_th";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 
 const CourierDelivery = () => {

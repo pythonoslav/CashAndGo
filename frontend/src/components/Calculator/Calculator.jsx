@@ -75,9 +75,6 @@ const Calculator = ({ currenciesRates }) => {
     { code: "THB", flag: 'https://flagicons.lipis.dev/flags/4x3/th.svg' }
   ];
 
-
-
-
    // Функция для поиска курса по коду валюты
    const getCurrencyRate = (code) => {
     let searchCode = code;
@@ -301,8 +298,8 @@ const Calculator = ({ currenciesRates }) => {
           }}
         >
           Текущий курс: {activeTab === "buy"
-            ? getCurrencyRate(currencyFrom)?.sell.toFixed(2)
-            : getCurrencyRate(currencyFrom)?.buy.toFixed(2)}
+            ? getCurrencyRate(currencyFrom)?.buy.toFixed(2)
+            : getCurrencyRate(currencyFrom)?.sell.toFixed(2)}
         </Box>
         {/* To Amount */}
         <Grid item xs={12}>
@@ -437,6 +434,7 @@ const Calculator = ({ currenciesRates }) => {
 
         <Button
           variant="contained"
+          onClick={() => window.open("https://t.me/cashandgo_th", "_blank")}
           fullWidth={false}
           sx={{
             backgroundColor: "#27a7e7",

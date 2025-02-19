@@ -107,7 +107,7 @@ const Footer = ({setOpenModal}) => {
         <Box sx={{ display: "flex", gap: "15px", mt: 1 }}>
           <IconButton
             component="a"
-            href="https://t.me/yourchannel"
+            href="https://t.me/cashandgo_th"
             target="_blank"
             rel="noopener noreferrer"
             sx={{

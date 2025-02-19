@@ -86,72 +86,129 @@ const Calculator = ({ currenciesRates }) => {
       setConvertedAmount("");
       return;
     }
-
-    //Если значения  одинаковые 
-    if(fromCurrency == toCurrency){
+  
+    // Если валюты одинаковые, возвращаем исходное значение
+    if (fromCurrency === toCurrency) {
       setConvertedAmount(value);
       return;
     }
   
-    // Если в конвертации участвует THB, используем значение из таблицы напрямую
-    if (fromCurrency === "THB") {
-      const targetRate = getCurrencyRate(toCurrency);
-      if (!targetRate) {
+    if (activeTab === "buy") {
+      // Режим покупки: используем source.sell и target.buy
+      if (fromCurrency === "THB") {
+        const targetRate = getCurrencyRate(toCurrency);
+        if (!targetRate) {
+          setConvertedAmount("");
+          return;
+        }
+        // Конвертация из THB: делим сумму на курс покупки целевой валюты
+        setConvertedAmount((value / targetRate.buy).toFixed(2));
+        return;
+      }
+      if (toCurrency === "THB") {
+        const sourceRate = getCurrencyRate(fromCurrency);
+        if (!sourceRate) {
+          setConvertedAmount("");
+          return;
+        }
+        // Конвертация в THB: делим сумму на курс продажи исходной валюты
+        setConvertedAmount((value / sourceRate.sell).toFixed(2));
+        return;
+      }
+      if (fromCurrency === "RUB") {
+        const rubRate = getCurrencyRate("RUB"); // Например, RUB(безналичный расчет)
+        const targetRate = getCurrencyRate(toCurrency);
+        if (!rubRate || !targetRate) {
+          setConvertedAmount("");
+          return;
+        }
+        // Сначала конвертируем RUB в THB через курс продажи RUB
+        const valueInTHB = value * rubRate.sell;
+        setConvertedAmount((valueInTHB / targetRate.buy).toFixed(2));
+        return;
+      }
+      if (toCurrency === "RUB") {
+        const rubRate = getCurrencyRate("RUB");
+        const sourceRate = getCurrencyRate(fromCurrency);
+        if (!rubRate || !sourceRate) {
+          setConvertedAmount("");
+          return;
+        }
+        // Сначала конвертируем исходную валюту в THB, затем в RUB через курс покупки RUB
+        const valueInTHB = value * sourceRate.sell;
+        setConvertedAmount((valueInTHB / rubRate.buy).toFixed(2));
+        return;
+      }
+      // Для остальных пар валют – конвертация через THB
+      const fromRate = getCurrencyRate(fromCurrency);
+      const toRate = getCurrencyRate(toCurrency);
+      if (!fromRate || !toRate) {
         setConvertedAmount("");
         return;
       }
-      // При конвертации из THB – делим введённое значение на курс покупки целевой валюты
-      setConvertedAmount((value / targetRate.buy).toFixed(2));
-      return;
-    }
-    if (toCurrency === "THB") {
-      const sourceRate = getCurrencyRate(fromCurrency);
-      if (!sourceRate) {
+      const valueInTHB = value * fromRate.sell;
+      const result = valueInTHB / toRate.buy;
+      setConvertedAmount(result.toFixed(2));
+    } else {
+      // Режим продажи: используем source.buy и target.sell
+      if (fromCurrency === "THB") {
+        const targetRate = getCurrencyRate(toCurrency);
+        if (!targetRate) {
+          setConvertedAmount("");
+          return;
+        }
+        // При продаже THB: делим сумму на курс продажи целевой валюты
+        setConvertedAmount((value / targetRate.sell).toFixed(2));
+        return;
+      }
+      if (toCurrency === "THB") {
+        const sourceRate = getCurrencyRate(fromCurrency);
+        if (!sourceRate) {
+          setConvertedAmount("");
+          return;
+        }
+        // При продаже в THB: делим сумму на курс покупки исходной валюты
+        setConvertedAmount((value / sourceRate.buy).toFixed(2));
+        return;
+      }
+      if (fromCurrency === "RUB") {
+        const rubRate = getCurrencyRate("RUB");
+        const targetRate = getCurrencyRate(toCurrency);
+        if (!rubRate || !targetRate) {
+          setConvertedAmount("");
+          return;
+        }
+        // При продаже RUB: сначала конвертируем RUB в THB по курсу покупки RUB
+        const valueInTHB = value * rubRate.buy;
+        setConvertedAmount((valueInTHB / targetRate.sell).toFixed(2));
+        return;
+      }
+      if (toCurrency === "RUB") {
+        const rubRate = getCurrencyRate("RUB");
+        const sourceRate = getCurrencyRate(fromCurrency);
+        if (!rubRate || !sourceRate) {
+          setConvertedAmount("");
+          return;
+        }
+        // При продаже в RUB: конвертируем исходную валюту в THB по курсу покупки,
+        // затем THB в RUB по курсу продажи RUB
+        const valueInTHB = value * sourceRate.buy;
+        setConvertedAmount((valueInTHB / rubRate.sell).toFixed(2));
+        return;
+      }
+      // Для остальных пар валют – конвертация через THB
+      const fromRate = getCurrencyRate(fromCurrency);
+      const toRate = getCurrencyRate(toCurrency);
+      if (!fromRate || !toRate) {
         setConvertedAmount("");
         return;
       }
-      // При конвертации в THB – умножаем введённое значение на курс продажи исходной валюты
-      setConvertedAmount((value * sourceRate.sell).toFixed(2));
-      return;
+      const valueInTHB = value * fromRate.buy;
+      const result = valueInTHB / toRate.sell;
+      setConvertedAmount(result.toFixed(2));
     }
-  
-    // Если исходная валюта – RUB, то берем курс RUB(безналичный расчет) и конвертируем через THB
-    if (fromCurrency === "RUB") {
-      const rubRate = getCurrencyRate("RUB"); // вернёт RUB(безналичный расчет)
-      const targetRate = getCurrencyRate(toCurrency);
-      if (!rubRate || !targetRate) {
-        setConvertedAmount("");
-        return;
-      }
-      // Сначала конвертируем RUB в THB, затем THB в целевую валюту
-      const valueInTHB = value * rubRate.sell;
-      setConvertedAmount((valueInTHB / targetRate.buy).toFixed(2));
-      return;
-    }
-    // Если целевая валюта – RUB, то также конвертируем через THB с учетом курса RUB
-    if (toCurrency === "RUB") {
-      const rubRate = getCurrencyRate("RUB");
-      const sourceRate = getCurrencyRate(fromCurrency);
-      if (!rubRate || !sourceRate) {
-        setConvertedAmount("");
-        return;
-      }
-      const valueInTHB = value * sourceRate.sell;
-      setConvertedAmount((valueInTHB / rubRate.buy).toFixed(2));
-      return;
-    }
-  
-    // Для всех остальных пар валют – конвертируем через THB
-    const fromRate = getCurrencyRate(fromCurrency);
-    const toRate = getCurrencyRate(toCurrency);
-    if (!fromRate || !toRate) {
-      setConvertedAmount("");
-      return;
-    }
-    const valueInTHB = value * fromRate.sell;
-    const result = valueInTHB / toRate.buy;
-    setConvertedAmount(result.toFixed(2));
   };
+  
 
 
   return (
@@ -454,6 +511,7 @@ const Calculator = ({ currenciesRates }) => {
         <Button
           variant="contained"
           fullWidth={false}
+          onClick={() => window.open("https://t.me/cashandgo_th", "_blank")}
           sx={{
             backgroundColor: "#27a7e7",
             color: "#fff",
