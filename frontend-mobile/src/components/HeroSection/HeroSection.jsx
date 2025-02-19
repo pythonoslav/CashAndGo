@@ -29,38 +29,44 @@ const HeroSection = () => {
     { country_code: "qa", code: "QAR", buy: 9.45, sell: 9.68 },
     { country_code: "bh", code: "BHD", buy: 91.25, sell: 93.49 },
   ]);
-
-  useEffect(() => {
-    const fetchCurrencyRates = async () => {
-      try {
-        const response = await fetch("/api/get_currencies_data");
-        const data = await response.json();
-
-        // Фильтруем массив, убираем USDT и заменяем RUB-значения
-        const updatedRates = data.result
-          
-          .map((currency) => {
-            switch (currency.code) {
-              case "RUB(cash)":
-                return { ...currency, code: "RUB(наличные)" };
-              case "RUB(online transfer)":
-                return { ...currency, code: "RUB(онлайн перевод)" };
-              case "RUB(cash settlement)":
-                return { ...currency, code: "RUB(безналичный расчет)" };
-              default:
-                return currency;
-            }
-          });
-
-        setCurrencyRates(updatedRates);
-      } catch (error) {
-        console.error("Ошибка загрузки данных о курсах валют:", error);
-      }
-    };
-
-    fetchCurrencyRates();
-  }, []);
-
+  
+    useEffect(() => {
+      const fetchCurrencyRates = async () => {
+        try {
+          const response = await fetch("/api/get_currencies_data");
+          const data = await response.json();
+  
+          // Фильтруем массив, убираем USDT и заменяем RUB-значения
+          const updatedRates = data.result
+            .map((currency) => {
+              switch (currency.code) {
+                case "RUB(cash)":
+                  return { ...currency, code: "RUB(наличные)" };
+                case "RUB(online transfer)":
+                  return { ...currency, code: "RUB(онлайн перевод)" };
+                case "RUB(cash settlement)":
+                  return { ...currency, code: "RUB(безналичный расчет)" };
+                default:
+                  return currency;
+              }
+            });
+  
+          setCurrencyRates(updatedRates);
+        } catch (error) {
+          console.error("Ошибка загрузки данных о курсах валют:", error);
+        }
+      };
+  
+      // Первый запрос при загрузке компонента
+      fetchCurrencyRates();
+  
+      // Интервал обновления каждые 10 минут (600000 мс)
+      const intervalId = setInterval(fetchCurrencyRates, 600000);
+  
+      // Очистка интервала при размонтировании компонента
+      return () => clearInterval(intervalId);
+    }, []);
+  
   return (
     <Box
       sx={{
