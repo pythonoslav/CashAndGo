@@ -46,7 +46,6 @@ const ModalOverlay = styled(Box)`
   align-items: center;
   justify-content: center;
   position: fixed;
-  top: 5%;  /* Сместить вниз */
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);

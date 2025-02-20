@@ -101,7 +101,7 @@ const Header = () => {
                                     textDecoration: "underline",
                                 },
                             }}
-                            onClick={() => scrollToSection("kurs")} // пример: скролл к блоку "КУРС"
+                            onClick={() => openLink(telegramLink)} // пример: скролл к блоку "КУРС"
                         >
                             ОБМЕНЯТЬ <br /> ВАЛЮТУ
                         </Typography>

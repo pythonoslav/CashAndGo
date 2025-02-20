@@ -5,7 +5,7 @@ import { ReactComponent as TitleSVG } from "../TransferComponent/assets/TitleSVG
 import { ReactComponent as TelegramIcon } from "../TransferComponent/assets/TelegramIcon.svg";
 import { ReactComponent as WhatsAppIcon } from "../TransferComponent/assets/WhatsupIcon.svg";
 
-const telegramLink = "https://t.me/";
+const telegramLink = "https://t.me/cashandgo_th";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 
 const TransferToThaiAccount = () => {

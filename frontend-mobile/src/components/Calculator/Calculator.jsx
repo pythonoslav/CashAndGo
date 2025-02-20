@@ -77,124 +77,82 @@ const Calculator = ({ currenciesRates }) => {
     { code: "THB", flag: "https://flagicons.lipis.dev/flags/4x3/th.svg" },
   ];
 
-  // Функция конвертации принимает дополнительно режим (mode)
-  const handleConvert = (value, fromCurrency, toCurrency, mode = activeTab) => {
-    setAmount(value);
-    if (!value) {
+ // Функция конвертации принимает дополнительно режим (mode)
+const handleConvert = (value, fromCurrency, toCurrency, mode = activeTab) => {
+  setAmount(value);
+  if (!value) {
+    setConvertedAmount("");
+    return;
+  }
+
+  // Если валюты одинаковые — возвращаем исходное значение
+  if (fromCurrency === toCurrency) {
+    setConvertedAmount(value);
+    return;
+  }
+
+  // 1. Специальное правило для USD <-> USDT: вычитается 1,9%
+  if (
+    (fromCurrency === "USD" && toCurrency === "USDT") ||
+    (fromCurrency === "USDT" && toCurrency === "USD")
+  ) {
+    const result = value * 0.981; // вычитаем 1,9%
+    setConvertedAmount(result.toFixed(2));
+    return;
+  }
+
+  // 2. Конвертация между USD/EUR и THB
+  // USD или EUR → THB: сумма умножается на курс покупки соответствующей валюты
+  if ((fromCurrency === "USD" || fromCurrency === "EUR") && toCurrency === "THB") {
+    const rate = getCurrencyRate(fromCurrency);
+    if (!rate) {
       setConvertedAmount("");
       return;
     }
-
-    // Если валюты одинаковые — возвращаем исходное значение
-    if (fromCurrency === toCurrency) {
-      setConvertedAmount(value);
+    const result = value * rate.buy;
+    setConvertedAmount(result.toFixed(2));
+    return;
+  }
+  // THB → USD или EUR: сумма делится на курс продажи целевой валюты
+  if (fromCurrency === "THB" && (toCurrency === "USD" || toCurrency === "EUR")) {
+    const rate = getCurrencyRate(toCurrency);
+    if (!rate) {
+      setConvertedAmount("");
       return;
     }
+    const result = value / rate.sell;
+    setConvertedAmount(result.toFixed(2));
+    return;
+  }
 
-    if (mode === "buy") {
-      // Режим покупки: используем курс продажи источника и курс покупки цели
-      if (fromCurrency === "THB") {
-        const targetRate = getCurrencyRate(toCurrency);
-        if (!targetRate) {
-          setConvertedAmount("");
-          return;
-        }
-        setConvertedAmount((value / targetRate.buy).toFixed(2));
-        return;
-      }
-      if (toCurrency === "THB") {
-        const sourceRate = getCurrencyRate(fromCurrency);
-        if (!sourceRate) {
-          setConvertedAmount("");
-          return;
-        }
-        setConvertedAmount((value / sourceRate.buy).toFixed(2));
-        return;
-      }
-      if (fromCurrency === "RUB") {
-        const rubRate = getCurrencyRate("RUB");
-        const targetRate = getCurrencyRate(toCurrency);
-        if (!rubRate || !targetRate) {
-          setConvertedAmount("");
-          return;
-        }
-        const valueInTHB = value * rubRate.buy;
-        setConvertedAmount((valueInTHB / targetRate.buy).toFixed(2));
-        return;
-      }
-      if (toCurrency === "RUB") {
-        const rubRate = getCurrencyRate("RUB");
-        const sourceRate = getCurrencyRate(fromCurrency);
-        if (!rubRate || !sourceRate) {
-          setConvertedAmount("");
-          return;
-        }
-        const valueInTHB = value * sourceRate.buy;
-        setConvertedAmount((valueInTHB / rubRate.buy).toFixed(2));
-        return;
-      }
-      const fromRate = getCurrencyRate(fromCurrency);
-      const toRate = getCurrencyRate(toCurrency);
-      if (!fromRate || !toRate) {
-        setConvertedAmount("");
-        return;
-      }
-      const valueInTHB = value * fromRate.buy;
-      const result = valueInTHB / toRate.buy;
-      setConvertedAmount(result.toFixed(2));
-    } else {
-      // Режим продажи: используем курс покупки источника и курс продажи цели
-      if (fromCurrency === "THB") {
-        const targetRate = getCurrencyRate(toCurrency);
-        if (!targetRate) {
-          setConvertedAmount("");
-          return;
-        }
-        setConvertedAmount((value / targetRate.sell).toFixed(2));
-        return;
-      }
-      if (toCurrency === "THB") {
-        const sourceRate = getCurrencyRate(fromCurrency);
-        if (!sourceRate) {
-          setConvertedAmount("");
-          return;
-        }
-        setConvertedAmount((value / sourceRate.sell).toFixed(2));
-        return;
-      }
-      if (fromCurrency === "RUB") {
-        const rubRate = getCurrencyRate("RUB");
-        const targetRate = getCurrencyRate(toCurrency);
-        if (!rubRate || !targetRate) {
-          setConvertedAmount("");
-          return;
-        }
-        const valueInTHB = value * rubRate.buy;
-        setConvertedAmount((valueInTHB / targetRate.sell).toFixed(2));
-        return;
-      }
-      if (toCurrency === "RUB") {
-        const rubRate = getCurrencyRate("RUB");
-        const sourceRate = getCurrencyRate(fromCurrency);
-        if (!rubRate || !sourceRate) {
-          setConvertedAmount("");
-          return;
-        }
-        const valueInTHB = value * sourceRate.buy;
-        setConvertedAmount((valueInTHB / rubRate.sell).toFixed(2));
-        return;
-      }
-      const fromRate = getCurrencyRate(fromCurrency);
-      const toRate = getCurrencyRate(toCurrency);
-      if (!fromRate || !toRate) {
-        setConvertedAmount("");
-        return;
-      }
-      const valueInTHB = value * fromRate.buy;
-      const result = valueInTHB / toRate.sell;
-      setConvertedAmount(result.toFixed(2));
+  // 3. Для всех остальных валют применяем универсальную схему через THB
+  if (mode === "buy") {
+    const fromRate = getCurrencyRate(fromCurrency);
+    const toRate = getCurrencyRate(toCurrency);
+    if (!fromRate || !toRate) {
+      setConvertedAmount("");
+      return;
     }
-  };
+    // Приводим сумму исходной валюты к THB с помощью курса покупки,
+    // затем делим на курс покупки целевой валюты
+    const valueInTHB = value * fromRate.buy;
+    const result = valueInTHB / toRate.buy;
+    setConvertedAmount(result.toFixed(2));
+  } else {
+    const fromRate = getCurrencyRate(fromCurrency);
+    const toRate = getCurrencyRate(toCurrency);
+    if (!fromRate || !toRate) {
+      setConvertedAmount("");
+      return;
+    }
+    // Приводим сумму исходной валюты к THB с помощью курса продажи,
+    // затем делим на курс продажи целевой валюты
+    const valueInTHB = value * fromRate.sell;
+    const result = valueInTHB / toRate.sell;
+    setConvertedAmount(result.toFixed(2));
+  }
+};
+
 
   // Обработчик переключения вкладок, передаёт новый режим явно в функцию конвертации
   const handleTabChange = (tab) => {
