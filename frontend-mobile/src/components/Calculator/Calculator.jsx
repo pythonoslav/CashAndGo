@@ -77,7 +77,8 @@ const Calculator = ({ currenciesRates }) => {
     { code: "THB", flag: "https://flagicons.lipis.dev/flags/4x3/th.svg" },
   ];
 
- // Функция конвертации принимает дополнительно режим (mode)
+// Функция конвертации принимает дополнительно режим (mode),
+// по умолчанию mode равен значению activeTab
 const handleConvert = (value, fromCurrency, toCurrency, mode = activeTab) => {
   setAmount(value);
   if (!value) {
@@ -91,67 +92,75 @@ const handleConvert = (value, fromCurrency, toCurrency, mode = activeTab) => {
     return;
   }
 
-  // 1. Специальное правило для USD <-> USDT: вычитается 1,9%
-  if (
-    (fromCurrency === "USD" && toCurrency === "USDT") ||
-    (fromCurrency === "USDT" && toCurrency === "USD")
-  ) {
-    const result = value * 0.981; // вычитаем 1,9%
-    setConvertedAmount(result.toFixed(2));
-    return;
-  }
-
-  // 2. Конвертация между USD/EUR и THB
-  // USD или EUR → THB: сумма умножается на курс покупки соответствующей валюты
-  if ((fromCurrency === "USD" || fromCurrency === "EUR") && toCurrency === "THB") {
-    const rate = getCurrencyRate(fromCurrency);
-    if (!rate) {
-      setConvertedAmount("");
-      return;
-    }
-    const result = value * rate.buy;
-    setConvertedAmount(result.toFixed(2));
-    return;
-  }
-  // THB → USD или EUR: сумма делится на курс продажи целевой валюты
-  if (fromCurrency === "THB" && (toCurrency === "USD" || toCurrency === "EUR")) {
-    const rate = getCurrencyRate(toCurrency);
-    if (!rate) {
-      setConvertedAmount("");
-      return;
-    }
-    const result = value / rate.sell;
-    setConvertedAmount(result.toFixed(2));
-    return;
-  }
-
-  // 3. Для всех остальных валют применяем универсальную схему через THB
+ // 1. Особенная пара USD ↔ USDT:
+// Конвертация идёт 1:1, затем комиссия применяется от конечной суммы:
+// Если mode === "buy" — к сумме прибавляется 1,9% (умножаем на 1.019),
+// если mode === "sell" — из суммы вычитается 1,9% (умножаем на 0.981).
+if (
+  (fromCurrency === "USD" && toCurrency === "USDT") ||
+  (fromCurrency === "USDT" && toCurrency === "USD")
+) {
+  const rawResult = value; // 1:1 конвертация
+  let result;
   if (mode === "buy") {
-    const fromRate = getCurrencyRate(fromCurrency);
-    const toRate = getCurrencyRate(toCurrency);
-    if (!fromRate || !toRate) {
+    result = rawResult * 1.019; // прибавляем 1,9%
+  } else {
+    result = rawResult * 0.981; // отнимаем 1,9%
+  }
+  setConvertedAmount(result.toFixed(2));
+  return;
+}
+
+
+  // 2. Прямые конвертации с участием THB:
+  // Если конвертируем из любой валюты (не THB) в THB,
+  // итог = сумма * курс покупки исходной валюты
+  if (toCurrency === "THB" && fromCurrency !== "THB") {
+    const sourceRate = getCurrencyRate(fromCurrency);
+    if (!sourceRate) {
       setConvertedAmount("");
       return;
     }
-    // Приводим сумму исходной валюты к THB с помощью курса покупки,
-    // затем делим на курс покупки целевой валюты
+    const result = value * sourceRate.buy;
+    setConvertedAmount(result.toFixed(2));
+    return;
+  }
+  // Если конвертируем из THB в любую валюту (не THB),
+  // итог = сумма / курс продажи целевой валюты
+  if (fromCurrency === "THB" && toCurrency !== "THB") {
+    const targetRate = getCurrencyRate(toCurrency);
+    if (!targetRate) {
+      setConvertedAmount("");
+      return;
+    }
+    const result = value / targetRate.sell;
+    setConvertedAmount(result.toFixed(2));
+    return;
+  }
+
+  // 3. Для остальных пар (без THB и без пары USD/USDT)
+  // конвертация идёт через THB как промежуточную валюту
+  const fromRate = getCurrencyRate(fromCurrency);
+  const toRate = getCurrencyRate(toCurrency);
+  if (!fromRate || !toRate) {
+    setConvertedAmount("");
+    return;
+  }
+  if (mode === "buy") {
+    // Режим покупки: переводим исходную валюту в THB по курсу покупки,
+    // затем из THB получаем целевую валюту по курсу покупки
     const valueInTHB = value * fromRate.buy;
     const result = valueInTHB / toRate.buy;
     setConvertedAmount(result.toFixed(2));
   } else {
-    const fromRate = getCurrencyRate(fromCurrency);
-    const toRate = getCurrencyRate(toCurrency);
-    if (!fromRate || !toRate) {
-      setConvertedAmount("");
-      return;
-    }
-    // Приводим сумму исходной валюты к THB с помощью курса продажи,
-    // затем делим на курс продажи целевой валюты
+    // Режим продажи: переводим исходную валюту в THB по курсу продажи,
+    // затем из THB получаем целевую валюту по курсу продажи
     const valueInTHB = value * fromRate.sell;
     const result = valueInTHB / toRate.sell;
     setConvertedAmount(result.toFixed(2));
   }
 };
+
 
 
   // Обработчик переключения вкладок, передаёт новый режим явно в функцию конвертации
