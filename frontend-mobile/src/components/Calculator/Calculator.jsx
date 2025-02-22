@@ -80,7 +80,7 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
       setConvertedAmount("");
       return;
     }
-    const result = parseFloat(value) * sourceRate.buy;
+    const result = parseFloat(value) / sourceRate.buy;
     setConvertedAmount(result.toFixed(2));
     return;
   }
@@ -105,9 +105,9 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
   }
 
   // Сначала переводим из fromCurrency в THB по buy
-  const valueInTHB = parseFloat(value) * fromRate.buy;
+  const valueInTHB = parseFloat(value) / fromRate.buy;
   // Затем из THB в toCurrency, деля на buy целевой валюты
-  const result = valueInTHB / toRate.sell;
+  const result = valueInTHB * toRate.sell;
   setConvertedAmount(result.toFixed(2));
 };
 
