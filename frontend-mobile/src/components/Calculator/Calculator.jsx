@@ -107,41 +107,47 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
   // Сначала переводим из fromCurrency в THB по buy
   const valueInTHB = parseFloat(value) * fromRate.buy;
   // Затем из THB в toCurrency, деля на buy целевой валюты
-  const result = valueInTHB / toRate.buy;
+  const result = valueInTHB / toRate.sell;
   setConvertedAmount(result.toFixed(2));
 };
 
 
 
   // Получение «текущего курса» для отображения
-  const getCurrentRateValue = () => {
-    if (currencyFrom === currencyTo) return 1;
+const getCurrentRateValue = () => {
+  // Если валюты совпадают, курс = 1
+  if (currencyFrom === currencyTo) return 1;
 
-    // USD ↔ USDT
-    if (
-      (currencyFrom === "USD" && currencyTo === "USDT") ||
-      (currencyFrom === "USDT" && currencyTo === "USD")
-    ) {
-      return 1.019;
-    }
+  // USD ↔ USDT (просто пример — всегда 1.019)
+  if (
+    (currencyFrom === "USD" && currencyTo === "USDT") ||
+    (currencyFrom === "USDT" && currencyTo === "USD")
+  ) {
+    return 1.019; // возвращаем число
+  }
 
-    if (currencyFrom === "THB" && currencyTo !== "THB") {
-      const targetRate = getCurrencyRate(currencyTo);
-      return targetRate ? targetRate.sell : null;
-    }
-    if (currencyTo === "THB" && currencyFrom !== "THB") {
-      const sourceRate = getCurrencyRate(currencyFrom);
-      return sourceRate ? sourceRate.buy : null;
-    }
+  // Из THB в любую валюту (не THB) => sell целевой
+  if (currencyFrom === "THB" && currencyTo !== "THB") {
+    const targetRate = getCurrencyRate(currencyTo);
+    return targetRate ? targetRate.sell : null; // возвращаем число или null
+  }
+  // Из любой валюты (не THB) в THB => buy исходной
+  if (currencyTo === "THB" && currencyFrom !== "THB") {
+    const sourceRate = getCurrencyRate(currencyFrom);
+    return sourceRate ? sourceRate.buy : null;
+  }
 
-    // Для остальных пар покажем отношение buy одной валюты к buy другой
-    const fromRate = getCurrencyRate(currencyFrom);
-    const toRate = getCurrencyRate(currencyTo);
-    if (fromRate && toRate) {
-      return (fromRate.buy / toRate.buy).toFixed(2);
-    }
-    return null;
-  };
+  // Для остальных пар — отношение buy одной валюты к buy другой
+  const fromRate = getCurrencyRate(currencyFrom);
+  const toRate = getCurrencyRate(currencyTo);
+  if (fromRate && toRate) {
+    // Возвращаем чистое число (без toFixed)
+    return fromRate.buy / toRate.buy;
+  }
+
+  return null;
+};
+
 
   const currentRate = getCurrentRateValue();
 
@@ -464,7 +470,7 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
             }}
           >
             <Typography sx={{ fontWeight: "bold", mb: 0 }}>
-              Текущий курс: {currentRate ? currentRate.toFixed(2) : "0"}
+               Текущий курс: {currentRate ? currentRate.toFixed(2) : "0"}
             </Typography>
 
           </Box>
