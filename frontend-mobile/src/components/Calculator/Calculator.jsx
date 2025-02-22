@@ -61,13 +61,13 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
   // 1. Особенная пара USD ↔ USDT с комиссией:
   if (fromCurrency === "USDT" && toCurrency === "USD") {
     // +1.9% к итоговой сумме
-    const result = parseFloat(value) * 1.019;
+    const result = parseFloat(value) * 0.981;
     setConvertedAmount(result.toFixed(2));
     return;
   }
   if (fromCurrency === "USD" && toCurrency === "USDT") {
     // -1.9% от итоговой суммы
-    const result = parseFloat(value) * 0.981;
+    const result = parseFloat(value) * 1.019;
     setConvertedAmount(result.toFixed(2));
     return;
   }
@@ -91,7 +91,7 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
       setConvertedAmount("");
       return;
     }
-    const result = parseFloat(value) / targetRate.sell;
+    const result = parseFloat(value) * targetRate.sell;
     setConvertedAmount(result.toFixed(2));
     return;
   }
