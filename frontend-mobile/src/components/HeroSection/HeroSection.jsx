@@ -7,9 +7,9 @@ import { Element } from "react-scroll";
 
 const HeroSection = () => {
   const [currencyRates, setCurrencyRates] = useState([
-    { country_code: "us", code: "USD", buy: 34.21516, sell: 34.96113 },
-    { country_code: "eu", code: "EUR", buy: 35.62406, sell: 36.78481 },
-    { country_code: "ru", code: "RUB", buy: 0.3825, sell: 0.3901 },
+    { country_code: "us", code: "USD", buy: 33.01, sell: 34.06 },
+    { country_code: "eu", code: "EUR", buy: 34.43, sell: 35.73 },
+    { country_code: "ru", code: "RUB", buy: 2.838, sell: 2.651 },
     { country_code: "jp", code: "JPY", buy: 0.21873, sell: 0.23002 },
     { country_code: "my", code: "MYR", buy: 7.904, sell: 8.102 },
     { country_code: "in", code: "INR", buy: 0.415, sell: 0.428 },

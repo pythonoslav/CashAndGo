@@ -8,52 +8,19 @@ import {
   Button,
   Grid,
   Typography,
+  IconButton,
 } from "@mui/material";
 import telegramIcon from "../Calculator/telegram-icon.svg";
+import switch_icon from "../Calculator/switch_calculator.svg";
 
-// Стили для переключения вкладок с помощью styled-components
-const Tabs = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  position: relative;
-  border-bottom: 2px solid #ddd;
-`;
-
-const Tab = styled.button`
-  flex: 1;
-  text-align: center;
-  padding: 10px 0;
-  border: none;
-  background: none;
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: ${(props) => (props.active ? "#0033a0" : "#888")};
-  cursor: pointer;
-  position: relative;
-
-  &:hover {
-    color: #0055d4;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1rem;
-    padding: 6px 0;
-  }
-`;
-
-const ActiveTabIndicator = styled.div`
-  position: absolute;
-  bottom: -3px;
-  left: ${(props) => (props.activeTab === "buy" ? "0%" : "50%")};
-  width: 50%;
-  height: 3px;
-  background: #0033a0;
-  transition: left 0.3s ease;
+// Компонент-разделитель (черточка)
+const DividerLine = styled.div`
+  width: 100%;
+  border-bottom: 2px solid #004db4;
+  margin: 20px 0;
 `;
 
 const Calculator = ({ currenciesRates }) => {
-  const [activeTab, setActiveTab] = useState("buy");
   const [currencyFrom, setCurrencyFrom] = useState("RUB");
   const [currencyTo, setCurrencyTo] = useState("THB");
   const [amount, setAmount] = useState("");
@@ -77,9 +44,8 @@ const Calculator = ({ currenciesRates }) => {
     { code: "THB", flag: "https://flagicons.lipis.dev/flags/4x3/th.svg" },
   ];
 
-// Функция конвертации принимает дополнительно режим (mode),
-// по умолчанию mode равен значению activeTab
-const handleConvert = (value, fromCurrency, toCurrency, mode = activeTab) => {
+// Основная функция конвертации
+const handleConvert = (value, fromCurrency, toCurrency) => {
   setAmount(value);
   if (!value) {
     setConvertedAmount("");
@@ -92,81 +58,112 @@ const handleConvert = (value, fromCurrency, toCurrency, mode = activeTab) => {
     return;
   }
 
- // 1. Особенная пара USD ↔ USDT:
-// Конвертация идёт 1:1, затем комиссия применяется от конечной суммы:
-// Если mode === "buy" — к сумме прибавляется 1,9% (умножаем на 1.019),
-// если mode === "sell" — из суммы вычитается 1,9% (умножаем на 0.981).
-if (
-  (fromCurrency === "USD" && toCurrency === "USDT") ||
-  (fromCurrency === "USDT" && toCurrency === "USD")
-) {
-  const rawResult = value; // 1:1 конвертация
-  let result;
-  if (mode === "buy") {
-    result = rawResult * 1.019; // прибавляем 1,9%
-  } else {
-    result = rawResult * 0.981; // отнимаем 1,9%
+  // 1. Особенная пара USD ↔ USDT с комиссией:
+  if (fromCurrency === "USDT" && toCurrency === "USD") {
+    // +1.9% к итоговой сумме
+    const result = parseFloat(value) * 1.019;
+    setConvertedAmount(result.toFixed(2));
+    return;
   }
-  setConvertedAmount(result.toFixed(2));
-  return;
-}
-
+  if (fromCurrency === "USD" && toCurrency === "USDT") {
+    // -1.9% от итоговой суммы
+    const result = parseFloat(value) * 0.981;
+    setConvertedAmount(result.toFixed(2));
+    return;
+  }
 
   // 2. Прямые конвертации с участием THB:
-  // Если конвертируем из любой валюты (не THB) в THB,
-  // итог = сумма * курс покупки исходной валюты
+  // Из любой валюты (не THB) в THB => сумма * buy
   if (toCurrency === "THB" && fromCurrency !== "THB") {
     const sourceRate = getCurrencyRate(fromCurrency);
     if (!sourceRate) {
       setConvertedAmount("");
       return;
     }
-    const result = value * sourceRate.buy;
+    const result = parseFloat(value) * sourceRate.buy;
     setConvertedAmount(result.toFixed(2));
     return;
   }
-  // Если конвертируем из THB в любую валюту (не THB),
-  // итог = сумма / курс продажи целевой валюты
+  // Из THB в любую валюту (не THB) => сумма / sell
   if (fromCurrency === "THB" && toCurrency !== "THB") {
     const targetRate = getCurrencyRate(toCurrency);
     if (!targetRate) {
       setConvertedAmount("");
       return;
     }
-    const result = value / targetRate.sell;
+    const result = parseFloat(value) / targetRate.sell;
     setConvertedAmount(result.toFixed(2));
     return;
   }
 
-  // 3. Для остальных пар (без THB и без пары USD/USDT)
-  // конвертация идёт через THB как промежуточную валюту
+  // 3. Остальные пары: через THB по "buy"-курсам
   const fromRate = getCurrencyRate(fromCurrency);
   const toRate = getCurrencyRate(toCurrency);
   if (!fromRate || !toRate) {
     setConvertedAmount("");
     return;
   }
-  if (mode === "buy") {
-    // Режим покупки: переводим исходную валюту в THB по курсу покупки,
-    // затем из THB получаем целевую валюту по курсу покупки
-    const valueInTHB = value * fromRate.buy;
-    const result = valueInTHB / toRate.buy;
-    setConvertedAmount(result.toFixed(2));
-  } else {
-    // Режим продажи: переводим исходную валюту в THB по курсу продажи,
-    // затем из THB получаем целевую валюту по курсу продажи
-    const valueInTHB = value * fromRate.sell;
-    const result = valueInTHB / toRate.sell;
-    setConvertedAmount(result.toFixed(2));
-  }
+
+  // Сначала переводим из fromCurrency в THB по buy
+  const valueInTHB = parseFloat(value) * fromRate.buy;
+  // Затем из THB в toCurrency, деля на buy целевой валюты
+  const result = valueInTHB / toRate.buy;
+  setConvertedAmount(result.toFixed(2));
 };
 
 
 
-  // Обработчик переключения вкладок, передаёт новый режим явно в функцию конвертации
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    handleConvert(amount, currencyFrom, currencyTo, tab);
+  // Получение «текущего курса» для отображения
+  const getCurrentRateValue = () => {
+    if (currencyFrom === currencyTo) return 1;
+
+    // USD ↔ USDT
+    if (
+      (currencyFrom === "USD" && currencyTo === "USDT") ||
+      (currencyFrom === "USDT" && currencyTo === "USD")
+    ) {
+      return 1.019;
+    }
+
+    if (currencyFrom === "THB" && currencyTo !== "THB") {
+      const targetRate = getCurrencyRate(currencyTo);
+      return targetRate ? targetRate.sell : null;
+    }
+    if (currencyTo === "THB" && currencyFrom !== "THB") {
+      const sourceRate = getCurrencyRate(currencyFrom);
+      return sourceRate ? sourceRate.buy : null;
+    }
+
+    // Для остальных пар покажем отношение buy одной валюты к buy другой
+    const fromRate = getCurrencyRate(currencyFrom);
+    const toRate = getCurrencyRate(currencyTo);
+    if (fromRate && toRate) {
+      return (fromRate.buy / toRate.buy).toFixed(2);
+    }
+    return null;
+  };
+
+  const currentRate = getCurrentRateValue();
+
+  // Функция для переключения местами валют
+  const handleSwitchCurrencies = () => {
+    // Запоминаем старые значения
+    const oldFrom = currencyFrom;
+    const oldTo = currencyTo;
+    const oldConverted = convertedAmount;
+
+    // Меняем местами
+    setCurrencyFrom(oldTo);
+    setCurrencyTo(oldFrom);
+
+    // Пересчитываем
+    if (oldConverted) {
+      // Если есть уже посчитанная сумма, используем её как "новую исходную"
+      handleConvert(oldConverted, oldTo, oldFrom);
+    } else {
+      // Если поля были пусты или не было результата — просто пересчитываем со старым amount
+      handleConvert(amount, oldTo, oldFrom);
+    }
   };
 
   return (
@@ -186,31 +183,16 @@ if (
           fontWeight: 700,
           mb: 3,
           color: "black",
-          ml: 2,
           fontSize: "16px", // Только мобильные значения
         }}
       >
         Калькулятор обмена
       </Typography>
 
-      {/* Переключение вкладок */}
-      <Tabs>
-        <Tab
-          active={activeTab === "buy"}
-          onClick={() => handleTabChange("buy")}
-        >
-          Покупка
-        </Tab>
-        <Tab
-          active={activeTab === "sell"}
-          onClick={() => handleTabChange("sell")}
-        >
-          Продажа
-        </Tab>
-        <ActiveTabIndicator activeTab={activeTab} />
-      </Tabs>
+      {/* Разделительная черточка */}
+      <DividerLine />
 
-      {/* Блок с полями ввода */}
+      {/* Поля ввода */}
       <Grid
         container
         spacing={2}
@@ -221,8 +203,19 @@ if (
           p: 1,
         }}
       >
-        {/* Поле ввода суммы */}
+        {/* "Вы отдаёте" */}
         <Grid item xs={12}>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              mb: 1,
+              ml: 1,
+              color: "black",
+            }}
+          >
+            Вы отдаёте
+          </Typography>
           <Box
             sx={{
               display: "flex",
@@ -320,26 +313,51 @@ if (
           </Box>
         </Grid>
 
-        {/* Текущий курс */}
-        <Box
-          sx={{
-            fontWeight: "bold",
-            fontSize: "14px",
-            color: "#0E0E0E",
-            mt: 1,
-            ml: "50%",
-            transform: "translateX(-50%)",
-            mb: 1,
-          }}
-        >
-          Текущий курс:{" "}
-          {activeTab === "buy"
-            ? getCurrencyRate(currencyFrom)?.buy.toFixed(2)
-            : getCurrencyRate(currencyFrom)?.sell.toFixed(2)}
-        </Box>
-
-        {/* Поле вывода результата */}
+        {/* "Вы получаете" */}
         <Grid item xs={12}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",       // Центрируем по вертикали
+              justifyContent: "space-between",
+              height: 40,                 // Фиксированная высота строки (при необходимости)
+              mb: 2,                     // Горизонтальные отступы
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontSize: "14px",
+                color: "black",
+                ml: 1,                   // Отступ слева
+              }}
+            >
+              Вы получаете
+            </Typography>
+
+            <IconButton
+              onClick={handleSwitchCurrencies}
+              sx={{
+                mr: '2rem',
+                // Начальный фон
+                backgroundColor: "rgba(0, 0, 0, 0.03)",
+                borderRadius: "50%",
+                transition: "background-color 0.2s ease",
+                // При нажатии
+                "&:active": {
+                  backgroundColor: "rgba(0, 0, 0, 0.1)",
+                },
+              }}
+            >
+              <img
+                src={switch_icon}
+                alt="Поменять местами"
+                style={{ width: 20, height: 20 }}
+              />
+            </IconButton>
+          </Box>
+
+
           <Box
             sx={{
               display: "flex",
@@ -431,6 +449,24 @@ if (
                 </MenuItem>
               ))}
             </Select>
+          </Box>
+
+          <Box
+            sx={{
+              textAlign: "center",
+              mt: 2,
+              fontSize: "14px",
+              color: "#0E0E0E",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+            }}
+          >
+            <Typography sx={{ fontWeight: "bold", mb: 0 }}>
+              Текущий курс: {currentRate ? currentRate.toFixed(2) : "0"}
+            </Typography>
+
           </Box>
         </Grid>
       </Grid>
