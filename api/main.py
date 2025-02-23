@@ -25,7 +25,6 @@ async def start_scheduler():
 
     await load_flags_data()
 
-
 @app.get('/get_currencies_data')
 async def get_currencies_data(request: Request):
     request_body = await request.body()
@@ -54,7 +53,6 @@ async def get_currencies_data(request: Request):
             }
             for rate in exchange_rates["rates"]
         ] if exchange_rates else []
-        print(formatted_rates)
 
         return {
             "is_error": False,
