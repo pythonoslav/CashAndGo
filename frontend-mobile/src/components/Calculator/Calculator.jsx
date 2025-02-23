@@ -102,9 +102,8 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
     }
     let result = parseFloat(value) / targetRate.sell;
 
-    // Если исходная валюта RUB (не актуально в данном условии, 
-    // потому что fromCurrency === "THB", но оставлено для наглядности)
-    if (fromCurrency === "RUB") {
+  
+    if (toCurrency === "RUB") {
       result = parseFloat(value) * targetRate.sell;
     }
 
