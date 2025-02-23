@@ -140,7 +140,7 @@ const Footer = ({ setOpenModal }) => {
           >
             <IconButton
               component="a"
-              href="https://t.me/yourchannel"
+              href="https://t.me/cashandgo_th"
               target="_blank"
               rel="noopener noreferrer"
               sx={{
