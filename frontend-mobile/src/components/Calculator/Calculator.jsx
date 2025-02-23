@@ -86,7 +86,7 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
 
     // Если исходная валюта RUB — делим ещё на 100
     if (fromCurrency === "RUB") {
-      result = result / 100;
+      result = parseFloat(value) / sourceRate.buy;
     }
 
     setConvertedAmount(result.toFixed(2));
@@ -105,7 +105,7 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
     // Если исходная валюта RUB (не актуально в данном условии, 
     // потому что fromCurrency === "THB", но оставлено для наглядности)
     if (fromCurrency === "RUB") {
-      result = result / 100;
+      result = parseFloat(value) * targetRate.sell;
     }
 
     setConvertedAmount(result.toFixed(2));
@@ -126,7 +126,7 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
 
   // Если исходная валюта RUB — делим на 100 
   if (fromCurrency === "RUB") {
-    valueInTHB = valueInTHB / 100;
+    valueInTHB = parseFloat(value) / sourceRate.buy;
   }
 
   const result = valueInTHB / toRate.buy;
