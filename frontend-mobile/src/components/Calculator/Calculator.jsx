@@ -126,7 +126,7 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
 
   // Если исходная валюта RUB — делим на 100 
   if (fromCurrency === "RUB") {
-    valueInTHB = parseFloat(value) / sourceRate.buy;
+    valueInTHB = parseFloat(value) / fromRate.buy;
   }
 
   const result = valueInTHB / toRate.buy;
