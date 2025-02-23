@@ -160,37 +160,34 @@ const HeroSection = () => {
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
-            gap: "30px",                // Уменьшаем разрыв
+            gap: "100px", // Расстояние между блоками
             alignItems: "stretch",
             justifyContent: "center",
             width: "100%",
-            mt: { xs: 2, md: -10 },    // Сокращаем отрицательный отступ
+            mt: { xs: 2, md: -10 },
           }}
         >
           {/* Калькулятор */}
           <Box
             sx={{
-              flex: 1,
-              width: "100%",
-              maxWidth: "600px",        // Немного меньше, чтобы не было огромного поля
-              mx: "auto",
+              flexBasis: { xs: "100%", md: "calc((100% - 125px) / 2)" },
+              width: { xs: "100%", md: "calc((100% - 125px) / 2)" },
             }}
           >
             <Calculator currenciesRates={currencyRates} />
           </Box>
-          <Element name="features"></Element>
+
           {/* Курс валют */}
           <Box
             sx={{
-              flex: 1,
-              width: "100%",
-              maxWidth: "600px",
-              mx: "auto",
+              flexBasis: { xs: "100%", md: "calc((100% - 100px) / 2)" },
+              width: { xs: "100%", md: "calc((100% - 100px) / 2)" },
             }}
           >
             <ExchangeRates currencyRates={currencyRates} />
           </Box>
         </Box>
+
       </Container>
     </Box>
   );

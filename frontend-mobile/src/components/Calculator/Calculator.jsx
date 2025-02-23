@@ -44,153 +44,115 @@ const Calculator = ({ currenciesRates }) => {
     { code: "THB", flag: "https://flagicons.lipis.dev/flags/4x3/th.svg" },
   ];
 
-// Основная функция конвертации
-const handleConvert = (value, fromCurrency, toCurrency) => {
-  setAmount(value);
+  // Основная функция конвертации
+  const handleConvert = (value, fromCurrency, toCurrency) => {
+    setAmount(value);
 
-  // Если нет значения, очищаем результат
-  if (!value) {
-    setConvertedAmount("");
-    return;
-  }
-
-  // Если валюты одинаковые — возвращаем исходное значение
-  if (fromCurrency === toCurrency) {
-    setConvertedAmount(value);
-    return;
-  }
-
-  // 1. Особенная пара USD ↔ USDT: ±1.9%
-  // USDT → USD: +1.9%
-  if (fromCurrency === "USDT" && toCurrency === "USD") {
-    const result = parseFloat(value) * 1.019;
-    setConvertedAmount(result.toFixed(2));
-    return;
-  }
-  // USD → USDT: -1.9%
-  if (fromCurrency === "USD" && toCurrency === "USDT") {
-    const result = parseFloat(value) * 0.981;
-    setConvertedAmount(result.toFixed(2));
-    return;
-  }
-
-  // 2. Прямые конвертации с участием THB
-  // Любая валюта (не THB) -> THB: умножаем на buy
-  if (toCurrency === "THB" && fromCurrency !== "THB") {
-    const sourceRate = getCurrencyRate(fromCurrency);
-    if (!sourceRate) {
+    // Если нет значения, очищаем результат
+    if (!value) {
       setConvertedAmount("");
       return;
     }
-    let result = parseFloat(value) * sourceRate.buy;
 
-    // Если исходная валюта RUB — делим ещё на 100
+    // Если валюты одинаковые — возвращаем исходное значение
+    if (fromCurrency === toCurrency) {
+      setConvertedAmount(value);
+      return;
+    }
+
+    // 1. Особенная пара USD ↔ USDT: ±1.9%
+    if (fromCurrency === "USDT" && toCurrency === "USD") {
+      const result = parseFloat(value) * 1.019;
+      setConvertedAmount(result.toFixed(2));
+      return;
+    }
+    if (fromCurrency === "USD" && toCurrency === "USDT") {
+      const result = parseFloat(value) * 0.981;
+      setConvertedAmount(result.toFixed(2));
+      return;
+    }
+
+    // 2. Прямые конвертации с участием THB
+    if (toCurrency === "THB" && fromCurrency !== "THB") {
+      const sourceRate = getCurrencyRate(fromCurrency);
+      if (!sourceRate) {
+        setConvertedAmount("");
+        return;
+      }
+      let result = parseFloat(value) * sourceRate.buy;
+      // Если исходная валюта RUB — делим ещё на 100
+      if (fromCurrency === "RUB") {
+        result = parseFloat(value) / sourceRate.buy;
+      }
+      setConvertedAmount(result.toFixed(2));
+      return;
+    }
+    if (fromCurrency === "THB" && toCurrency !== "THB") {
+      const targetRate = getCurrencyRate(toCurrency);
+      if (!targetRate) {
+        setConvertedAmount("");
+        return;
+      }
+      let result = parseFloat(value) / targetRate.sell;
+      if (toCurrency === "RUB") {
+        result = parseFloat(value) * targetRate.sell;
+      }
+      setConvertedAmount(result.toFixed(2));
+      return;
+    }
+
+    // 3. Остальные пары (не THB, не USD↔USDT) через THB
+    const fromRate = getCurrencyRate(fromCurrency);
+    const toRate = getCurrencyRate(toCurrency);
+    if (!fromRate || !toRate) {
+      setConvertedAmount("");
+      return;
+    }
+    let valueInTHB = parseFloat(value) * fromRate.buy;
     if (fromCurrency === "RUB") {
-      result = parseFloat(value) / sourceRate.buy;
+      valueInTHB = parseFloat(value) / fromRate.buy;
     }
-
+    const result = valueInTHB / toRate.buy;
     setConvertedAmount(result.toFixed(2));
-    return;
-  }
-
-  // THB -> любая валюта (не THB): делим на sell
-  if (fromCurrency === "THB" && toCurrency !== "THB") {
-    const targetRate = getCurrencyRate(toCurrency);
-    if (!targetRate) {
-      setConvertedAmount("");
-      return;
-    }
-    let result = parseFloat(value) / targetRate.sell;
-
-  
-    if (toCurrency === "RUB") {
-      result = parseFloat(value) * targetRate.sell;
-    }
-
-    setConvertedAmount(result.toFixed(2));
-    return;
-  }
-
-  // 3. Остальные пары (не THB, не USD↔USDT) через THB
-  // Сначала переводим из fromCurrency в THB (умножаем на buy)
-  // Затем из THB в toCurrency, деля на buy целевой
-  const fromRate = getCurrencyRate(fromCurrency);
-  const toRate = getCurrencyRate(toCurrency);
-  if (!fromRate || !toRate) {
-    setConvertedAmount("");
-    return;
-  }
-
-  let valueInTHB = parseFloat(value) * fromRate.buy;
-
-  // Если исходная валюта RUB — делим на 100 
-  if (fromCurrency === "RUB") {
-    valueInTHB = parseFloat(value) / fromRate.buy;
-  }
-
-  const result = valueInTHB / toRate.buy;
-  setConvertedAmount(result.toFixed(2));
-};
-
-
-
-
+  };
 
   // Получение «текущего курса» для отображения
-const getCurrentRateValue = () => {
-  // Если валюты совпадают, курс = 1
-  if (currencyFrom === currencyTo) return 1;
-
-  // USD ↔ USDT (просто пример — всегда 1.019)
-  if (
-    (currencyFrom === "USD" && currencyTo === "USDT") ||
-    (currencyFrom === "USDT" && currencyTo === "USD")
-  ) {
-    return 1.019; // возвращаем число
-  }
-
-  // Из THB в любую валюту (не THB) => sell целевой
-  if (currencyFrom === "THB" && currencyTo !== "THB") {
-    const targetRate = getCurrencyRate(currencyTo);
-    return targetRate ? targetRate.sell : null; // возвращаем число или null
-  }
-  // Из любой валюты (не THB) в THB => buy исходной
-  if (currencyTo === "THB" && currencyFrom !== "THB") {
-    const sourceRate = getCurrencyRate(currencyFrom);
-    return sourceRate ? sourceRate.buy : null;
-  }
-
-  // Для остальных пар — отношение buy одной валюты к buy другой
-  const fromRate = getCurrencyRate(currencyFrom);
-  const toRate = getCurrencyRate(currencyTo);
-  if (fromRate && toRate) {
-    // Возвращаем чистое число (без toFixed)
-    return fromRate.buy / toRate.buy;
-  }
-
-  return null;
-};
-
+  const getCurrentRateValue = () => {
+    if (currencyFrom === currencyTo) return 1;
+    if (
+      (currencyFrom === "USD" && currencyTo === "USDT") ||
+      (currencyFrom === "USDT" && currencyTo === "USD")
+    ) {
+      return 1.019;
+    }
+    if (currencyFrom === "THB" && currencyTo !== "THB") {
+      const targetRate = getCurrencyRate(currencyTo);
+      return targetRate ? targetRate.sell : null;
+    }
+    if (currencyTo === "THB" && currencyFrom !== "THB") {
+      const sourceRate = getCurrencyRate(currencyFrom);
+      return sourceRate ? sourceRate.buy : null;
+    }
+    const fromRate = getCurrencyRate(currencyFrom);
+    const toRate = getCurrencyRate(currencyTo);
+    if (fromRate && toRate) {
+      return fromRate.buy / toRate.buy;
+    }
+    return null;
+  };
 
   const currentRate = getCurrentRateValue();
 
   // Функция для переключения местами валют
   const handleSwitchCurrencies = () => {
-    // Запоминаем старые значения
     const oldFrom = currencyFrom;
     const oldTo = currencyTo;
     const oldConverted = convertedAmount;
-
-    // Меняем местами
     setCurrencyFrom(oldTo);
     setCurrencyTo(oldFrom);
-
-    // Пересчитываем
     if (oldConverted) {
-      // Если есть уже посчитанная сумма, используем её как "новую исходную"
       handleConvert(oldConverted, oldTo, oldFrom);
     } else {
-      // Если поля были пусты или не было результата — просто пересчитываем со старым amount
       handleConvert(amount, oldTo, oldFrom);
     }
   };
@@ -212,16 +174,14 @@ const getCurrentRateValue = () => {
           fontWeight: 700,
           mb: 3,
           color: "black",
-          fontSize: "16px", // Только мобильные значения
+          fontSize: { xs: 16, md: 32 },
         }}
       >
         Калькулятор обмена
       </Typography>
 
-      {/* Разделительная черточка */}
       <DividerLine />
 
-      {/* Поля ввода */}
       <Grid
         container
         spacing={2}
@@ -229,7 +189,7 @@ const getCurrentRateValue = () => {
           mt: 0,
           backgroundColor: "#f5f5f5",
           borderRadius: 5,
-          p: 1,
+          p: { xs: 1, md: 3 },
         }}
       >
         {/* "Вы отдаёте" */}
@@ -237,7 +197,7 @@ const getCurrentRateValue = () => {
           <Typography
             sx={{
               fontWeight: "bold",
-              fontSize: "14px",
+              fontSize: { xs: "14px", md: "18px" },
               mb: 1,
               ml: 1,
               color: "black",
@@ -253,7 +213,7 @@ const getCurrentRateValue = () => {
               border: "1px solid #ddd",
               borderRadius: 15,
               padding: "5px 10px",
-              height: 40,
+              height: { xs: 40, md: 70 },
             }}
           >
             <TextField
@@ -267,16 +227,16 @@ const getCurrentRateValue = () => {
               InputProps={{
                 disableUnderline: true,
                 sx: {
-                  ml: 0,
+                  ml: { xs: 0, md: 2 },
                   "&::placeholder": {
                     color: "#D8D8D8",
-                    fontSize: "15px",
+                    fontSize: { xs: 15, md: 25 },
                     lineHeight: "24px",
                   },
                 },
                 style: {
                   color: "#000",
-                  fontSize: "15px",
+                  fontSize: { xs: 15, md: 25 },
                   lineHeight: "1.5",
                 },
               }}
@@ -300,9 +260,9 @@ const getCurrentRateValue = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 1,
+                gap: { xs: 1, md: 2 },
                 fontWeight: "bold",
-                fontSize: "12px",
+                fontSize: { xs: "12px", md: "18px" },
               }}
             >
               {currencies.map((currency) => (
@@ -310,7 +270,7 @@ const getCurrentRateValue = () => {
                   key={currency.code}
                   value={currency.code}
                   sx={{
-                    fontSize: "12px",
+                    fontSize: { xs: "12px", md: "16px" },
                     display: "flex",
                     alignItems: "center",
                     gap: 2,
@@ -347,18 +307,18 @@ const getCurrentRateValue = () => {
           <Box
             sx={{
               display: "flex",
-              alignItems: "center",       // Центрируем по вертикали
+              alignItems: "center",
               justifyContent: "space-between",
-              height: 40,                 // Фиксированная высота строки (при необходимости)
-              mb: 2,                     // Горизонтальные отступы
+              height: { xs: 40, md: 70 },
+              mb: 2,
             }}
           >
             <Typography
               sx={{
                 fontWeight: "bold",
-                fontSize: "14px",
+                fontSize: { xs: "14px", md: "18px" },
                 color: "black",
-                ml: 1,                   // Отступ слева
+                ml: 1,
               }}
             >
               Вы получаете
@@ -367,12 +327,10 @@ const getCurrentRateValue = () => {
             <IconButton
               onClick={handleSwitchCurrencies}
               sx={{
-                mr: '2rem',
-                // Начальный фон
+                mr: { xs: "1rem", md: "2rem" },
                 backgroundColor: "rgba(0, 0, 0, 0.03)",
                 borderRadius: "50%",
                 transition: "background-color 0.2s ease",
-                // При нажатии
                 "&:active": {
                   backgroundColor: "rgba(0, 0, 0, 0.1)",
                 },
@@ -386,7 +344,6 @@ const getCurrentRateValue = () => {
             </IconButton>
           </Box>
 
-
           <Box
             sx={{
               display: "flex",
@@ -395,7 +352,7 @@ const getCurrentRateValue = () => {
               border: "1px solid #ddd",
               borderRadius: 15,
               padding: "5px 10px",
-              height: 40,
+              height: { xs: 40, md: 70 },
             }}
           >
             <TextField
@@ -406,16 +363,16 @@ const getCurrentRateValue = () => {
               InputProps={{
                 disableUnderline: true,
                 sx: {
-                  ml: 0,
+                  ml: { xs: 0, md: 2 },
                   "&::placeholder": {
                     color: "#D8D8D8",
-                    fontSize: "15px",
+                    fontSize: { xs: 15, md: 25 },
                     lineHeight: "24px",
                   },
                 },
                 style: {
                   color: "#000",
-                  fontSize: "15px",
+                  fontSize: { xs: 15, md: 25 },
                   lineHeight: "1.5",
                 },
               }}
@@ -439,9 +396,9 @@ const getCurrentRateValue = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 1,
+                gap: { xs: 1, md: 2 },
                 fontWeight: "bold",
-                fontSize: "12px",
+                fontSize: { xs: "12px", md: "18px" },
               }}
             >
               {currencies.map((currency) => (
@@ -449,7 +406,7 @@ const getCurrentRateValue = () => {
                   key={currency.code}
                   value={currency.code}
                   sx={{
-                    fontSize: "12px",
+                    fontSize: { xs: "12px", md: "16px" },
                     display: "flex",
                     alignItems: "center",
                     gap: 2,
@@ -484,7 +441,7 @@ const getCurrentRateValue = () => {
             sx={{
               textAlign: "center",
               mt: 2,
-              fontSize: "14px",
+              fontSize: { xs: "14px", md: "18px" },
               color: "#0E0E0E",
               display: "flex",
               alignItems: "center",
@@ -493,9 +450,9 @@ const getCurrentRateValue = () => {
             }}
           >
             <Typography sx={{ fontWeight: "bold", mb: 0 }}>
-               Текущий курс: {currentRate ? currentRate.toFixed(2) : "0"}
+              Текущий курс:{" "}
+              {currentRate ? currentRate.toFixed(2) : "0"}
             </Typography>
-
           </Box>
         </Grid>
       </Grid>
@@ -507,8 +464,8 @@ const getCurrentRateValue = () => {
           flexDirection: "column",
           gap: 2,
           alignItems: "center",
-          mt: "0.4rem",
-          mb: "0.4rem",
+          mt: { xs: "0.4rem", md: "1rem" },
+          mb: { xs: "0.4rem", md: "1rem" },
         }}
       >
         <Button
@@ -521,10 +478,10 @@ const getCurrentRateValue = () => {
             borderRadius: "24px",
             textTransform: "none",
             letterSpacing: "0",
-            padding: "12px 24px",
-            minWidth: "300px",
-            height: "45px",
-            fontSize: "1.05rem",
+            padding: { xs: "12px 24px", md: "12px 24px" },
+            minWidth: { xs: "220px", md: "220px" },
+            height: { xs: "45px", md: "55px" },
+            fontSize: { xs: "1.05rem", md: "1.2rem" },
             lineHeight: "1",
             display: "flex",
             alignItems: "center",
@@ -548,10 +505,10 @@ const getCurrentRateValue = () => {
             borderRadius: "24px",
             textTransform: "none",
             letterSpacing: "0",
-            padding: "12px 24px",
-            minWidth: "300px",
-            height: "45px",
-            fontSize: "1.05rem",
+            padding: { xs: "12px 24px", md: "12px 24px" },
+            minWidth: { xs: "220px", md: "220px" },
+            height: { xs: "45px", md: "55px" },
+            fontSize: { xs: "1.05rem", md: "1.2rem" },
             lineHeight: "1",
             display: "flex",
             alignItems: "center",
@@ -564,7 +521,7 @@ const getCurrentRateValue = () => {
             <Box
               component="img"
               src={telegramIcon}
-              sx={{ width: 20, height: 20 }}
+              sx={{ width: { xs: 20, md: 24 }, height: { xs: 20, md: 24 } }}
             />
           }
         >

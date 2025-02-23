@@ -8,165 +8,153 @@ import {
   Button,
   Grid,
   Typography,
+  IconButton,
 } from "@mui/material";
-import telegramIcon from "../../assets/telegram-icon.svg";
+import telegramIcon from "../Calculator/telegram-icon.svg";
+import switch_icon from "../Calculator/switch_calculator.svg";
 
-
-
-
-// Стили для переключения с помощью styled-components
-const Tabs = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  position: relative;
-  border-bottom: 2px solid #ddd;
-`;
-
-const Tab = styled.button`
-  flex: 1;
-  text-align: center;
-  padding: 10px 0;
-  border: none;
-  background: none;
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: ${(props) => (props.active ? "#0033a0" : "#888")};
-  cursor: pointer;
-  position: relative;
-
-  &:hover {
-    color: #0055d4;
-  }
-  @media (max-width: 768px) {
-    font-size: 1.2rem;  
-    padding: 8px 0;     
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1rem;    
-    padding: 6px 0;     
-  }
-  
-`;
-
-const ActiveTabIndicator = styled.div`
-  position: absolute;
-  bottom: -3px;
-  left: ${(props) => (props.activeTab === "buy" ? "0%" : "50%")};
-  width: 50%;
-  height: 3px;
-  background: #0033a0;
-  transition: left 0.3s ease;
+// Компонент-разделитель (черточка)
+const DividerLine = styled.div`
+  width: 100%;
+  border-bottom: 2px solid #004db4;
+  margin: 10px 0;
 `;
 
 const Calculator = ({ currenciesRates }) => {
-  const [activeTab, setActiveTab] = useState("buy");
   const [currencyFrom, setCurrencyFrom] = useState("RUB");
   const [currencyTo, setCurrencyTo] = useState("THB");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
 
-  const currencies = [
-    { code: "RUB", flag: 'https://flagicons.lipis.dev/flags/4x3/ru.svg' },
-    { code: "USD", flag: 'https://flagicons.lipis.dev/flags/4x3/us.svg' },
-    { code: "EUR", flag: 'https://flagicons.lipis.dev/flags/4x3/eu.svg' },
-    { code: "USDT", flag: "/images/usdt.jpg" },
-    { code: "THB", flag: 'https://flagicons.lipis.dev/flags/4x3/th.svg' }
-  ];
-
-   // Функция для поиска курса по коду валюты
-   const getCurrencyRate = (code) => {
+  // Функция для поиска курса по коду валюты
+  const getCurrencyRate = (code) => {
     let searchCode = code;
-  
-    // Подставляем нужную версию RUB
+    // Для RUB подставляем нужную версию (например, "RUB(онлайн перевод)")
     if (code === "RUB") {
-      searchCode = "RUB(безналичный расчет)"; // Или RUB(онлайн перевод), если надо
+      searchCode = "RUB(онлайн перевод)";
     }
-  
     return currenciesRates.find((c) => c.code === searchCode);
   };
 
+  const currencies = [
+    { code: "RUB", flag: "https://flagicons.lipis.dev/flags/4x3/ru.svg" },
+    { code: "USD", flag: "https://flagicons.lipis.dev/flags/4x3/us.svg" },
+    { code: "EUR", flag: "https://flagicons.lipis.dev/flags/4x3/eu.svg" },
+    { code: "USDT", flag: "/images/usdt.jpg" },
+    { code: "THB", flag: "https://flagicons.lipis.dev/flags/4x3/th.svg" },
+  ];
 
-  // Функция для переключения вкладки с пересчётом
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    // После смены вкладки пересчитываем
-    handleConvert(amount, currencyFrom, currencyTo);
-  };
-
-  
+  // Основная функция конвертации
   const handleConvert = (value, fromCurrency, toCurrency) => {
     setAmount(value);
+
+    // Если нет значения, очищаем результат
     if (!value) {
       setConvertedAmount("");
       return;
     }
 
-    //Если значения  одинаковые 
-    if(fromCurrency == toCurrency){
+    // Если валюты одинаковые — возвращаем исходное значение
+    if (fromCurrency === toCurrency) {
       setConvertedAmount(value);
       return;
     }
-  
-    // Если в конвертации участвует THB, используем значение из таблицы напрямую
-    if (fromCurrency === "THB") {
-      const targetRate = getCurrencyRate(toCurrency);
-      if (!targetRate) {
-        setConvertedAmount("");
-        return;
-      }
-      // При конвертации из THB – делим введённое значение на курс покупки целевой валюты
-      setConvertedAmount((value / targetRate.buy).toFixed(2));
+
+    // 1. Особенная пара USD ↔ USDT: ±1.9%
+    if (fromCurrency === "USDT" && toCurrency === "USD") {
+      const result = parseFloat(value) * 1.019;
+      setConvertedAmount(result.toFixed(2));
       return;
     }
-    if (toCurrency === "THB") {
+    if (fromCurrency === "USD" && toCurrency === "USDT") {
+      const result = parseFloat(value) * 0.981;
+      setConvertedAmount(result.toFixed(2));
+      return;
+    }
+
+    // 2. Прямые конвертации с участием THB
+    if (toCurrency === "THB" && fromCurrency !== "THB") {
       const sourceRate = getCurrencyRate(fromCurrency);
       if (!sourceRate) {
         setConvertedAmount("");
         return;
       }
-      // При конвертации в THB – умножаем введённое значение на курс продажи исходной валюты
-      setConvertedAmount((value * sourceRate.sell).toFixed(2));
+      let result = parseFloat(value) * sourceRate.buy;
+      // Если исходная валюта RUB — делим ещё на 100
+      if (fromCurrency === "RUB") {
+        result = parseFloat(value) / sourceRate.buy;
+      }
+      setConvertedAmount(result.toFixed(2));
       return;
     }
-  
-    // Если исходная валюта – RUB, то берем курс RUB(безналичный расчет) и конвертируем через THB
-    if (fromCurrency === "RUB") {
-      const rubRate = getCurrencyRate("RUB"); // вернёт RUB(безналичный расчет)
+    if (fromCurrency === "THB" && toCurrency !== "THB") {
       const targetRate = getCurrencyRate(toCurrency);
-      if (!rubRate || !targetRate) {
+      if (!targetRate) {
         setConvertedAmount("");
         return;
       }
-      // Сначала конвертируем RUB в THB, затем THB в целевую валюту
-      const valueInTHB = value * rubRate.sell;
-      setConvertedAmount((valueInTHB / targetRate.buy).toFixed(2));
-      return;
-    }
-    // Если целевая валюта – RUB, то также конвертируем через THB с учетом курса RUB
-    if (toCurrency === "RUB") {
-      const rubRate = getCurrencyRate("RUB");
-      const sourceRate = getCurrencyRate(fromCurrency);
-      if (!rubRate || !sourceRate) {
-        setConvertedAmount("");
-        return;
+      let result = parseFloat(value) / targetRate.sell;
+      if (toCurrency === "RUB") {
+        result = parseFloat(value) * targetRate.sell;
       }
-      const valueInTHB = value * sourceRate.sell;
-      setConvertedAmount((valueInTHB / rubRate.buy).toFixed(2));
+      setConvertedAmount(result.toFixed(2));
       return;
     }
-  
-    // Для всех остальных пар валют – конвертируем через THB
+
+    // 3. Остальные пары (не THB, не USD↔USDT) через THB
     const fromRate = getCurrencyRate(fromCurrency);
     const toRate = getCurrencyRate(toCurrency);
     if (!fromRate || !toRate) {
       setConvertedAmount("");
       return;
     }
-    const valueInTHB = value * fromRate.sell;
+    let valueInTHB = parseFloat(value) * fromRate.buy;
+    if (fromCurrency === "RUB") {
+      valueInTHB = parseFloat(value) / fromRate.buy;
+    }
     const result = valueInTHB / toRate.buy;
     setConvertedAmount(result.toFixed(2));
+  };
+
+  // Получение «текущего курса» для отображения
+  const getCurrentRateValue = () => {
+    if (currencyFrom === currencyTo) return 1;
+    if (
+      (currencyFrom === "USD" && currencyTo === "USDT") ||
+      (currencyFrom === "USDT" && currencyTo === "USD")
+    ) {
+      return 1.019;
+    }
+    if (currencyFrom === "THB" && currencyTo !== "THB") {
+      const targetRate = getCurrencyRate(currencyTo);
+      return targetRate ? targetRate.sell : null;
+    }
+    if (currencyTo === "THB" && currencyFrom !== "THB") {
+      const sourceRate = getCurrencyRate(currencyFrom);
+      return sourceRate ? sourceRate.buy : null;
+    }
+    const fromRate = getCurrencyRate(currencyFrom);
+    const toRate = getCurrencyRate(currencyTo);
+    if (fromRate && toRate) {
+      return fromRate.buy / toRate.buy;
+    }
+    return null;
+  };
+
+  const currentRate = getCurrentRateValue();
+
+  // Функция для переключения местами валют
+  const handleSwitchCurrencies = () => {
+    const oldFrom = currencyFrom;
+    const oldTo = currencyTo;
+    const oldConverted = convertedAmount;
+    setCurrencyFrom(oldTo);
+    setCurrencyTo(oldFrom);
+    if (oldConverted) {
+      handleConvert(oldConverted, oldTo, oldFrom);
+    } else {
+      handleConvert(amount, oldTo, oldFrom);
+    }
   };
 
   return (
@@ -180,23 +168,43 @@ const Calculator = ({ currenciesRates }) => {
         mx: "auto",
       }}
     >
-      <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, color: 'black', ml: 2, fontSize: { xs: 16, md: 32 } }}> Калькулятор обмена </Typography>
-      {/* Styled-components Tabs */}
-      <Tabs>
-        <Tab active={activeTab === "buy"} onClick={() => setActiveTab("buy")}>
-          Покупка
-        </Tab>
-        <Tab active={activeTab === "sell"} onClick={() => setActiveTab("sell")}
-        >
-          Продажа
-        </Tab>
-        <ActiveTabIndicator activeTab={activeTab} />
-      </Tabs>
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 700,
+          mb: 3,
+          color: "black",
+          fontSize: { xs: 16, md: 32 },
+        }}
+      >
+        Калькулятор обмена
+      </Typography>
 
-      {/* Input Fields */}
-      <Grid container spacing={2} sx={{ mt: { xs: 0, md: 2 }, backgroundColor: '#f5f5f5', borderRadius: 5, padding: { xs: 1, md: 3 } }}>
-        {/* From Amount */}
+      <DividerLine />
+
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          mt: 0,
+          backgroundColor: "#f5f5f5",
+          borderRadius: 5,
+          p: { xs: 1, md: 1 },
+        }}
+      >
+        {/* "Вы отдаёте" */}
         <Grid item xs={12}>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "14px", md: "18px" },
+              mb: 1,
+              ml: 1,
+              color: "black",
+            }}
+          >
+            Вы отдаёте
+          </Typography>
           <Box
             sx={{
               display: "flex",
@@ -206,7 +214,6 @@ const Calculator = ({ currenciesRates }) => {
               borderRadius: 15,
               padding: "5px 10px",
               height: { xs: 40, md: 70 },
-              //boxShadow: "inside 0 2px 4px rgba(0, 0, 0, 0.05)",
             }}
           >
             <TextField
@@ -214,7 +221,9 @@ const Calculator = ({ currenciesRates }) => {
               variant="standard"
               placeholder="Сумма"
               value={amount}
-              onChange={(e) => handleConvert(e.target.value, currencyFrom, currencyTo)}
+              onChange={(e) =>
+                handleConvert(e.target.value, currencyFrom, currencyTo)
+              }
               InputProps={{
                 disableUnderline: true,
                 sx: {
@@ -223,7 +232,6 @@ const Calculator = ({ currenciesRates }) => {
                     color: "#D8D8D8",
                     fontSize: { xs: 15, md: 25 },
                     lineHeight: "24px",
-
                   },
                 },
                 style: {
@@ -232,7 +240,6 @@ const Calculator = ({ currenciesRates }) => {
                   lineHeight: "1.5",
                 },
               }}
-              sx={{ flex: 1, t: '#D8D8D8' }}
             />
             <Box
               sx={{
@@ -253,9 +260,9 @@ const Calculator = ({ currenciesRates }) => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 1,
+                gap: { xs: 1, md: 2 },
                 fontWeight: "bold",
-                fontSize: { xs: 12, md: 18 },
+                fontSize: { xs: "12px", md: "18px" },
               }}
             >
               {currencies.map((currency) => (
@@ -263,7 +270,7 @@ const Calculator = ({ currenciesRates }) => {
                   key={currency.code}
                   value={currency.code}
                   sx={{
-                    fontSize: { xs: 12, md: 16 },
+                    fontSize: { xs: "12px", md: "16px" },
                     display: "flex",
                     alignItems: "center",
                     gap: 2,
@@ -292,26 +299,51 @@ const Calculator = ({ currenciesRates }) => {
                 </MenuItem>
               ))}
             </Select>
-
           </Box>
         </Grid>
-        <Box
-          sx={{
-            fontWeight: "bold",
-            fontSize: { xs: "1.2rem", md: "1.5rem" },
-            color: "#0E0E0E",
-            mt: { xs: 1, md: 2 },
-            ml: "50%",
-            transform: "translateX(-50%)",
-            mb: 1
-          }}
-        >
-          Текущий курс: {activeTab === "buy"
-            ? getCurrencyRate(currencyFrom)?.buy.toFixed(2)
-            : getCurrencyRate(currencyFrom)?.sell.toFixed(2)}
-        </Box>
-        {/* To Amount */}
+
+        {/* "Вы получаете" */}
         <Grid item xs={12}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              height: { xs: 40, md: 70 },
+              mb: '2px',
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontSize: { xs: "14px", md: "18px" },
+                color: "black",
+                ml: 1,
+              }}
+            >
+              Вы получаете
+            </Typography>
+
+            <IconButton
+              onClick={handleSwitchCurrencies}
+              sx={{
+                mr: { xs: "1rem", md: "2rem" },
+                backgroundColor: "rgba(0, 0, 0, 0.03)",
+                borderRadius: "50%",
+                transition: "background-color 0.2s ease",
+                "&:active": {
+                  backgroundColor: "rgba(0, 0, 0, 0.1)",
+                },
+              }}
+            >
+              <img
+                src={switch_icon}
+                alt="Поменять местами"
+                style={{ width: 20, height: 20 }}
+              />
+            </IconButton>
+          </Box>
+
           <Box
             sx={{
               display: "flex",
@@ -321,7 +353,6 @@ const Calculator = ({ currenciesRates }) => {
               borderRadius: 15,
               padding: "5px 10px",
               height: { xs: 40, md: 70 },
-              //boxShadow: "inside 0 2px 4px rgba(0, 0, 0, 0.05)",
             }}
           >
             <TextField
@@ -337,7 +368,6 @@ const Calculator = ({ currenciesRates }) => {
                     color: "#D8D8D8",
                     fontSize: { xs: 15, md: 25 },
                     lineHeight: "24px",
-
                   },
                 },
                 style: {
@@ -346,7 +376,6 @@ const Calculator = ({ currenciesRates }) => {
                   lineHeight: "1.5",
                 },
               }}
-              sx={{ flex: 1, t: '#D8D8D8' }}
             />
             <Box
               sx={{
@@ -367,9 +396,9 @@ const Calculator = ({ currenciesRates }) => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 1,
+                gap: { xs: 1, md: 2 },
                 fontWeight: "bold",
-                fontSize: { xs: 12, md: 18 },
+                fontSize: { xs: "12px", md: "18px" },
               }}
             >
               {currencies.map((currency) => (
@@ -377,7 +406,7 @@ const Calculator = ({ currenciesRates }) => {
                   key={currency.code}
                   value={currency.code}
                   sx={{
-                    fontSize: { xs: 12, md: 16 },
+                    fontSize: { xs: "12px", md: "16px" },
                     display: "flex",
                     alignItems: "center",
                     gap: 2,
@@ -390,7 +419,6 @@ const Calculator = ({ currenciesRates }) => {
                       gap: 1,
                     }}
                   >
-
                     <img
                       src={currency.flag}
                       alt={currency.code}
@@ -407,6 +435,24 @@ const Calculator = ({ currenciesRates }) => {
                 </MenuItem>
               ))}
             </Select>
+          </Box>
+
+          <Box
+            sx={{
+              textAlign: "center",
+              mt: 2,
+              fontSize: { xs: "14px", md: "18px" },
+              color: "#0E0E0E",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+            }}
+          >
+            <Typography sx={{ fontWeight: "bold", mb: 0 }}>
+              Текущий курс:{" "}
+              {currentRate ? currentRate.toFixed(2) : "0"}
+            </Typography>
           </Box>
         </Grid>
       </Grid>
