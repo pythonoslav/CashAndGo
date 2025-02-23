@@ -44,9 +44,11 @@ const Calculator = ({ currenciesRates }) => {
     { code: "THB", flag: "https://flagicons.lipis.dev/flags/4x3/th.svg" },
   ];
 
-// Основная функция конвертации
+// Пример функции handleConvert с учетом buy для входа в THB и sell для выхода из THB
 const handleConvert = (value, fromCurrency, toCurrency) => {
   setAmount(value);
+  
+  // Если нет значения, очищаем результат
   if (!value) {
     setConvertedAmount("");
     return;
@@ -58,45 +60,46 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
     return;
   }
 
-  // 1. Особенная пара USD ↔ USDT с комиссией:
+  // 1. Особенная пара USD ↔ USDT: ±1.9%
+  // USDT → USD: +1.9%
   if (fromCurrency === "USDT" && toCurrency === "USD") {
-    // +1.9% к итоговой сумме
-    const result = parseFloat(value) * 0.981;
-    setConvertedAmount(result.toFixed(2));
-    return;
-  }
-  if (fromCurrency === "USD" && toCurrency === "USDT") {
-    // -1.9% от итоговой суммы
     const result = parseFloat(value) * 1.019;
     setConvertedAmount(result.toFixed(2));
     return;
   }
+  // USD → USDT: -1.9%
+  if (fromCurrency === "USD" && toCurrency === "USDT") {
+    const result = parseFloat(value) * 0.981;
+    setConvertedAmount(result.toFixed(2));
+    return;
+  }
 
-  // 2. Прямые конвертации с участием THB:
-  // Из любой валюты (не THB) в THB => сумма * buy
+  // 2. Прямые конвертации с участием THB
+  // Из любой валюты (не THB) в THB => сумма * buy исходной
   if (toCurrency === "THB" && fromCurrency !== "THB") {
     const sourceRate = getCurrencyRate(fromCurrency);
     if (!sourceRate) {
       setConvertedAmount("");
       return;
     }
-    const result = parseFloat(value) / sourceRate.buy;
+    const result = parseFloat(value) * sourceRate.buy;
     setConvertedAmount(result.toFixed(2));
     return;
   }
-  // Из THB в любую валюту (не THB) => сумма / sell
+
+  // Из THB в любую валюту (не THB) => сумма / sell целевой
   if (fromCurrency === "THB" && toCurrency !== "THB") {
     const targetRate = getCurrencyRate(toCurrency);
     if (!targetRate) {
       setConvertedAmount("");
       return;
     }
-    const result = parseFloat(value) * targetRate.sell;
+    const result = parseFloat(value) / targetRate.sell;
     setConvertedAmount(result.toFixed(2));
     return;
   }
 
-  // 3. Остальные пары: через THB по "buy"-курсам
+  // 3. Остальные пары (не THB, не USD↔USDT) через THB по "buy"
   const fromRate = getCurrencyRate(fromCurrency);
   const toRate = getCurrencyRate(toCurrency);
   if (!fromRate || !toRate) {
@@ -105,11 +108,12 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
   }
 
   // Сначала переводим из fromCurrency в THB по buy
-  const valueInTHB = parseFloat(value) / fromRate.buy;
+  const valueInTHB = parseFloat(value) * fromRate.buy;
   // Затем из THB в toCurrency, деля на buy целевой валюты
-  const result = valueInTHB * toRate.sell;
+  const result = valueInTHB / toRate.buy;
   setConvertedAmount(result.toFixed(2));
 };
+
 
 
 
