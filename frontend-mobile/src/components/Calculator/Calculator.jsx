@@ -60,7 +60,7 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
     return;
   }
 
-  // --- 1. Особенная пара USD ↔ USDT: ±1.9%
+  // 1. Особенная пара USD ↔ USDT: ±1.9%
   // USDT → USD: +1.9%
   if (fromCurrency === "USDT" && toCurrency === "USD") {
     const result = parseFloat(value) * 1.019;
@@ -74,59 +74,47 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
     return;
   }
 
-  // --- 2. Прямые конвертации с участием THB и RUB
-  // Предположим, что getCurrencyRate("RUB") вернёт объект вида { code: "RUB", buy: 2.88, sell: 2.62 }
-  // где "buy" и "sell" относятся к тому, как вы храните курсы в своём массиве.
-  
-  // Из RUB в THB: делим на sell (чтобы 100 RUB / 2.62 ≈ 38 THB)
-  if (fromCurrency === "RUB" && toCurrency === "THB") {
-    const rubRate = getCurrencyRate("RUB");
-    if (!rubRate) {
-      setConvertedAmount("");
-      return;
-    }
-    const result = parseFloat(value) / rubRate.buy; // sell = 2.62
-    setConvertedAmount(result.toFixed(2));
-    return;
-  }
-
-  // Из THB в RUB: умножаем на buy (чтобы 100 THB * 2.88 = 288 RUB)
-  if (fromCurrency === "THB" && toCurrency === "RUB") {
-    const rubRate = getCurrencyRate("RUB");
-    if (!rubRate) {
-      setConvertedAmount("");
-      return;
-    }
-    const result = parseFloat(value) / rubRate.sell; // buy = 2.88
-    setConvertedAmount(result.toFixed(2));
-    return;
-  }
-
-  // Из любой валюты (не THB) в THB => сумма * buy (старый общий подход)
+  // 2. Прямые конвертации с участием THB
+  // Любая валюта (не THB) -> THB: умножаем на buy
   if (toCurrency === "THB" && fromCurrency !== "THB") {
     const sourceRate = getCurrencyRate(fromCurrency);
     if (!sourceRate) {
       setConvertedAmount("");
       return;
     }
-    const result = parseFloat(value) / sourceRate.buy;
+    let result = parseFloat(value) * sourceRate.buy;
+
+    // Если исходная валюта RUB — делим ещё на 100
+    if (fromCurrency === "RUB") {
+      result = result / 100;
+    }
+
     setConvertedAmount(result.toFixed(2));
     return;
   }
 
-  // Из THB в любую валюту (не THB) => сумма / sell (старый общий подход)
+  // THB -> любая валюта (не THB): делим на sell
   if (fromCurrency === "THB" && toCurrency !== "THB") {
     const targetRate = getCurrencyRate(toCurrency);
     if (!targetRate) {
       setConvertedAmount("");
       return;
     }
-    const result = parseFloat(value) * targetRate.sell;
+    let result = parseFloat(value) / targetRate.sell;
+
+    // Если исходная валюта RUB (не актуально в данном условии, 
+    // потому что fromCurrency === "THB", но оставлено для наглядности)
+    if (fromCurrency === "RUB") {
+      result = result / 100;
+    }
+
     setConvertedAmount(result.toFixed(2));
     return;
   }
 
-  // --- 3. Остальные пары (не THB, не USD↔USDT) через THB по "buy"
+  // 3. Остальные пары (не THB, не USD↔USDT) через THB
+  // Сначала переводим из fromCurrency в THB (умножаем на buy)
+  // Затем из THB в toCurrency, деля на buy целевой
   const fromRate = getCurrencyRate(fromCurrency);
   const toRate = getCurrencyRate(toCurrency);
   if (!fromRate || !toRate) {
@@ -134,12 +122,17 @@ const handleConvert = (value, fromCurrency, toCurrency) => {
     return;
   }
 
-  // Сначала переводим из fromCurrency в THB по buy
-  const valueInTHB = parseFloat(value) / fromRate.buy;
-  // Затем из THB в toCurrency, деля на buy целевой валюты
-  const result = valueInTHB * toRate.buy;
+  let valueInTHB = parseFloat(value) * fromRate.buy;
+
+  // Если исходная валюта RUB — делим на 100 
+  if (fromCurrency === "RUB") {
+    valueInTHB = valueInTHB / 100;
+  }
+
+  const result = valueInTHB / toRate.buy;
   setConvertedAmount(result.toFixed(2));
 };
+
 
 
 
