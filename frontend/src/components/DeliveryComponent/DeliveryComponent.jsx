@@ -22,8 +22,8 @@ const CourierDelivery = () => {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: "12px",
-        padding: "20px",
-        gap: "20px",
+        p: { xs: "16px", md: "20px" },
+        gap: { xs: "16px", md: "20px" },
         width: "100%",
         mb: "2rem",
         position: "relative",
@@ -34,42 +34,52 @@ const CourierDelivery = () => {
         sx={{
           maxWidth: "1400px",
           width: "100%",
-          height: "100%",
-          margin: "0 auto",
+          mx: "auto",
           position: "relative",
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           overflow: "hidden",
         }}
       >
-        {/* Левый блок */}
+        {/* Левый блок с текстом и кнопками */}
         <Box
           sx={{
             flex: 1,
             textAlign: "left",
-            maxWidth: "600px", // Фиксированная ширина текста
+            maxWidth: { xs: "100%", md: "600px" },
+            px: { xs: 1, md: 2 },
           }}
         >
-          <Title />
+          <Title style={{ width: "100%", maxWidth: "400px" }} />
           <Typography
             variant="body1"
             sx={{
-              fontSize: "24px",
+              fontSize: { xs: "18px", md: "24px" },
               color: "#0E1111",
-              marginBottom: "20px",
+              mb: { xs: "16px", md: "20px" },
               fontWeight: "600",
-              textAlign: "left",
             }}
           >
-            Курьерская служба Cash & Go осуществляет доставку тайских бат в любое место Пхукета, Бангкока, Паттайи.
+            Курьерская служба Cash & Go осуществляет доставку тайских бат в любое место
+            Пхукета, Бангкока, Паттайи.
           </Typography>
 
-          {/* Шаги */}
-          <List sx={{ marginBottom: "20px" }}>
-            {["Договоритесь о месте встречи с менеджером сервиса в Telegram или WhatsApp", 
-              "Дождитесь курьера", 
-              "Переведите оплату по нашим реквизитам и получите наличные"].map((text, index) => (
-              <ListItem key={index} sx={{ display: "flex", gap: "10px", alignItems: "center", padding: "8px 0" }}>
+          {/* Список шагов */}
+          <List sx={{ mb: { xs: "16px", md: "20px" } }}>
+            {[
+              "Договоритесь о месте встречи с менеджером сервиса в Telegram или WhatsApp",
+              "Дождитесь курьера",
+              "Переведите оплату по нашим реквизитам и получите наличные",
+            ].map((text, index) => (
+              <ListItem
+                key={index}
+                sx={{
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  py: 0.5,
+                }}
+              >
                 <Box
                   sx={{
                     fontWeight: "bold",
@@ -86,13 +96,29 @@ const CourierDelivery = () => {
                 >
                   {index + 1}
                 </Box>
-                <Typography variant="body1" sx={{ color: "#0E1111", fontSize: "18px" }}>{text}</Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: "#0E1111",
+                    fontSize: { xs: "16px", md: "18px" },
+                  }}
+                >
+                  {text}
+                </Typography>
               </ListItem>
             ))}
           </List>
 
-          {/* Кнопки */}
-          <Typography variant="body1" sx={{ fontWeight: "600", marginBottom: "10px", fontSize: "24px", color: "#0E1111" }}>
+          {/* Текст и кнопки для заказа */}
+          <Typography
+            variant="body1"
+            sx={{
+              fontWeight: "600",
+              mb: "10px",
+              fontSize: { xs: "18px", md: "24px" },
+              color: "#0E1111",
+            }}
+          >
             Закажите доставку наличных прямо к себе в отель, домой или на работу!
           </Typography>
 
@@ -100,7 +126,12 @@ const CourierDelivery = () => {
             <Button
               variant="contained"
               startIcon={<TelegramIcon />}
-              sx={{ borderRadius: "50px", padding: "15px 20px", maxWidth: "293px", backgroundColor: "#27a7e7" }}
+              sx={{
+                borderRadius: "50px",
+                p: { xs: "10px 16px", md: "15px 20px" },
+                maxWidth: "293px",
+                backgroundColor: "#27a7e7",
+              }}
               onClick={() => openLink(telegramLink)}
             >
               Обменять в Telegram
@@ -108,7 +139,12 @@ const CourierDelivery = () => {
             <Button
               variant="contained"
               startIcon={<WhatsAppIcon />}
-              sx={{ borderRadius: "50px", padding: "15px 20px", maxWidth: "293px", backgroundColor: "#2cb742" }}
+              sx={{
+                borderRadius: "50px",
+                p: { xs: "10px 16px", md: "15px 20px" },
+                maxWidth: "293px",
+                backgroundColor: "#2cb742",
+              }}
               onClick={() => openLink(whatsappLink)}
             >
               Обменять в WhatsApp
@@ -116,7 +152,7 @@ const CourierDelivery = () => {
           </Stack>
         </Box>
 
-        {/* Правый блок с мопедом */}
+        {/* Правый блок с мопедом и таймером */}
         <Box
           sx={{
             flex: 1,
@@ -124,43 +160,53 @@ const CourierDelivery = () => {
             justifyContent: "center",
             flexDirection: "column",
             position: "relative",
+            mt: { xs: 4, md: 0 },
             maxWidth: "100%",
           }}
         >
           {/* Контейнер с мопедом */}
           <Box
             sx={{
-              position: "absolute",
-              right: "5%", // Чуть выдвигаем за границу, но не создаем скроллинг
-              top: "50%",
-              transform: "translateY(-50%)",
-              maxWidth: "calc(100% + 100px)", // Даем мопеду пространство
-              overflow: "visible", // Разрешаем выходить за границы
+              position: { xs: "relative", md: "absolute" },
+              right: { xs: "0", md: "15%" },
+              top: { xs: "0", md: "50%" },
+              transform: { xs: "none", md: "translateY(-50%)" },
+              maxWidth: { xs: "100%", md: "calc(100% + 100px)" },
+              overflow: "visible",
+              textAlign: "center",
             }}
           >
-            <ScooterIcon style={{ height: "650px", zIndex: 1 }} />
+            <ScooterIcon style={{ height: "100%", maxHeight: window.innerWidth < 600 ? "300px" : "650px", zIndex: 1 }} />
           </Box>
 
-          {/* Блок с таймером поверх мопеда */}
+          {/* Блок с таймером */}
           <Box
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "flex-end",
+              justifyContent: { xs: "center", md: "flex-end" },
               alignItems: "center",
-              position: "absolute",
-              bottom: "-10px",
-              right: "10%",
-              transform: "translateX(-50%)",
+              position: { xs: "relative", md: "absolute" },
+              bottom: { xs: "0", md: "-10px" },
+              right: { xs: "0", md: "10%" },
+              transform: { xs: "none", md: "translateX(-50%)" },
               zIndex: 2,
-              padding: "8px 12px",
+              p: { xs: "4px 8px", md: "8px 12px" },
               borderRadius: "8px",
+              mt: { xs: 2, md: 0 },
             }}
           >
-            <Typography sx={{ color: "#0E1111", fontWeight: "600", fontSize: "24px", mr: 1 }}>
+            <Typography
+              sx={{
+                color: "#0E1111",
+                fontWeight: "600",
+                fontSize: { xs: "16px", md: "24px" },
+                mr: 1,
+              }}
+            >
               Экономим Ваше время! <br />Доставка за 1 час
             </Typography>
-            <Timer style={{ height: "90px", width: "auto" }} />
+            <Timer style={{ height: window.innerWidth < 600 ? "60px" : "90px", width: "auto" }} />
           </Box>
         </Box>
       </Box>

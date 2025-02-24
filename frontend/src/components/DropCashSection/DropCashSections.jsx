@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 import { Box, Typography, Grid } from "@mui/material";
 import { ReactComponent as ATM_drop_cash } from "../../assets/ATM_drop_cash_full.svg";
@@ -18,10 +18,10 @@ const DropContainer = styled(Box)`
 `;
 
 const Wrapper = styled(Box)`
-  max-width: 1440px; 
-  width: 100%; 
+  max-width: 1440px; /* или 1920px, если хотите шире */
+  width: 100%;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   margin: 0 auto;
 `;
 
@@ -31,6 +31,12 @@ const ButtonContainer = styled(Box)`
   justify-content: flex-start;
   gap: 3rem;
   margin-left: 0.5rem;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    gap: 1.5rem;
+    margin-left: 0; /* Чтобы кнопки на мобильном были по центру */
+  }
 `;
 
 const BankButton = styled.button`
@@ -54,116 +60,106 @@ const DropCashSection = ({ setOpenNestedModal }) => {
           container
           spacing={4}
           alignItems="center"
-          sx={{
-            '@media (max-width: 768px)': {
-              flexDirection: "column-reverse",
-              textAlign: "center",
-            },
-          }}
+          /* Измените на { xs: "column-reverse", md: "row" }, если хотите, чтобы на мобильном текст был выше */
+          direction={{ xs: "column", md: "row" }}
+          textAlign={{ xs: "center", md: "inherit" }}
         >
-          {/* Левая колонка */}
+          {/* Левая колонка (банкомат) */}
           <Grid
             item
             xs={12}
             md={6}
             sx={{
               display: "flex",
-              justifyContent: "flex-start",
-              paddingLeft: '2rem',
-              '@media (max-width: 768px)': {
-                marginBottom: "20px",
-              },
+              justifyContent: { xs: "center", md: "flex-start" },
+              pl: { xs: 0, md: "2rem" },
+              mb: { xs: "20px", md: 0 },
             }}
           >
             <ATM_drop_cash
               style={{
-                maxWidth: "80%",
+                width: "100%",
+                maxWidth: "450px", // Меняйте при необходимости
                 height: "auto",
               }}
             />
           </Grid>
 
-          {/* Правая колонка */}
+          {/* Правая колонка (текст и кнопки) */}
           <Grid
             item
             xs={12}
             md={6}
             sx={{
-              alignSelf: "flex-start",
-              '@media (max-width: 768px)': {
-                alignSelf: "center",
-                width: "100%",
-                padding: "0 10px",
-              },
+              alignSelf: { xs: "center", md: "flex-start" },
+              width: { xs: "100%", md: "auto" },
+              px: { xs: "10px", md: 0 },
             }}
           >
             <Box>
               {/* Заголовок SVG */}
               <Box
                 sx={{
-                  marginBottom: "2.5rem",
-                  '@media (max-width: 768px)': {
-                    maxWidth: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                  },
+                  mb: { xs: "1.5rem", md: "2.5rem" },
+                  display: "flex",
+                  justifyContent: { xs: "center", md: "flex-start" },
+                  width: "100%",
                 }}
               >
-                <DropCash width="500" height="auto" />
+                <DropCash
+                  style={{
+                    width: "100%",
+                    maxWidth: "400px", // Меняйте, чтобы подобрать нужный размер
+                    height: "auto",
+                  }}
+                />
               </Box>
+
+              {/* Основной текст */}
               <Typography
                 variant="body1"
                 sx={{
-                  fontSize: "24px",
+                  fontSize: { xs: "16px", md: "24px" },
                   fontWeight: "400",
-                  lineHeight: "25px",
+                  lineHeight: { xs: "22px", md: "32px" },
                   color: "#0E1111",
-                  marginBottom: "50px",
+                  mb: { xs: "20px", md: "30px" },
                   width: "100%",
-                  '@media (max-width: 768px)': {
-                    fontSize: "16px",
-                    lineHeight: "22px",
-                    textAlign: "left"
-                  },
+                  textAlign: { xs: "left", md: "inherit" },
                 }}
               >
-                Обмен валюты через банкомат в первый раз у многих вызывает затруднение. 
+                Обмен валюты через банкомат в первый раз у многих вызывает затруднение.
                 Но, на самом деле, это самый быстрый и удобный способ обменять деньги
                 <Typography
                   component="span"
                   sx={{
                     fontWeight: "bold",
-                    fontSize: "24px",
+                    fontSize: { xs: "16px", md: "24px" },
                     display: "block",
-                    lineHeight: "31px",
-                    marginTop: '1rem',  
-                    '@media (max-width: 768px)': {
-                      lineHeight: "26px",
-                    },
+                    lineHeight: { xs: "22px", md: "32px" },
+                    mt: "1rem",
+                    color: "#F87000", // Если хотите выделить оранжевым
                   }}
                 >
                   по выгодному курсу!
                 </Typography>
               </Typography>
+
               <Typography
                 variant="body1"
                 sx={{
-                  fontSize: "22px",
+                  fontSize: { xs: "16px", md: "22px" },
                   fontWeight: "300",
-                  lineHeight: "24px",
+                  lineHeight: { xs: "22px", md: "30px" },
                   color: "#0E1111",
-                  marginBottom: "4rem",
+                  mb: { xs: "30px", md: "3rem" },
                   width: "95%",
-                  '@media (max-width: 768px)': {
-                    fontSize: "16px",
-                    lineHeight: "22px",
-                    textAlign: "left"
-                  },
-                }}>
-                Просто найдите ближайший банкомат банков из списка
-                и следуйте инструкциям:
+                  textAlign: { xs: "left", md: "inherit" },
+                }}
+              >
+                Просто найдите ближайший банкомат банков из списка и следуйте инструкциям:
               </Typography>
-              
+
               {/* Кнопки банков */}
               <ButtonContainer>
                 <BankButton onClick={() => setOpenNestedModal("Kassicorn")}>
@@ -176,7 +172,6 @@ const DropCashSection = ({ setOpenNestedModal }) => {
                   <KrungthaiButton />
                 </BankButton>
               </ButtonContainer>
-
             </Box>
           </Grid>
         </Grid>

@@ -176,7 +176,7 @@ const HeroSection = () => {
           >
             <Calculator currenciesRates={currencyRates} />
           </Box>
-
+          <Element name="kurs"></Element>
           {/* Курс валют */}
           <Box
             sx={{
@@ -184,6 +184,7 @@ const HeroSection = () => {
               width: { xs: "100%", md: "calc((100% - 100px) / 2)" },
             }}
           >
+            
             <ExchangeRates currencyRates={currencyRates} />
           </Box>
         </Box>

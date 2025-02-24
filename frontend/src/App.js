@@ -55,8 +55,14 @@ const ModalOverlay = styled(Box)`
 
 const ModalContent = styled(Box)`
   background: url('backgraund_modal.svg') center center / cover no-repeat;
-  width: 60%;
-  max-height: 80vh; /* Вычтем отступы */
+
+  /* Вместо жёсткого 60% можно задать адаптивное значение */
+  width: 80%;            /* Базовое значение для планшетов и десктопов */
+  max-width: 1440px;     /* или 1920px, если нужно растягиваться шире */
+
+  /* Вместо жёсткого 80vh можно увеличить или убрать */
+  max-height: 90vh;      /* Позволит занять 90% высоты экрана */
+
   overflow-y: auto;
   padding: 20px;
   border-radius: 50px;
@@ -83,7 +89,14 @@ const ModalContent = styled(Box)`
     padding: 12px;
     border-radius: 8px;
   }
+
+  /* Если хотите, чтобы на очень больших экранах (min-width:1920px) окно было ещё шире */
+  @media (min-width: 1920px) {
+    width: 70%;     /* или 60% — подбирайте под дизайн */
+    max-width: 1400px; /* или 1600px, если нужно */
+  }
 `;
+
 
 
 
@@ -120,38 +133,38 @@ const App = () => {
 
   return (
     <Box sx={{ width: "100%", overflowX: "hidden", margin: 0, padding: 0 }}>
-      
-        <Header />
-        <HeroSection />
 
-        <Box
-          sx={{
-            backgroundImage: "url('/mail_background.svg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            pt: { xs: 2, md: 4 },
-            pb: { xs: 2, md: 4 },
-            px: { xs: 1, md: 0 },
-          }}
-        >
-          <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
-          <Element name="about"></Element>
-          <AboutUs />
-          <CustomCarousel />
-          <ReviewsCarousel />
-          <TitleContainer>
-            <LastLogo
-              style={{
-                marginLeft: isMobile ? "0" : "2rem",
-                width: isMobile ? "200px" : "auto",
-              }}
-            />
-          </TitleContainer>
-          <FAQ />
-        </Box>
-        <Element name="faq"></Element>
-        <Footer setOpenModal={setOpenModal}/>
-  
+      {!openModal && <Header />}
+      <HeroSection />
+
+      <Box
+        sx={{
+          backgroundImage: "url('/mail_background.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          pt: { xs: 2, md: 4 },
+          pb: { xs: 2, md: 4 },
+          px: { xs: 1, md: 0 },
+        }}
+      >
+        <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
+        <Element name="about"></Element>
+        <AboutUs />
+        <CustomCarousel />
+        <ReviewsCarousel />
+        <TitleContainer>
+          <LastLogo
+            style={{
+              marginLeft: isMobile ? "0" : "2rem",
+              width: isMobile ? "200px" : "auto",
+            }}
+          />
+        </TitleContainer>
+        <FAQ />
+      </Box>
+      <Element name="faq"></Element>
+      <Footer setOpenModal={setOpenModal} />
+
 
       {/* Модалки */}
       <Modal open={Boolean(openModal)} onClose={handleClose}>

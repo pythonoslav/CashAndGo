@@ -46,17 +46,13 @@ const CustomCarousel = () => {
             <Typography
                 variant="body1"
                 sx={{
-                    fontSize: "18px",
+                    fontSize: { xs: "16px", md: "18px" },
                     fontWeight: "300",
-                    lineHeight: "24px",
+                    lineHeight: { xs: "22px", md: "24px" },
                     color: "#0E1111",
                     marginBottom: "2rem",
-                    ml: '2rem',
-                    "@media (max-width: 768px)": {
-                        fontSize: "16px",
-                        lineHeight: "22px",
-                        textAlign: "left",
-                    },
+                    ml: { xs: "1rem", md: "2rem" },
+                    textAlign: { xs: "left", md: "initial" },
                 }}
             >
                 Обменяйте более 20 видов валют по лучшему курсу в комфортном и современном офисе Cash & Go
@@ -81,7 +77,7 @@ const CustomCarousel = () => {
                         <Box
                             sx={{
                                 width: "100%",
-                                height: "600px",
+                                height: { xs: "300px", sm: "400px", md: "500px", lg: "600px" },
                                 backgroundImage: `url(${image})`,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
@@ -99,7 +95,7 @@ const CustomCarousel = () => {
                 sx={{
                     position: "absolute",
                     top: "50%",
-                    left: "90px",
+                    left: { xs: "1rem", md: "90px" },
                     color: "#fff",
                     zIndex: 2,
                     transform: "translateY(-50%)",
@@ -112,7 +108,7 @@ const CustomCarousel = () => {
                 sx={{
                     position: "absolute",
                     top: "50%",
-                    right: "90px",
+                    right: { xs: "1rem", md: "90px" },
                     color: "#fff",
                     zIndex: 2,
                     transform: "translateY(-50%)",
@@ -132,19 +128,14 @@ const CustomCarousel = () => {
                     )
                 }
                 sx={{
-                    ml: '2rem',
-                    fontSize: "24px",
+                    ml: { xs: "1rem", md: "2rem" },
+                    fontSize: { xs: "16px", md: "24px" },
                     fontWeight: "900",
-                    lineHeight: "45px",
+                    lineHeight: { xs: "22px", md: "45px" },
                     color: "#0E1111",
                     width: "100%",
                     marginTop: "2rem",
                     cursor: "pointer",
-                    "@media (max-width: 768px)": {
-                        fontSize: "16px",
-                        lineHeight: "22px",
-                        textAlign: "left",
-                    },
                     "&:hover span": {
                         textDecoration: "underline",
                     },
@@ -152,8 +143,7 @@ const CustomCarousel = () => {
             >
                 Адрес:{" "}
                 <span>
-                    5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130,
-                    Thailand
+                    5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
                 </span>
             </Typography>
             <Typography
@@ -165,8 +155,8 @@ const CustomCarousel = () => {
                     )
                 }
                 sx={{
-                    ml: '2rem',
-                    fontSize: "14px",
+                    ml: { xs: "1rem", md: "2rem" },
+                    fontSize: { xs: "12px", md: "14px" },
                     fontWeight: "500",
                     width: "100%",
                     color: "#F87000",
@@ -177,6 +167,7 @@ const CustomCarousel = () => {
                 Нажмите, чтобы открыть местоположение на карте
             </Typography>
         </Box>
+
     );
 };
 
