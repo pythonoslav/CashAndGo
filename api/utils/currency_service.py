@@ -13,8 +13,7 @@ async def fetch_all_thb(api_settings):
     async with httpx.AsyncClient() as client:
         try:
             thb_convert = await client.get(
-                api_settings.all_thb,
-                headers={"Authorization": f"Bearer {api_settings.api_key}"}  # Используем Bearer Token
+                api_settings.all_thb
             )
 
             response_tether = await client.get(
@@ -24,7 +23,7 @@ async def fetch_all_thb(api_settings):
             thb_convert.raise_for_status()
             response_tether.raise_for_status()
 
-            data_thb_convert = thb_convert.json().get("rates", {})
+            data_thb_convert = thb_convert.json().get("conversion_rates", {})
             tether_rate = response_tether.json()
 
             return data_thb_convert, tether_rate
