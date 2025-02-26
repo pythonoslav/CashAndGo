@@ -66,8 +66,8 @@ const InstructionsBangkokBank = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        1. Нажмите <strong>«Bangkok  
-                        Bank Mobile Banking»</strong> на банкомате
+                        1. Нажмите <strong>«Cardless withdrawal»</strong> на банкомате
+
                     </Typography>
                 </Box>
                 {/* Шаг 2 */}
@@ -90,7 +90,7 @@ const InstructionsBangkokBank = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        2. Нажмите <strong>«K PLUS»</strong> на банкомате
+                        2. Нажмите <strong>«Bangkok bank mobile banking»</strong> на банкомате
                     </Typography>
                 </Box>
                 {/* Шаг 3 */}
@@ -113,7 +113,7 @@ const InstructionsBangkokBank = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        3. На экране появится QR-код, сфотографируйте его и пришлите в чат с менеджером
+                        3. На экране появится QR-код, <strong>сфотографируйте его и пришлите в чат с менеджером</strong>
                     </Typography>
                 </Box>
                 {/* Шаг 4 */}

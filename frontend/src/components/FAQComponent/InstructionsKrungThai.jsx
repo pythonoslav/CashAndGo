@@ -67,7 +67,7 @@ const InstructionsKrungThai = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        1. Нажмите <strong>«Cardless withdrawal»</strong> на банкомате
+                        1. Нажмите <strong>«Cardless ATM</strong> на банкомате
                     </Typography>
                 </Box>
                 {/* Шаг 2 */}
@@ -113,7 +113,7 @@ const InstructionsKrungThai = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        3. На экране появится QR-код, сфотографируйте его и пришлите в чат с менеджером
+                        3. Введите номер телефона из сообщения в чате и нажмите <strong>«Confirm»</strong>
                     </Typography>
                 </Box>
                 {/* Шаг 4 */}
@@ -136,8 +136,7 @@ const InstructionsKrungThai = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        4. Мы отсканируем QR-код, напишем вам об этом, после чего нажмите{" "}
-                        <strong>«Confirm»</strong> и заберите деньги
+                        4. Введите 6-значный код из сообщения в чате, нажмите <strong>«Confirm»</strong> и заберите деньги
                     </Typography>
                 </Box>
             </Box>

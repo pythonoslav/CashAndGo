@@ -65,7 +65,7 @@ const Header = () => {
                                     textDecoration: "underline", // Подчеркивание при наведении
                                 },
                             }}
-                            onClick={() => window.open("https://t.me/your_telegram_bot", "_blank")}
+                            onClick={() => window.open("https://t.me/cashandgo_th", "_blank")}
                         >
                             ОБМЕНЯТЬ ВАЛЮТУ
                         </Typography>

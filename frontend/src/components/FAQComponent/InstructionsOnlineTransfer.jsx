@@ -24,9 +24,9 @@ const InstructionsOnlineTransfer = () => {
                 <Typography
                     component="span"
                     sx={{
-                        fontWeight: "normal", // Можно сделать текст менее выделяющимся
-                        color: "#333", // Дополнительный стиль цвета
-                        fontSize: "16px", // Немного уменьшить размер текста
+                        fontWeight: "normal", 
+                        color: "#333", 
+                        fontSize: "16px",
                     }}
                 >
                     уточнили курс, утвердили сумму и произвели оплату в рублях или USDT, можно смело снимать ваши деньги с банкомата
