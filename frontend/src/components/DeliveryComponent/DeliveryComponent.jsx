@@ -2,18 +2,33 @@ import React from "react";
 import { Box, Typography, Button, Stack, List, ListItem } from "@mui/material";
 import { ReactComponent as ScooterIcon } from "../DeliveryComponent/assets/Scoter.svg";
 import { ReactComponent as Title } from "../DeliveryComponent/assets/CourierDeleveryTEXT.svg";
+import { ReactComponent as Title_en } from "../DeliveryComponent/assets/Cash_delivery_en.svg";
 import { ReactComponent as TelegramIcon } from "../../assets/telegram-icon.svg";
 import { ReactComponent as WhatsAppIcon } from "../../assets/whatsapp-icon.svg";
 import { ReactComponent as Timer } from "../../assets/time_picture.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
-const telegramLink = "https://t.me/";
+const telegramLink = "https://t.me/cashandgo_th";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 
 const CourierDelivery = () => {
+  const { language } = useLanguage();
   const openLink = (url) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
+  const stepsByLanguage = {
+    ru: [
+      "Договоритесь о месте встречи с менеджером сервиса в Telegram или WhatsApp",
+      "Дождитесь курьера",
+      "Переведите оплату по нашим реквизитам и получите наличные",
+    ],
+    en: [
+      "Agree on the meeting place with the service manager via Telegram or WhatsApp",
+      "Wait for the courier",
+      "Transfer the payment using our details and receive cash",
+    ],
+  };
   return (
     <Box
       sx={{
@@ -27,7 +42,7 @@ const CourierDelivery = () => {
         width: "100%",
         mb: "2rem",
         position: "relative",
-        overflow: "hidden", // Убираем горизонтальный скролл
+        overflow: "hidden", 
       }}
     >
       <Box
@@ -50,7 +65,7 @@ const CourierDelivery = () => {
             px: { xs: 1, md: 2 },
           }}
         >
-          <Title style={{ width: "100%", maxWidth: "400px" }} />
+          {language === 'ru' ? <Title style={{ width: "100%", maxWidth: "400px" }} /> : <Title_en style={{ width: "100%",  maxWidth: '300px' }} />}
           <Typography
             variant="body1"
             sx={{
@@ -60,17 +75,13 @@ const CourierDelivery = () => {
               fontWeight: "600",
             }}
           >
-            Курьерская служба Cash & Go осуществляет доставку тайских бат в любое место
-            Пхукета, Бангкока, Паттайи.
+            {language === "ru" ? " Курьерская служба Cash & Go осуществляет доставку тайских бат в любое место Пхукета, Бангкока, Паттайи." : "Cash & Go’s courier service delivers Thai Baht anywhere in Phuket, Bangkok, and Pattaya."}
+
           </Typography>
 
           {/* Список шагов */}
           <List sx={{ mb: { xs: "16px", md: "20px" } }}>
-            {[
-              "Договоритесь о месте встречи с менеджером сервиса в Telegram или WhatsApp",
-              "Дождитесь курьера",
-              "Переведите оплату по нашим реквизитам и получите наличные",
-            ].map((text, index) => (
+            {(stepsByLanguage[language] || stepsByLanguage.ru).map((text, index) => (
               <ListItem
                 key={index}
                 sx={{
@@ -119,7 +130,8 @@ const CourierDelivery = () => {
               color: "#0E1111",
             }}
           >
-            Закажите доставку наличных прямо к себе в отель, домой или на работу!
+            {language === 'ru' ? " Закажите доставку наличных прямо к себе в отель, домой или на работу!" : "Order cash delivery straight to your hotel, home, or workplace!"}
+           
           </Typography>
 
           <Stack direction="column" spacing={2} mt={4}>
@@ -134,7 +146,7 @@ const CourierDelivery = () => {
               }}
               onClick={() => openLink(telegramLink)}
             >
-              Обменять в Telegram
+              {language === 'ru' ? "Обменять в Telegram" : "Exchange via Telegram"}
             </Button>
             <Button
               variant="contained"
@@ -147,7 +159,7 @@ const CourierDelivery = () => {
               }}
               onClick={() => openLink(whatsappLink)}
             >
-              Обменять в WhatsApp
+              {language === 'ru' ? "Обменять в WhatsApp" : "Exchange via WhatsApp"} 
             </Button>
           </Stack>
         </Box>
@@ -204,7 +216,9 @@ const CourierDelivery = () => {
                 mr: 1,
               }}
             >
-              Экономим Ваше время! <br />Доставка за 1 час
+              {language === 'ru' ? "Экономим Ваше время!" : "Save time"}
+              <br />
+              {language === 'ru' ? "Доставка за 1 час" : "Delivery in just 1 hour!"}
             </Typography>
             <Timer style={{ height: window.innerWidth < 600 ? "60px" : "90px", width: "auto" }} />
           </Box>

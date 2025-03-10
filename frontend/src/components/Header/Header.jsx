@@ -1,14 +1,14 @@
-import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, Box, Button, IconButton, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import HeaderLogo from "./HeaderLogo";
 import LangSwitch from "./LangSwitch";
 import telegramIcon from "../../assets/telegram-icon.svg";
 import whatsappIcon from "../../assets/whatsapp-icon.svg";
 import { useState } from "react";
-import MenuIcon from "../../assets/MenuBurger.svg";
 import Vector from "./strelka.svg"
 import { Link } from "react-scroll";
+import { useLanguage } from "../../helpers/LanguageContext";
 
-const telegramLink = "https://t.me/"; // Телеги пока что нет
+const telegramLink = "https://t.me/cashandgo_th"; // Телеги пока что нет
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 
 
@@ -18,7 +18,7 @@ const Header = () => {
     const isMenuOpen = Boolean(anchorEl);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+    const { language, changeLanguage } = useLanguage();
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -46,9 +46,9 @@ const Header = () => {
 
                 {/* Навигация */}
                 <Box sx={{ display: "flex", gap: "3.6vw", flexGrow: 1, justifyContent: "center" }}>
-                    <Button component={Link} to="kurs" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>КУРС</Button>
-                    <Button component={Link} to="about" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>О НАС</Button>
-                    <Button component={Link} to="faq" smooth={true} duration={500} offset={90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>КОНТАКТЫ</Button>
+                    <Button component={Link} to="kurs" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>{language == 'ru' ? "КУРС" : "EXCHANGE RATE"}</Button>
+                    <Button component={Link} to="about" smooth={true} duration={500} offset={-90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>{language == 'ru' ? "О НАС" : "ABOUT US"}</Button>
+                    <Button component={Link} to="faq" smooth={true} duration={500} offset={90} sx={{ color: "#0033A0", fontWeight: "700", fontSize: "1.2rem", textTransform: "none" }}>{language == 'ru' ? "КОНТАКТЫ" : "CONTACT"}</Button>
                 </Box>
 
                 {/* Блок обмена валюты и иконки */}
@@ -67,7 +67,7 @@ const Header = () => {
                             }}
                             onClick={() => window.open("https://t.me/cashandgo_th", "_blank")}
                         >
-                            ОБМЕНЯТЬ ВАЛЮТУ
+                            {language === 'ru' ? "ОБМЕНЯТЬ ВАЛЮТУ" : " EXCHANGE MONEY"}
                         </Typography>
                         <img
                             src={Vector}

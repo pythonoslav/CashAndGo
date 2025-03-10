@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { Box, Typography, Grid } from "@mui/material";
 import { ReactComponent as ATM_drop_cash } from "../../assets/ATM_drop_cash_full.svg";
+import { ReactComponent as DropCash_en } from "../../assets/ATM_drop_cash_en.svg";
 import { ReactComponent as DropCash } from "../../assets/drop_cash_text.svg";
 import { ReactComponent as KassicornButton } from "../../assets/Kassicorn_logo.svg";
 import { ReactComponent as BangkokButton } from "../../assets/Bangkok_bank_logo.svg";
 import { ReactComponent as KrungthaiButton } from "../../assets/Krungthai.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const DropContainer = styled(Box)`
   position: relative;
@@ -53,6 +55,7 @@ const BankButton = styled.button`
 `;
 
 const DropCashSection = ({ setOpenNestedModal }) => {
+  const { language } = useLanguage()
   return (
     <DropContainer>
       <Wrapper>
@@ -106,13 +109,22 @@ const DropCashSection = ({ setOpenNestedModal }) => {
                   width: "100%",
                 }}
               >
-                <DropCash
-                  style={{
-                    width: "100%",
-                    maxWidth: "400px", // Меняйте, чтобы подобрать нужный размер
-                    height: "auto",
-                  }}
-                />
+                {language === 'ru' ?
+                  <DropCash
+                    style={{
+                      width: "100%",
+                      maxWidth: "400px",
+                      height: "auto",
+                    }}
+                  />
+                  : <DropCash_en
+                    style={{
+                      width: "100%",
+                      maxWidth: "300px",
+                      height: "auto",
+                    }}
+                  />}
+
               </Box>
 
               {/* Основной текст */}
@@ -128,8 +140,8 @@ const DropCashSection = ({ setOpenNestedModal }) => {
                   textAlign: { xs: "left", md: "inherit" },
                 }}
               >
-                Обмен валюты через банкомат в первый раз у многих вызывает затруднение.
-                Но, на самом деле, это самый быстрый и удобный способ обменять деньги
+                {language === 'ru' ? "Обмен валюты через банкомат в первый раз у многих вызывает затруднение. Но, на самом деле, это самый быстрый и удобный способ обменять деньги" : "Withdrawing cash via an ATM might seem complicated at first, but it’s actually the fastest and most convenient way to exchange money"}
+
                 <Typography
                   component="span"
                   sx={{
@@ -141,7 +153,8 @@ const DropCashSection = ({ setOpenNestedModal }) => {
                     color: "#F87000", // Если хотите выделить оранжевым
                   }}
                 >
-                  по выгодному курсу!
+                  {language === 'ru' ? " по выгодному курсу!" : " and at the best rate!"}
+
                 </Typography>
               </Typography>
 
@@ -157,7 +170,8 @@ const DropCashSection = ({ setOpenNestedModal }) => {
                   textAlign: { xs: "left", md: "inherit" },
                 }}
               >
-                Просто найдите ближайший банкомат банков из списка и следуйте инструкциям:
+                {language === 'ru' ? "Просто найдите ближайший банкомат банков из списка и следуйте инструкциям:" : "Find the nearest ATM from the list below and follow the instructions:"}
+
               </Typography>
 
               {/* Кнопки банков */}

@@ -4,8 +4,10 @@ import Calculator from "../Calculator/Calculator";
 import ExchangeRates from "../ExchangeRates/ExchangeRates";
 import { useEffect, useState } from "react";
 import { Element } from "react-scroll";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const HeroSection = () => {
+  const { language } = useLanguage();
   const [currencyRates, setCurrencyRates] = useState([
     { country_code: "us", code: "USD", buy: 34.21516, sell: 34.96113 },
     { country_code: "eu", code: "EUR", buy: 35.62406, sell: 36.78481 },
@@ -35,11 +37,17 @@ const HeroSection = () => {
       try {
         const response = await fetch("/api/get_currencies_data");
         const data = await response.json();
-
-        // Фильтруем массив, убираем USDT и заменяем RUB-значения
-        const updatedRates = data.result
-          .filter((currency) => currency.code !== "USDT")
-          .map((currency) => {
+  
+        // Фильтруем массив, убираем USDT
+        const filteredRates = data.result.filter(
+          (currency) => currency.code !== "USDT"
+        );
+  
+        let updatedRates;
+  
+        if (language === "ru") {
+          // Заменяем значения, если язык — русский
+          updatedRates = filteredRates.map((currency) => {
             switch (currency.code) {
               case "RUB(cash)":
                 return { ...currency, code: "RUB(наличные)" };
@@ -51,15 +59,20 @@ const HeroSection = () => {
                 return currency;
             }
           });
-
+        } else {
+          // Иначе оставляем без изменений
+          updatedRates = filteredRates;
+        }
+  
         setCurrencyRates(updatedRates);
       } catch (error) {
         console.error("Ошибка загрузки данных о курсах валют:", error);
       }
     };
-
+  
     fetchCurrencyRates();
-  }, []);
+  }, [language]);
+  
 
   return (
     <Box
@@ -136,7 +149,7 @@ const HeroSection = () => {
                 lineHeight: { xs: "1.3", md: "1.3" },    // Можно чуть увеличить на мобилке
               }}
             >
-              БЫСТРЫЙ И НАДЕЖНЫЙ
+              { language === 'ru' ? "БЫСТРЫЙ И НАДЕЖНЫЙ" : "FAST AND SECURE" }
             </Typography>
             <Typography
               variant="h6"
@@ -147,10 +160,10 @@ const HeroSection = () => {
                 color: "white",
                 mt: 2,
               }}
-            >
-              ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ <br />
-              НА БАТЫ ПО САМОМУ ВЫГОДНОМУ <br />
-              КУРСУ ПО ВСЕМУ ТАЙЛАНДУ
+            > 
+            {language === 'ru' ? "ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ" : "CURRENCY AND CRYPTO EXCHANGE"} <br />
+            {language === 'ru' ? "НА БАТЫ ПО САМОМУ ВЫГОДНОМУ" : "AT THE BEST RATES"}
+            {language === 'ru' ? "КУРСУ ПО ВСЕМУ ТАЙЛАНДУ" : ""}      
             </Typography>
           </Box>
         </Box>

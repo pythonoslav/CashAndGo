@@ -2,9 +2,11 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import license1 from "../../assets/license1.jpg";
 import license2 from "../../assets/license2.jpg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 
 const AboutUs = () => {
+  const { language } = useLanguage();
   return (
     <>
     <Box
@@ -36,7 +38,7 @@ const AboutUs = () => {
             marginBottom: "20px",
           }}
         >
-          О НАС
+          {language === 'ru' ? "О НАС" : "ABOUT US"}
         </Typography>
 
         <Typography
@@ -52,7 +54,10 @@ const AboutUs = () => {
           <strong style={{ color: "#004DB4", fontSize: "32px",  fontWeight: "900", }}>
             Cash <strong style={{ color: "#F87000" }}>&</strong> Go
           </strong>{" "}
-          - the way you EX change - лицензированный сервис обмена валюты в Таиланде. Наш сервис - это быстрый и простой способ обменять валюту в любой части Таиланда. Понятные методы получения наличных делают процедуру обмена прозрачной и доступной для каждого.
+        {language === 'ru' ? 
+        "- the way you EX change - лицензированный сервис обмена валюты в Таиланде. Наш сервис - это быстрый и простой способ обменять валюту в любой части Таиланда. Понятные методы получения наличных делают процедуру обмена прозрачной и доступной для каждого." 
+        : "- the way you EX change – a licensed currency exchange service in Thailand. Our service provides a fast and simple way to exchange currency anywhere in Thailand. Easy and convenient cash pickup methods make the exchange process straightforward and accessible to everyone."}
+          
         </Typography>
 
         <Typography
@@ -64,7 +69,10 @@ const AboutUs = () => {
             marginBottom: "20px",
           }}
         >
-          Наша цель - не только предоставить удобный и качественный сервис, но и сохранить индивидуальный подход к каждому из наших клиентов. Благодаря этому со многими из них удается выстраивать долгосрочные партнерские отношения.
+           {language === 'ru' ?  
+          "Наша цель - не только предоставить удобный и качественный сервис, но и сохранить индивидуальный подход к каждому из наших клиентов. Благодаря этому со многими из них удается выстраивать долгосрочные партнерские отношения." 
+          : "Our goal is not only to offer a reliable and high-quality service but also to provide a personalized experience for every client. This helps us foster lasting relationships based on trust and reliability."}
+          
         </Typography>
 
         <Typography
@@ -75,7 +83,10 @@ const AboutUs = () => {
             lineHeight: "1.6",
           }}
         >
-          Мы дорожим нашей репутацией и гарантируем полную безопасность сделки! Все операции осуществляются в срок и сопровождаются необходимыми юридическими документами.
+          {language === 'ru' ?  
+          "Мы дорожим нашей репутацией и гарантируем полную безопасность сделки! Все операции осуществляются в срок и сопровождаются необходимыми юридическими документами." 
+          : "Our reputation is our greatest asset, and we protect it by ensuring 100% secure transactions. We ensure timely transactions with full legal compliance."}
+          
         </Typography>
       </Box>
 

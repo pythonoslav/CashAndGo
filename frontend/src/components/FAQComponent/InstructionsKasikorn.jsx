@@ -5,16 +5,18 @@ import step1 from "../FAQComponent/assets/KasikornStep/KasikornStep1.png";
 import step2 from "../FAQComponent/assets/KasikornStep/KasikornStep2.png";
 import step3 from "../FAQComponent/assets/KasikornStep/KasikornStep3.png";
 import step4 from "../FAQComponent/assets/KasikornStep/KasikornStep4.png";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 
 const InstructionsKasikorn = () => {
+    const { language } = useLanguage()
     return (
         <Box
             sx={{
-                maxWidth: "90%", 
+                maxWidth: "90%",
                 margin: "0 auto",
-                borderRadius: "50px", 
-                padding: "25px", 
+                borderRadius: "50px",
+                padding: "25px",
                 backgroundColor: '#ffff'
             }}
         >
@@ -27,8 +29,7 @@ const InstructionsKasikorn = () => {
                     fontSize: "18px", // Уменьшили размер шрифта
                     textAlign: "left", // Выравнивание по левому краю
                 }}
-            >
-                После того, как в чате с менеджером вы договорились об обмене:{" "}
+            >{language === 'ru' ? "После того, как в чате с менеджером вы договорились об обмене: " : "After confirming the exchange details with our manager in chat"}
                 <Typography
                     component="span"
                     sx={{
@@ -37,7 +38,8 @@ const InstructionsKasikorn = () => {
                         fontSize: "16px", // Немного уменьшить размер текста
                     }}
                 >
-                    уточнили курс, утвердили сумму и произвели оплату в рублях или USDT, можно смело снимать ваши деньги с банкомата
+                    {language === 'ru' ? "уточнили курс, утвердили сумму и произвели оплату в рублях или USDT, можно смело снимать ваши деньги с банкомата" : " — agreeing on the rate, amount, and making the payment — you can safely withdraw your cash from the ATM."}
+
                 </Typography>
             </Typography>
 
@@ -67,7 +69,7 @@ const InstructionsKasikorn = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        1. Нажмите <strong>«Cardless withdrawal»</strong> на банкомате
+                        1. {language === 'ru' ? "Нажмите " : "Press "}<strong>«Cardless withdrawal»</strong> {language === 'ru' ? "на банкомате" : "on the ATM screen."}
                     </Typography>
                 </Box>
                 {/* Шаг 2 */}
@@ -90,7 +92,7 @@ const InstructionsKasikorn = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        2. Нажмите <strong>«K PLUS»</strong> на банкомате
+                        2. {language === 'ru' ? "Нажмите " : "Select"}<strong>«K PLUS»</strong>{language === 'ru' ? "на банкомате" : "on the ATM."}
                     </Typography>
                 </Box>
                 {/* Шаг 3 */}
@@ -113,7 +115,7 @@ const InstructionsKasikorn = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        3. На экране появится QR-код, сфотографируйте его и пришлите в чат с менеджером
+                        3. {language === 'ru' ? "На экране появится QR-код, сфотографируйте его и пришлите в чат с менеджером" : "A QR code will appear on the screen. Take a photo and send it to our manager in chat."}
                     </Typography>
                 </Box>
                 {/* Шаг 4 */}
@@ -136,8 +138,8 @@ const InstructionsKasikorn = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        4. Мы отсканируем QR-код, напишем вам об этом, после чего нажмите{" "}
-                        <strong>«Confirm»</strong> и заберите деньги
+                        4. {language === 'ru' ? "Мы отсканируем QR-код, напишем вам об этом, после чего нажмите" : "We will scan the QR code, confirm the transaction, and notify you. Then, press "}{" "}
+                        <strong>«Confirm»</strong> {language === 'ru' ? "и заберите деньги" : "on the ATM and collect your cash."}
                     </Typography>
                 </Box>
             </Box>

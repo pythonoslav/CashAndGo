@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import telegramIcon from "../Calculator/telegram-icon.svg";
 import switch_icon from "../Calculator/switch_calculator.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 // Компонент-разделитель (черточка)
 const DividerLine = styled.div`
@@ -25,7 +26,7 @@ const Calculator = ({ currenciesRates }) => {
   const [currencyTo, setCurrencyTo] = useState("THB");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
-
+  const { language } = useLanguage()
   // Функция для поиска курса по коду валюты
   const getCurrencyRate = (code) => {
     let searchCode = code;
@@ -148,6 +149,7 @@ const Calculator = ({ currenciesRates }) => {
     const oldFrom = currencyFrom;
     const oldTo = currencyTo;
     const oldConverted = convertedAmount;
+    
     setCurrencyFrom(oldTo);
     setCurrencyTo(oldFrom);
     if (oldConverted) {
@@ -177,7 +179,7 @@ const Calculator = ({ currenciesRates }) => {
           fontSize: { xs: 16, md: 32 },
         }}
       >
-        Калькулятор обмена
+        {language === "ru" ? "Калькулятор обмена" : "Exchange rate calculator"}
       </Typography>
 
       <DividerLine />
@@ -203,7 +205,7 @@ const Calculator = ({ currenciesRates }) => {
               color: "black",
             }}
           >
-            Вы отдаёте
+            {language === "ru" ? "Вы отдаёте" : "Amount to exchange"}
           </Typography>
           <Box
             sx={{
@@ -219,7 +221,7 @@ const Calculator = ({ currenciesRates }) => {
             <TextField
               fullWidth
               variant="standard"
-              placeholder="Сумма"
+              placeholder={language === "ru" ? "Сумма" : "Amount"}
               value={amount}
               onChange={(e) =>
                 handleConvert(e.target.value, currencyFrom, currencyTo)
@@ -321,7 +323,7 @@ const Calculator = ({ currenciesRates }) => {
                 ml: 1,
               }}
             >
-              Вы получаете
+              {language === "ru" ? "Вы получаете" : "Amount to receive"}
             </Typography>
 
             <IconButton
@@ -358,7 +360,7 @@ const Calculator = ({ currenciesRates }) => {
             <TextField
               fullWidth
               variant="standard"
-              placeholder="Результат"
+              placeholder={language === "ru" ? "Результат" : "Amount"}
               value={convertedAmount}
               InputProps={{
                 disableUnderline: true,
@@ -450,8 +452,8 @@ const Calculator = ({ currenciesRates }) => {
             }}
           >
             <Typography sx={{ fontWeight: "bold", mb: 0 }}>
-              Текущий курс:{" "}
-              {currentRate ? currentRate.toFixed(2) : "0"}
+            {language === 'ru' ? "Текущий курс: " : "Curren rate: "  }
+            {currentRate ? currentRate.toFixed(2) : "0"}
             </Typography>
           </Box>
         </Grid>
@@ -491,7 +493,7 @@ const Calculator = ({ currenciesRates }) => {
             },
           }}
         >
-          Способы получения наличных
+         {language === 'ru' ? "Способы получения наличных" : "Ways to receive cash"}
         </Button>
 
         <Button
@@ -525,7 +527,7 @@ const Calculator = ({ currenciesRates }) => {
             />
           }
         >
-          Обменять в Telegram
+          {language === 'ru' ? "Обменять в Telegram" : "Exchange in Telegram"}
         </Button>
       </Box>
     </Box>

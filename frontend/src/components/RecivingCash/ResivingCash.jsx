@@ -3,8 +3,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Box, IconButton, Typography } from "@mui/material";
 import "swiper/css";
 import { ReactComponent as RecivingCash } from "../../assets/Receiving_cash.svg";
+import { ReactComponent as RecivingCash_en } from "../../assets/Receiving_cash_en.svg";
 import { ReactComponent as ArrowButtonRight } from "../RecivingCash/assets/ArrowButton.svg";
 import { ReactComponent as ArrowButtonLeft } from "../RecivingCash/assets/ArrowButtonBack.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const images = [
     "/images/photo1.png",
@@ -18,6 +20,7 @@ const images = [
 ]; // Не убирать повторения, иначе карусель ломается
 
 const CustomCarousel = () => {
+    const { language } = useLanguage();
     const swiperRef = useRef(null);
 
     return (
@@ -39,7 +42,7 @@ const CustomCarousel = () => {
                     ml: '2rem'
                 }}
             >
-                <RecivingCash sx={{ width: "750px" }} />
+                {language === 'ru' ? <RecivingCash sx={{ width: "750px" }} /> : <RecivingCash_en sx={{ width: "750px" }} />}
             </Box>
 
             {/* Описание */}
@@ -55,7 +58,8 @@ const CustomCarousel = () => {
                     textAlign: { xs: "left", md: "initial" },
                 }}
             >
-                Обменяйте более 20 видов валют по лучшему курсу в комфортном и современном офисе Cash & Go
+                {language === "ru" ? "Обменяйте более 20 видов валют по лучшему курсу в комфортном и современном офисе Cash & Go" : "Cet the best exchange rates for over 20 currencies in Cash & Go’s modern and comfortable office."}
+                
             </Typography>
 
             {/* Слайдер */}
@@ -141,7 +145,7 @@ const CustomCarousel = () => {
                     },
                 }}
             >
-                Адрес:{" "}
+                {language === 'ru' ? "Адрес" : "Adress"}:{" "}
                 <span>
                     5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
                 </span>
@@ -164,7 +168,8 @@ const CustomCarousel = () => {
                     mb: "1.5rem",
                 }}
             >
-                Нажмите, чтобы открыть местоположение на карте
+                ({language === 'ru' ? "Нажмите, чтобы открыть местоположение на карте" : "Click to open location on the map"})
+               
             </Typography>
         </Box>
 

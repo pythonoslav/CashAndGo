@@ -1,7 +1,9 @@
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React from "react";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const ExchangeRates = ({ currencyRates }) => {
+  const {language} = useLanguage(); // Получаем текущий язык
   return (
     <Box
       sx={{
@@ -32,7 +34,7 @@ const ExchangeRates = ({ currencyRates }) => {
           fontSize: { xs: 16, md: 32 },
         }}
       >
-        Курс валют
+        {language === 'ru' ? "Курс валют" : "Exchange rates"} 
       </Typography>
 
       {/* Таблица с прокруткой */}
@@ -42,9 +44,9 @@ const ExchangeRates = ({ currencyRates }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: "bold", color: "black", fontSize: "1.2rem" }}>Валюта</TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "black", fontSize: "1.2rem" }} align="right">Покупка</TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "black", fontSize: "1.2rem" }} align="right">Продажа</TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black", fontSize: "1.2rem" }}>{language === 'ru' ? "Валюта" : "Currency"}</TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black", fontSize: "1.2rem" }} align="right">{language === 'ru' ? "Покупка" : "Buy"}</TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "black", fontSize: "1.2rem" }} align="right">{language === 'ru' ? "Продажа" : "Sell"}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -4,8 +4,10 @@ import Calculator from "../Calculator/Calculator";
 import ExchangeRates from "../ExchangeRates/ExchangeRates";
 import { useEffect, useState } from "react";
 import { Element } from "react-scroll";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const HeroSection = () => {
+  const { language } = useLanguage();
   const [currencyRates, setCurrencyRates] = useState([
     { country_code: "us", code: "USD", buy: 33.01, sell: 34.06 },
     { country_code: "eu", code: "EUR", buy: 34.43, sell: 35.73 },
@@ -29,42 +31,48 @@ const HeroSection = () => {
     { country_code: "qa", code: "QAR", buy: 9.45, sell: 9.68 },
     { country_code: "bh", code: "BHD", buy: 91.25, sell: 93.49 },
   ]);
-  
-    useEffect(() => {
-      const fetchCurrencyRates = async () => {
-        try {
-          const response = await fetch("/api/get_currencies_data");
-          const data = await response.json();
-  
-          // Фильтруем массив, убираем USDT и заменяем RUB-значения
-          const updatedRates = data.result
-            .map((currency) => {
-              switch (currency.code) {
-                case "RUB(online transfer)":
-                  return { ...currency, code: "RUB(онлайн перевод)" };
-                case "RUB(cash settlement)":
-                  return { ...currency, code: "RUB(наличные)" };
-                default:
-                  return currency;
-              }
-            });
-  
-          setCurrencyRates(updatedRates);
-        } catch (error) {
-          console.error("Ошибка загрузки данных о курсах валют:", error);
+
+  useEffect(() => {
+    const fetchCurrencyRates = async () => {
+      try {
+        const response = await fetch("/api/get_currencies_data");
+        const data = await response.json();
+
+        // Фильтруем массив, убираем USDT
+        const filteredRates = data.result.filter(
+          (currency) => currency.code !== "USDT"
+        );
+
+        let updatedRates;
+
+        if (language === "ru") {
+          // Заменяем значения, если язык — русский
+          updatedRates = filteredRates.map((currency) => {
+            switch (currency.code) {
+              case "RUB(cash)":
+                return { ...currency, code: "RUB(наличные)" };
+              case "RUB(online transfer)":
+                return { ...currency, code: "RUB(онлайн перевод)" };
+              case "RUB(cash settlement)":
+                return { ...currency, code: "RUB(безналичный расчет)" };
+              default:
+                return currency;
+            }
+          });
+        } else {
+          // Иначе оставляем без изменений
+          updatedRates = filteredRates;
         }
-      };
-  
-      // Первый запрос при загрузке компонента
-      fetchCurrencyRates();
-  
-      // Интервал обновления каждые 10 минут (600000 мс)
-      const intervalId = setInterval(fetchCurrencyRates, 600000);
-  
-      // Очистка интервала при размонтировании компонента
-      return () => clearInterval(intervalId);
-    }, []);
-  
+
+        setCurrencyRates(updatedRates);
+      } catch (error) {
+        console.error("Ошибка загрузки данных о курсах валют:", error);
+      }
+    };
+
+    fetchCurrencyRates();
+  }, [language]);
+
   return (
     <Box
       sx={{
@@ -111,7 +119,7 @@ const HeroSection = () => {
               justifyContent: "center",
               width: "100%",
               svg: {
-                width: "400px",  
+                width: "400px",
                 height: "auto",
               },
             }}
@@ -137,7 +145,7 @@ const HeroSection = () => {
                 lineHeight: "1.3",
               }}
             >
-              БЫСТРЫЙ И НАДЕЖНЫЙ
+              {language === 'ru' ? "БЫСТРЫЙ И НАДЕЖНЫЙ" : "FAST AND SECURE"}
             </Typography>
             <Typography
               variant="h6"
@@ -149,9 +157,9 @@ const HeroSection = () => {
                 mt: 1, // Поднимаем текст, уменьшая отступ сверху
               }}
             >
-              ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ <br />
-              НА БАТЫ ПО САМОМУ ВЫГОДНОМУ <br />
-              КУРСУ ПО ВСЕМУ ТАЙЛАНДУ
+              {language === 'ru' ? "ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ" : "CURRENCY AND CRYPTO EXCHANGE"} <br />
+              {language === 'ru' ? "НА БАТЫ ПО САМОМУ ВЫГОДНОМУ" : "AT THE BEST RATES"}
+              {language === 'ru' ? "КУРСУ ПО ВСЕМУ ТАЙЛАНДУ" : ""}
             </Typography>
           </Box>
         </Box>

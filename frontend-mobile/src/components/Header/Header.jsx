@@ -6,6 +6,9 @@ import telegramIcon from "../../assets/telegram-icon.svg";
 import whatsappIcon from "../../assets/whatsapp-icon.svg";
 import MenuIcon from "../../assets/MenuBurger.svg";
 import Vector from "../Header/strelka.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
+import LangSwitch from "./LangSwitch";
+
 
 const telegramLink = "https://t.me/cashandgo_th";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
@@ -14,6 +17,7 @@ const Header = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
     const isMobile = useMediaQuery("(max-width: 378px)");
+    const { language } = useLanguage()
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -103,7 +107,8 @@ const Header = () => {
                             }}
                             onClick={() => openLink(telegramLink)} // пример: скролл к блоку "КУРС"
                         >
-                            ОБМЕНЯТЬ <br /> ВАЛЮТУ
+                            {language === 'ru' ? <span>ОБМЕНЯТЬ <br /> ВАЛЮТУ</span> : <span>EXCHANGE <br /> MONEY</span>}
+                            
                         </Typography>
                         <img src={Vector} alt="Vector" style={{ width: "45px", height: "20px" }} />
                     </Box>
@@ -149,6 +154,8 @@ const Header = () => {
                 anchorEl={anchorEl}
                 open={isMenuOpen}
                 onClose={handleMenuClose}
+
+
                 sx={{
                     mt: "10px",
                     "& .MuiPaper-root": {
@@ -156,6 +163,7 @@ const Header = () => {
                         color: "#fff",
                         borderRadius: 7,
                         minWidth: "180px",
+                        overflow: 'visible'
                     },
                 }}
             >
@@ -166,7 +174,7 @@ const Header = () => {
                             textDecoration: "underline",
                         },
                     }}
-                >КУРС</MenuItem>
+                >{language === 'ru' ? "КУРС" : "EXCHANGE RATE"}</MenuItem>
                 <MenuItem
                     onClick={() => scrollToSection("about")}
                     sx={{
@@ -174,7 +182,7 @@ const Header = () => {
                             textDecoration: "underline",
                         },
                     }}
-                >О НАС</MenuItem>
+                >{language === 'ru' ? "О НАС" : "ABOUT US"}</MenuItem>
                 <MenuItem
                     onClick={() => scrollToSection("faq")}
                     sx={{
@@ -182,7 +190,8 @@ const Header = () => {
                             textDecoration: "underline",
                         },
                     }}
-                >КОНТАКТЫ</MenuItem>
+                >{language === 'ru' ? "КОНТАКТЫ" : "CONTACT"}</MenuItem>
+                <MenuItem><LangSwitch/></MenuItem>
             </Menu>
         </AppBar>
     );

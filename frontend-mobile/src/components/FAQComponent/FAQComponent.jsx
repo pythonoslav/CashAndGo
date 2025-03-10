@@ -5,13 +5,15 @@ import InstructionsKasikorn from "./InstructionsKasikorn";
 import InstructionsBangkokBank from "./InstructionsBangkokBank";
 import InstructionsKrungThai from "./InstructionsKrungThai";
 import InstructionsOnlineTransfer from "./InstructionsOnlineTransfer";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const FAQ = () => {
     const [openIndex, setOpenIndex] = useState(null);
-
+    const {language} = useLanguage()
     const handleToggle = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
+
 
     return (
         <Box sx={{ display: "flex", justifyContent: "center", p: 1.5, width: "100%" }}>
@@ -41,10 +43,10 @@ const FAQ = () => {
                         {/* Левый контейнер: две строки */}
                         <Box sx={{ textAlign: "left" }}>
                             <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0E1111" }}>
-                                Как снять валюту в банкомате
+                                {language === 'ru' ? "Как снять валюту в банкомате " : "How to withdraw cash from a "}
                             </Typography>
                             <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#76B942" }}>
-                                Kasikorn?
+                                Kasikorn {language !== 'ru' ? " ATM" : ""}
                             </Typography>
                         </Box>
 
@@ -89,10 +91,10 @@ const FAQ = () => {
                     >
                         <Box sx={{ textAlign: "left" }}>
                             <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0E1111" }}>
-                                Как снять валюту в банкомате
+                                {language === 'ru' ? "Как снять валюту в банкомате " : "How to withdraw cash from a "}
                             </Typography>
                             <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#085ac4" }}>
-                                Bangkok Bank?
+                                Bangkok Bank {language !== 'ru' ? " ATM" : ""}
                             </Typography>
                         </Box>
                         <IconButton
@@ -136,10 +138,10 @@ const FAQ = () => {
                     >
                         <Box sx={{ textAlign: "left" }}>
                             <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0E1111" }}>
-                                Как снять валюту в банкомате
+                                {language === 'ru' ? "Как снять валюту в банкомате " : "How to withdraw cash from a "}
                             </Typography>
                             <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0bb4fe" }}>
-                                Krunghtai?
+                                Krunghtai {language !== 'ru' ? " ATM" : ""}
                             </Typography>
                         </Box>
                         <IconButton
@@ -183,10 +185,11 @@ const FAQ = () => {
                     >
                         <Box sx={{ textAlign: "left" }}>
                             <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#0E1111" }}>
-                                Как совершить обмен через
+                                {language === 'ru' ? "Как совершить обмен через " : "How to exchange currency via"}
                             </Typography>
                             <Typography sx={{ fontWeight: 700, fontSize: "16px", color: "#f87000" }}>
-                                онлайн-перевод?
+                                {language === 'ru' ? "онлайн перевод" : "online transfer"}
+
                             </Typography>
                         </Box>
                         <IconButton

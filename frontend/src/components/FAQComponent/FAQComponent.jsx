@@ -5,11 +5,13 @@ import InstructionsKasikorn from "./InstructionsKasikorn";
 import InstructionsBangkokBank from "./InstructionsBangkokBank";
 import InstructionsKrungThai from "./InstructionsKrungThai"
 import InstructionsOnlineTransfer from "./InstructionsOnlineTransfer";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 
 const FAQ = () => {
 
     const [ openIndex, setOpenIndex ] = useState(null)
+    const { language } = useLanguage();
     const handleToggle = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
@@ -81,7 +83,7 @@ const FAQ = () => {
                                 }}
                             >
                                 <Typography sx={{ fontWeight: "900", fontSize: "32px", color: "#0E1111" }}>
-                                    Как снять валюту в банкомате{" "}
+                                    {language === 'ru' ? "Как снять валюту в банкомате " : "How to withdraw cash from a "}  
                                 </Typography>
                                 <Typography
                                     sx={{
@@ -91,7 +93,8 @@ const FAQ = () => {
                                         marginLeft: "5px",
                                     }}
                                 >
-                                    Kasikorn
+                                    Kasikorn {language !== 'ru' ? " ATM" : ""}
+                                    
                                 </Typography>
                             </Box>
                             <IconButton
@@ -106,8 +109,8 @@ const FAQ = () => {
                                     "&:hover": {
                                         backgroundColor: "#0033A0",
                                     },
-                                    position: "absolute", // Абсолютное позиционирование
-                                    right: "10px", // Расположить кнопку в 10px от правого края
+                                    position: "absolute", 
+                                    right: "10px",
                                     bottom: "20px",
                                 }}
                             >
@@ -155,7 +158,7 @@ const FAQ = () => {
                                 }}
                             >
                                 <Typography sx={{ fontWeight: "900", fontSize: "32px", color: "#0E1111" }}>
-                                    Как снять валюту в банкомате{" "}
+                                    {language === 'ru' ? "Как снять валюту в банкомате " : "How to withdraw cash from a "}
                                 </Typography>
                                 <Typography
                                     sx={{
@@ -165,7 +168,7 @@ const FAQ = () => {
                                         marginLeft: "5px",
                                     }}
                                 >
-                                    Bangkok Bank
+                                    Bangkok Bank {language !== 'ru' ? " ATM" : ""}
                                 </Typography>
                             </Box>
                             <IconButton
@@ -228,7 +231,7 @@ const FAQ = () => {
                                 }}
                             >
                                 <Typography sx={{ fontWeight: "900", fontSize: "32px", color: "#0E1111" }}>
-                                    Как снять валюту в банкомате{" "}
+                                    {language === 'ru' ? "Как снять валюту в банкомате " : "How to withdraw cash from a "}
                                 </Typography>
                                 <Typography
                                     sx={{
@@ -238,7 +241,7 @@ const FAQ = () => {
                                         marginLeft: "5px",
                                     }}
                                 >
-                                    Krunghtai
+                                    Krunghtai {language !== 'ru' ? " ATM" : ""}
                                 </Typography>
                             </Box>
                             <IconButton
@@ -301,7 +304,7 @@ const FAQ = () => {
                                 }}
                             >
                                 <Typography sx={{ fontWeight: "900", fontSize: "32px", color: "#0E1111" }}>
-                                    Как совершить обмен через{" "}
+                                    {language === 'ru' ? "Как совершить обмен через " : "How to exchange currency via"}
                                 </Typography>
                                 <Typography
                                     sx={{
@@ -311,7 +314,8 @@ const FAQ = () => {
                                         marginLeft: "5px",
                                     }}
                                 >
-                                    онлайн перевод
+                                    {language === 'ru' ? "онлайн перевод" : "online transfer"}
+                                    
                                 </Typography>
                             </Box>
                             <IconButton

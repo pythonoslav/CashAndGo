@@ -1,7 +1,8 @@
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React from "react";
-
+import { useLanguage } from "../../helpers/LanguageContext";
 const ExchangeRates = ({ currencyRates }) => {
+  const {language} = useLanguage()
   return (
     <Box
       sx={{
@@ -28,7 +29,7 @@ const ExchangeRates = ({ currencyRates }) => {
           fontSize: "16px", // Только мобильное значение
         }}
       >
-        Курс валют
+       {language === 'ru' ? "Курс валют" : "Exchange rates"} 
       </Typography>
 
       {/* Таблица с прокруткой */}
@@ -49,7 +50,7 @@ const ExchangeRates = ({ currencyRates }) => {
                   fontSize: "14px"
                 }}
               >
-                Валюта
+                {language === 'ru' ? "Валюта" : "Currency"}
               </TableCell>
               <TableCell
                 align="right"
@@ -59,7 +60,7 @@ const ExchangeRates = ({ currencyRates }) => {
                   fontSize: "14px"
                 }}
               >
-                Покупка
+               {language === 'ru' ? "Покупка" : "Buy"}
               </TableCell>
               <TableCell
                 align="right"
@@ -69,7 +70,7 @@ const ExchangeRates = ({ currencyRates }) => {
                   fontSize: "14px"
                 }}
               >
-                Продажа
+                {language === 'ru' ? "Продажа" : "Sell"}
               </TableCell>
             </TableRow>
           </TableHead>

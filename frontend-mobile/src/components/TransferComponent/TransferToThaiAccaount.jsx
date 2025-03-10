@@ -2,8 +2,10 @@ import React from "react";
 import { Box, Typography, Button, Stack } from "@mui/material";
 import { ReactComponent as TransferSVG } from "../TransferComponent/assets/TransferSVG.svg";
 import { ReactComponent as TitleSVG } from "../TransferComponent/assets/TitleSVG.svg";
+import { ReactComponent as TitleSVG_en } from "../TransferComponent/assets/TitleSVG_en.svg"; 
 import { ReactComponent as TelegramIcon } from "../TransferComponent/assets/TelegramIcon.svg";
 import { ReactComponent as WhatsAppIcon } from "../TransferComponent/assets/WhatsupIcon.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const telegramLink = "https://t.me/cashandgo_th";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
@@ -12,6 +14,8 @@ const TransferToThaiAccount = () => {
   const openLink = (url) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
+
+  const {language} = useLanguage()
 
   return (
     <Box
@@ -25,7 +29,7 @@ const TransferToThaiAccount = () => {
     >
       {/* Заголовок (SVG) */}
       <Box sx={{ width: "100%", maxWidth: 300, mb: 2, position: "relative", zIndex: 2 }}>
-        <TitleSVG style={{ width: "100%", height: "auto" }} />
+         {language === 'ru' ?  <TitleSVG style={{ marginBottom: "2rem", width: "100%", maxWidth: "400px" }} /> :  <TitleSVG_en style={{ marginBottom: "2rem", width: "100%", maxWidth: "450px" }} />}
       </Box>
 
       {/* Текстовый блок */}
@@ -40,7 +44,8 @@ const TransferToThaiAccount = () => {
             width: "95%",
           }}
         >
-          Обменивайте валюту с зачислением на Ваш тайский счет любого банка Таиланда!
+         {language === 'ru' ? "Обменивайте валюту с зачислением на Ваш тайский счет любого банка Таиланда!" : "Exchange currency with a direct deposit to any Thai bank account!"}
+         
         </Typography>
         <Typography
           sx={{
@@ -52,7 +57,8 @@ const TransferToThaiAccount = () => {
             width: "65%"
           }}
         >
-          Выгодный курс и быстрый обмен. Удобный вариант для оплаты жилья и крупных покупок.
+           {language === 'ru' ? "Выгодный курс и быстрый обмен. Удобный вариант для оплаты жилья и крупных покупок." : "Great rates & fast transactions"}
+           
         </Typography>
         <Typography
           sx={{
@@ -64,7 +70,8 @@ const TransferToThaiAccount = () => {
             width: "65%"
           }}
         >
-          Свяжитесь с нами в мессенджере и узнайте актуальный курс.
+          {language === 'ru' ? "Свяжитесь с нами в мессенджере и узнайте актуальный курс." : "Contact us via messenger to get the latest exchange rate."}
+            
         </Typography>
         <Typography
           sx={{
@@ -74,7 +81,8 @@ const TransferToThaiAccount = () => {
             mb: 2,
           }}
         >
-          Рассчитайте <br /> курс индивидуально!
+         {language === 'ru' ? "Рассчитайте" : "Calculate "}
+         <br /> {language === 'ru' ? "курс индивидуально!" : "your rate individually! "}
         </Typography>
 
         <Stack direction="row" spacing={2} sx={{ mb: 2 }}>

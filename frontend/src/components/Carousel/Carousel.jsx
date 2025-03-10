@@ -1,17 +1,19 @@
 import React, { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import "swiper/css";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { ReactComponent as OfficeTitle } from "../Carousel/OfficeTitle.svg"
+import { ReactComponent as OfficeTitle_En } from "../Carousel/OfficeTitle_en.svg"
 import ImageCarousel from "./MainCarousel";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 
 
 const position = [7.814527, 98.339614]; // Широта и долгота Пхукета
+
 
 
 const customIcon = new L.Icon({
@@ -21,7 +23,7 @@ const customIcon = new L.Icon({
     popupAnchor: [0, -40],
 });
 
-const LeafletMap = () => {
+const LeafletMap = ({language}) => {
 
     // const [userPosition, setUserPosition] = useState(null);
 
@@ -44,7 +46,7 @@ const LeafletMap = () => {
 
             {/* Добавляем маркер */}
             <Marker position={position} icon={customIcon}>
-                <Popup>Офис в районе Чалонг, Пхукет</Popup>
+                <Popup>{language === 'ru' ? "Офис в районе Чалонг, Пхукет" : "Office (Chalong area, Phuket)"}</Popup>
             </Marker>
             {/* <Polyline positions={[userPosition, position]} color="blue" /> */}
         </MapContainer>
@@ -54,7 +56,7 @@ const LeafletMap = () => {
 
 const CustomCarousel = () => {
     const swiperRef = useRef(null);
-
+    const {language} = useLanguage();
     return (
         <Box
             sx={{
@@ -79,7 +81,7 @@ const CustomCarousel = () => {
                 }}
             >
 
-                <OfficeTitle sx={{ width: '750px' }} />
+                {language === 'ru' ? <OfficeTitle sx={{ width: '750px' }} /> :  <OfficeTitle_En sx={{ width: '750px' }} />}
             </Box>
             <Typography
                 variant="body1"
@@ -98,7 +100,8 @@ const CustomCarousel = () => {
                     },
                     ml: "2rem"
                 }}
-            >Это офис с динамичной энергией и атмосферой, сочетающий эффективность, эстетику, комфорт и инновации</Typography>
+            >
+                {language === 'ru' ? "Это офис с динамичной энергией и атмосферой, сочетающий эффективность, эстетику, комфорт и инновации" : "Our office has a dynamic energy and atmosphere, bringing together efficiency, aesthetics, comfort and innovation"}</Typography>
             <ImageCarousel />
             <Box
                 sx={{
@@ -133,7 +136,7 @@ const CustomCarousel = () => {
                             lineHeight: '45px'
                         }}
                     >
-                        Часы работы: <br />ЕЖЕДНЕВНО С 9:00 до 18:00
+                        {language === 'ru' ? "Часы работы:" : "Business hours:"} <br /> {language === 'ru' ? "ЕЖЕДНЕВНО С 9:00 до 18:00" : "DAILY from 9:00 AM to 6:00 PM"}
                     </Typography>
 
                     <Typography
@@ -147,7 +150,7 @@ const CustomCarousel = () => {
                                 textDecoration: "underline",
 
                             },
-                        }}>Адрес: <span>5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand</span></Typography>
+                        }}>{language === 'ru' ? "Адрес: " : "Adress: "}<span>5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand</span></Typography>
 
                 </Box>
 
@@ -161,7 +164,7 @@ const CustomCarousel = () => {
                         position: "relative",
                     }}
                 >
-                    <LeafletMap />
+                    <LeafletMap language={language}/>
                 </Box>
             </Box>
 

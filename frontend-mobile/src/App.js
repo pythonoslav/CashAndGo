@@ -24,6 +24,8 @@ import { Element } from "react-scroll";
 import PrivacyPolicy from "./components/Privacy/PrivacyPolicy";
 import TermsAndConditions from "./components/Privacy/TermsAndConditions";
 import CookiePolicy from "./components/Privacy/CookiePolicy";
+import { LanguageProvider } from "./helpers/LanguageContext";
+import LangSwitch from "./components/Header/LangSwitch";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -116,6 +118,7 @@ const App = () => {
   };
 
   return (
+    <LanguageProvider>
     <Box sx={{ width: "100%", overflowX: "hidden", margin: 0, padding: 0 }}>
       {/* Убираем Header, если модальное окно открыто */}
       {openModal === null && <Header />}
@@ -195,6 +198,7 @@ const App = () => {
         </ModalOverlay>
       </Modal>
     </Box>
+    </LanguageProvider>
   );
 };
 

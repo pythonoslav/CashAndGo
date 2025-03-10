@@ -3,8 +3,10 @@ import { ReactComponent as LogoSVG } from "../../assets/main_logo.svg";
 import telegramFooter from "../Footer/assets/telegram_botlane.svg";
 import whatsappFooter from "../Footer/assets/whatsapp_bot.svg";
 import instagramFooter from "../Footer/assets/insta.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const Footer = ({ setOpenModal }) => {
+  const { language } = useLanguage();
   return (
     <Box
       sx={{
@@ -40,7 +42,7 @@ const Footer = ({ setOpenModal }) => {
               "&:hover": { color: "#ffffff" },
             }}
           >
-            Политика конфиденциальности
+            {language === 'ru' ? "Политика конфиденциальности" : "Privacy Policy"}
           </Typography>
           <Typography
             onClick={() => setOpenModal("terms")}
@@ -52,7 +54,8 @@ const Footer = ({ setOpenModal }) => {
               "&:hover": { color: "#ffffff" },
             }}
           >
-            Условия и положения
+            {language === 'ru' ? "Условия и положения" : "Terms & Conditions"}
+
           </Typography>
           <Typography
             onClick={() => setOpenModal("cookie")}
@@ -64,7 +67,7 @@ const Footer = ({ setOpenModal }) => {
               "&:hover": { color: "#ffffff" },
             }}
           >
-            Обработка файлов cookie
+            {language === 'ru' ? "Обработка файлов cookie" : " Cookie Policy"}
           </Typography>
         </Box>
       </Box>
@@ -81,21 +84,28 @@ const Footer = ({ setOpenModal }) => {
         }}
       >
         {/* Левый блок - Лого и лицензия */}
-        <Box sx={{ flexShrink: 0 }}>
+        <Box sx={{ flexShrink: 0, transform: "translateY(-4rem)" }}>
           {/* Логотип */}
           <Box
             sx={{
               width: "300px",
               height: "200px",
               overflow: "hidden",
-              svg: { width: "300px", height: "auto" },
-              "@media (max-width: 768px)": { svg: { width: "150px" } },
+              svg: {
+                width: "300px",
+                height: "auto",
+              },
+              "@media (max-width: 768px)": {
+                svg: { width: "150px" },
+              },
             }}
           >
             <LogoSVG style={{ transformOrigin: "top" }} />
           </Box>
-          <Typography sx={{ fontSize: "14px", color: "#C0C0C0" }}>
-            Лицензия ЦБ Королевства Таиланд
+          <Typography sx={{ fontSize: "14px", color: "#C0C0C0", mt: 1 }}>
+            {language === "ru"
+              ? "Лицензия ЦБ Королевства Таиланд"
+              : "License of the Central Bank of the Kingdom of Thailand"}
             <br />
             MC225670080
           </Typography>
@@ -104,16 +114,17 @@ const Footer = ({ setOpenModal }) => {
           </Typography>
         </Box>
 
+
         {/* Заполнитель пространства (если нужно) */}
         <Box sx={{ flexGrow: 1 }}></Box>
 
         {/* Правый блок - Контакты и соц.сети */}
         <Box sx={{ flexShrink: 0, textAlign: "right" }}>
           <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>
-            КОНТАКТЫ
+            {language === 'ru' ? "КОНТАКТЫ" : "CONTACTS"}
           </Typography>
           <Typography sx={{ fontSize: "14px", color: "#C0C0C0" }}>
-            тел. +66 95-876-3588
+            {language === 'ru' ? "тел." : "Phone"} +66 95-876-3588
           </Typography>
           <Typography
             sx={{ fontSize: "14px", color: "#C0C0C0", textDecoration: "none" }}
@@ -123,11 +134,11 @@ const Footer = ({ setOpenModal }) => {
           <Typography
             sx={{ fontSize: "14px", color: "#C0C0C0", textDecoration: "none" }}
           >
-            Адрес: 5/27A Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang,
+            {language === 'ru' ? "Адрес" : "Adress"}: 5/27A Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang,
             Phuket 83130, Thailand
           </Typography>
           <Typography sx={{ fontSize: "18px", fontWeight: "bold", mt: 2 }}>
-            СОЦИАЛЬНЫЕ СЕТИ
+            {language === 'ru' ? "СОЦСЕТИ" : "SOCIAL NETWORKS"}
           </Typography>
           {/* Иконки соцсетей */}
           <Box

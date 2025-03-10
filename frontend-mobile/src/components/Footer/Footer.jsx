@@ -3,8 +3,10 @@ import { ReactComponent as LogoSVG } from "../../assets/main_logo.svg";
 import telegramFooter from "../Footer/assets/telegram_botlane.svg";
 import whatsappFooter from "../Footer/assets/whatsapp_bot.svg";
 import instagramFooter from "../Footer/assets/insta.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
-const Footer = ({setOpenModal}) => {
+const Footer = ({ setOpenModal }) => {
+  const language = useLanguage()
   return (
     <Box
       sx={{
@@ -45,7 +47,7 @@ const Footer = ({setOpenModal}) => {
               "&:hover": { color: "#ffffff" },
             }}
           >
-            Политика конфиденциальности
+            {language === 'ru' ? "Политика конфиденциальности" : "Privacy Policy"}
           </Typography>
           <Typography
             onClick={() => setOpenModal("terms")}
@@ -57,7 +59,7 @@ const Footer = ({setOpenModal}) => {
               "&:hover": { color: "#ffffff" },
             }}
           >
-            Условия и положения
+            {language === 'ru' ? "Условия и положения" : "Terms & Conditions"}
           </Typography>
           <Typography
             onClick={() => setOpenModal("cookie")}
@@ -69,7 +71,7 @@ const Footer = ({setOpenModal}) => {
               "&:hover": { color: "#ffffff" },
             }}
           >
-            Обработка файлов cookie
+            {language === 'ru' ? "Обработка файлов cookie" : " Cookie Policy"}
           </Typography>
         </Box>
 
@@ -82,7 +84,7 @@ const Footer = ({setOpenModal}) => {
           }}
         >
           <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>
-            КОНТАКТЫ
+            {language === 'ru' ? "КОНТАКТЫ" : "CONTACTS"}
           </Typography>
           <Box sx={{ width: "120px" }}>
             <LogoSVG style={{ width: "100%", height: "auto" }} />
@@ -91,18 +93,18 @@ const Footer = ({setOpenModal}) => {
 
         {/* Телефон, e-mail, адрес */}
         <Typography sx={{ fontSize: "14px", color: "#C0C0C0" }}>
-          тел. +66 95-876-3588
+          {language === 'ru' ? "тел." : "Phone"} +66 95-876-3588
         </Typography>
         <Typography sx={{ fontSize: "14px", color: "#C0C0C0" }}>
           e-mail info@cashandgo.exchange
         </Typography>
         <Typography sx={{ fontSize: "14px", color: "#C0C0C0" }}>
-          Адрес: 5/27A Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
+          {language === 'ru' ? "Адрес" : "Adress"}: 5/27A Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
         </Typography>
 
         {/* Социальные сети */}
         <Typography sx={{ fontSize: "18px", fontWeight: "bold", mt: 1 }}>
-          СОЦИАЛЬНЫЕ СЕТИ
+          {language === 'ru' ? "СОЦСЕТИ" : "SOCIAL NETWORKS"}
         </Typography>
         <Box sx={{ display: "flex", gap: "15px", mt: 1 }}>
           <IconButton
@@ -153,7 +155,9 @@ const Footer = ({setOpenModal}) => {
 
         {/* Лицензия и копирайт */}
         <Typography sx={{ fontSize: "14px", color: "#C0C0C0", mt: 2 }}>
-          Лицензия ЦБ Королевства Таиланд <br /> MC225670080
+          {language === "ru"
+            ? "Лицензия ЦБ Королевства Таиланд"
+            : "License of the Central Bank of the Kingdom of Thailand"} <br /> MC225670080
         </Typography>
         <Typography sx={{ fontSize: "14px", color: "#C0C0C0", mt: 1 }}>
           © Cash&Go exchange Co.,Ltd. - all rights reserved

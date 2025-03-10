@@ -1,21 +1,16 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Box, Typography } from "@mui/material";
 import "swiper/css";
 
-// Стрелки (SVG)
-import { ReactComponent as RecivingCash } from "../../assets/Receiving_cash.svg";
-import ImageCarousel from "../Carousel/MainCarousel";
 
-// Пример изображений для карусели
-const images = [
-    "/images/photo1.png",
-    "/images/photo2.png",
-    "/images/photo3.png",
-    "/images/photo4.png",
-];
+import { ReactComponent as RecivingCash } from "../../assets/Receiving_cash.svg";
+import { ReactComponent as RecivingCash_en } from "../../assets/Receiving_cash_en.svg";
+import ImageCarousel from "../Carousel/MainCarousel";
+import { useLanguage } from "../../helpers/LanguageContext";
+
 
 const OfficeCashModal = () => {
-    const swiperRef = useRef(null);
+    const {language} = useLanguage()
 
     return (
         <Box
@@ -35,7 +30,7 @@ const OfficeCashModal = () => {
                     alignItems: "flex-start",
                 }}
             >
-                <RecivingCash sx={{ width: "750px" }} />
+               {language === 'ru' ? <RecivingCash sx={{ width: "750px" }} /> : <RecivingCash_en sx={{ width: "750px" }} />}
             </Box>
 
             {/* Короткий абзац-описание */}
@@ -49,8 +44,8 @@ const OfficeCashModal = () => {
                     mb: 2,
                 }}
             >
-                Обменяйте более 20 видов валют по лучшему курсу в комфортном
-                и современном офисе Cash & Go
+                 {language === "ru" ? "Обменяйте более 20 видов валют по лучшему курсу в комфортном и современном офисе Cash & Go" : "Cet the best exchange rates for over 20 currencies in Cash & Go’s modern and comfortable office."}
+                
             </Typography>
 
             {/* Карусель */}
@@ -65,8 +60,8 @@ const OfficeCashModal = () => {
                     mt: 2,
                 }}
             >
-                Часы работы: <br />
-                ЕЖЕДНЕВНО С 9:00 ДО 18:00
+               {language === 'ru' ? "Часы работы:" : "Business hours:"} <br /> {language === 'ru' ? "ЕЖЕДНЕВНО С 9:00 до 18:00" : "DAILY from 9:00 AM to 6:00 PM"}
+                  
             </Typography>
 
             {/* Адрес */}
@@ -78,7 +73,7 @@ const OfficeCashModal = () => {
                     mt: 2,
                 }}
             >
-                Адрес:
+               {language === 'ru' ? "Адрес" : "Adress"}:{" "}
             </Typography>
             <Typography
                 onClick={() =>
@@ -118,7 +113,8 @@ const OfficeCashModal = () => {
                     mb: "1.5rem",
                 }}
             >
-                Нажмите, чтобы открыть местоположение на карте
+                 ({language === 'ru' ? "Нажмите, чтобы открыть местоположение на карте" : "Click to open location on the map"})
+               
             </Typography>
         </Box>
     );

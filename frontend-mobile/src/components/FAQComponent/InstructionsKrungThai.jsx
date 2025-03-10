@@ -3,8 +3,10 @@ import step1 from "../FAQComponent/assets/KrungThaiStep/step1.svg";
 import step2 from "../FAQComponent/assets/KrungThaiStep/step2.svg";
 import step3 from "../FAQComponent/assets/KrungThaiStep/step3.svg";
 import step4 from "../FAQComponent/assets/KrungThaiStep/step4.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const InstructionsKrungThai = () => {
+  const {language} = useLanguage()
   return (
     <Box
       sx={{
@@ -25,7 +27,7 @@ const InstructionsKrungThai = () => {
           textAlign: "left",
         }}
       >
-        После того, как в чате с менеджером вы договорились об обмене:{" "}
+        {language === 'ru' ? "После того, как в чате с менеджером вы договорились об обмене:" : "After confirming the exchange details with our manager in chat "}
         <Typography
           component="span"
           sx={{
@@ -34,8 +36,8 @@ const InstructionsKrungThai = () => {
             fontSize: "14px",
           }}
         >
-          уточнили курс, утвердили сумму и произвели оплату в рублях или USDT, можно смело
-          снимать ваши деньги с банкомата
+          {language === 'ru' ? "уточнили курс, утвердили сумму и произвели оплату в рублях или USDT, можно смело снимать ваши деньги с банкомата" : " — agreeing on the rate, amount, and making the payment — you can safely withdraw your cash from the ATM."}
+
         </Typography>
       </Typography>
 
@@ -59,7 +61,7 @@ const InstructionsKrungThai = () => {
             }}
           />
           <Typography sx={{ fontSize: "13px", color: "#333" }}>
-          1. Нажмите <strong>«Cardless ATM</strong> на банкомате
+          1. {language === 'ru' ? "Нажмите " : "Press "} <strong>«Cardless ATM</strong>{language === 'ru' ? "на банкомате" : "on the ATM screen."} 
           </Typography>
         </Box>
 
@@ -76,7 +78,7 @@ const InstructionsKrungThai = () => {
             }}
           />
           <Typography sx={{ fontSize: "13px", color: "#333" }}>
-          2. Нажмите <strong>«Cardless ATM»</strong> на втором окне  После оплаты наш менеджер отправит в чат фото, <strong>где будет 6-значный код, номер телефона и сумму бат к выдаче</strong>
+          2. {language === 'ru' ? "Нажмите " : "Press "} <strong>«Cardless ATM»</strong>{language === 'ru' ? "на втором окне  После оплаты наш менеджер отправит в чат фото, " : "Our manager will send you a photo in chat "} <strong>{language === 'ru' ? "где будет 6-значный код, номер телефона и сумму бат к выдаче" : "containing a 6-digit code, your phone number, and the withdrawal amount."}</strong>
           </Typography>
         </Box>
 
@@ -93,7 +95,7 @@ const InstructionsKrungThai = () => {
             }}
           />
           <Typography sx={{ fontSize: "13px", color: "#333" }}>
-          3. Введите номер телефона из сообщения в чате и нажмите <strong>«Confirm»</strong>
+          3. {language === 'ru' ? "Введите номер телефона из сообщения в чате и нажмите " : "Enter your phone number from the message in chat and press  "} <strong>«Confirm»</strong>
           </Typography>
         </Box>
 
@@ -110,7 +112,7 @@ const InstructionsKrungThai = () => {
             }}
           />
           <Typography sx={{ fontSize: "13px", color: "#333" }}>
-          4. Введите 6-значный код из сообщения в чате, нажмите <strong>«Confirm»</strong> и заберите деньги
+          4. {language === 'ru' ? "Введите 6-значный код из сообщения в чате, нажмите" : " Enter the 6-digit code from the message in chat, press "} <strong>«Confirm»</strong> {language === 'ru' ? " и заберите деньги" : ", and collect your cash."}
           </Typography>
         </Box>
       </Box>

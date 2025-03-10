@@ -1,12 +1,14 @@
-import React, { useRef } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import React from "react";
+import { Box, Typography } from "@mui/material";
 import { ReactComponent as OfficeTitle } from "../Carousel/OfficeTitle.svg";
+import { ReactComponent as OfficeTitle_en } from "../Carousel/OfficeTitle_en.svg";
 import ImageCarousel from "./MainCarousel";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useLanguage } from "../../helpers/LanguageContext";
 
-// Пример LeafletMap (если он у вас уже определён, можно просто импортировать его)
+
 const position = [7.814527, 98.339614];
 const customIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
@@ -14,18 +16,17 @@ const customIcon = new L.Icon({
   iconAnchor: [20, 40],
   popupAnchor: [0, -40],
 });
-const LeafletMap = () => (
+const LeafletMap = ({language}) => (
   <MapContainer center={position} zoom={18} style={{ height: "100%", width: "100%" }}>
     <TileLayer url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}" />
     <Marker position={position} icon={customIcon}>
-      <Popup>Офис в районе Чалонг, Пхукет</Popup>
+    <Popup>{language === 'ru' ? "Офис в районе Чалонг, Пхукет" : "Office (Chalong area, Phuket)"}</Popup>
     </Marker>
   </MapContainer>
 );
 
 const CustomCarousel = () => {
-  const swiperRef = useRef(null);
-
+  const {language} = useLanguage();
   return (
     <Box
       sx={{
@@ -49,8 +50,7 @@ const CustomCarousel = () => {
           height: "auto"
         }}
       >
-        {/* Уменьшаем OfficeTitle для мобилы */}
-        <OfficeTitle sx={{ width: "220px" }} />
+        {language === 'ru' ? <OfficeTitle sx={{ width: '750px' }} /> :  <OfficeTitle_en sx={{ width: '750px' }} />}
       </Box>
 
       {/* Описание офиса - уменьшен шрифт */}
@@ -66,8 +66,7 @@ const CustomCarousel = () => {
           textAlign: "left",
         }}
       >
-        Это офис с динамичной энергией и атмосферой, сочетающий эффективность, эстетику, комфорт и инновации
-      </Typography>
+         {language === 'ru' ? "Это офис с динамичной энергией и атмосферой, сочетающий эффективность, эстетику, комфорт и инновации" : "Our office has a dynamic energy and atmosphere, bringing together efficiency, aesthetics, comfort and innovation"}</Typography>
 
       {/* Карусель изображений */}
       <ImageCarousel />
@@ -101,8 +100,7 @@ const CustomCarousel = () => {
               lineHeight: "40px",
             }}
           >
-            Часы работы: <br />
-            ЕЖЕДНЕВНО С 9:00 до 18:00
+           {language === 'ru' ? "Часы работы:" : "Business hours:"} <br /> {language === 'ru' ? "ЕЖЕДНЕВНО С 9:00 до 18:00" : "DAILY from 9:00 AM to 6:00 PM"}           
           </Typography>
           <Typography
             onClick={() =>
@@ -122,7 +120,7 @@ const CustomCarousel = () => {
               },
             }}
           >
-            Адрес:{" "}
+            {language === 'ru' ? "Адрес:" : "Adress:"}{" "}
             <span>
               5/27A, Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
             </span>
@@ -139,7 +137,7 @@ const CustomCarousel = () => {
             position: "relative",
           }}
         >
-          <LeafletMap />
+          <LeafletMap language={language}/>
         </Box>
       </Box>
     </Box>

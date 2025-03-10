@@ -2,54 +2,15 @@ import React, { useState } from "react";
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import styled from "styled-components";
 import { ReactComponent as WaysToGetCashSVG } from "../../assets/ways_to_get_cash.svg";
+import { ReactComponent as WaysToGetCashSVGen } from "../../assets/ways_to_get_cash_en.svg";
 import ATMIcon from "../../assets/via_ATM.svg";
 import CashInOffice from "../../assets/cash_in_office.svg";
 import CourierDelivery from "../../assets/courier_delivery.svg";
 import OnCheck from "../../assets/on_check.svg";
 import Vector from "../../assets/vector_button.svg";
 import PaymentSection from "./PaymentSection";
-import { Link } from "react-scroll";
+import { useLanguage } from "../../helpers/LanguageContext";
 
-// Стили для переключения вкладок с помощью styled-components
-const Tabs = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  position: relative;
-  border-bottom: 2px solid #ddd;
-`;
-
-const Tab = styled.button`
-  flex: 1;
-  text-align: center;
-  padding: 10px 0;
-  border: none;
-  background: none;
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: ${(props) => (props.active ? "#0033a0" : "#888")};
-  cursor: pointer;
-  position: relative;
-
-  &:hover {
-    color: #0055d4;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1rem;
-    padding: 6px 0;
-  }
-`;
-
-const ActiveTabIndicator = styled.div`
-  position: absolute;
-  bottom: -3px;
-  left: ${(props) => (props.activeTab === "buy" ? "0%" : "50%")};
-  width: 50%;
-  height: 3px;
-  background: #0033a0;
-  transition: left 0.3s ease;
-`;
 
 const FeaturesContainer = styled(Box)`
   position: relative;
@@ -80,16 +41,6 @@ const TitleContainer = styled.div`
   margin-bottom: 30px;
 `;
 
-const FeatureIcon = styled.div`
-  width: 64px; /* Установите размер для иконки */
-  height: 64px;
-  margin-bottom: 20px;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-`;
 
 const FeatureCard = ({ icon, title, description, id_name, onClick }) => {
   return (
@@ -130,11 +81,11 @@ const FeatureCard = ({ icon, title, description, id_name, onClick }) => {
         >
           {Array.isArray(title)
             ? title.map((line, index) => (
-                <React.Fragment key={index}>
-                  {line}
-                  <br />
-                </React.Fragment>
-              ))
+              <React.Fragment key={index}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))
             : title}
         </Typography>
 
@@ -151,11 +102,11 @@ const FeatureCard = ({ icon, title, description, id_name, onClick }) => {
         >
           {Array.isArray(description)
             ? description.map((line, index) => (
-                <React.Fragment key={index}>
-                  {line}
-                  <br />
-                </React.Fragment>
-              ))
+              <React.Fragment key={index}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))
             : description}
         </Typography>
       </Box>
@@ -203,34 +154,61 @@ const FeatureCard = ({ icon, title, description, id_name, onClick }) => {
 
 const FeaturesSection = ({ openModal, closeModal }) => {
   const [containerHeight, setContainerHeight] = useState("auto");
+  const { language } = useLanguage()
 
   const features = [
     {
       icon: <img src={ATMIcon} alt="Через банкомат" style={{ width: "120px", height: "120px" }} />,
       title: ["Через", "банкомат"],
       description: ["Банковская карта", "не требуется"],
-      id_name: "atm",
+      id_name: "atm"
     },
     {
       icon: <img src={CashInOffice} alt="Наличные" style={{ width: "120px", height: "120px" }} />,
       title: ["Наличные", "в офисе"],
       description: ["Получите наличные", "у кассира"],
-      id_name: "cash",
+      id_name: "cash"
     },
     {
       icon: <img src={CourierDelivery} alt="Курьер" style={{ width: "120px", height: "120px" }} />,
       title: ["Курьерская", "доставка"],
       description: ["Курьер выдаст", "Вам наличные"],
-      id_name: "courier",
+      id_name: "courier"
     },
     {
       icon: <img src={OnCheck} alt="Счет" style={{ width: "120px", height: "120px" }} />,
       title: ["На тайский", "счет"],
       description: ["Получите перевод", "на Ваш счет"],
-      id_name: "check",
+      id_name: "check"
     },
   ];
 
+  const featuresEN = [
+    {
+      icon: <img src={ATMIcon} alt="Via ATM" style={{ width: "120px", height: "120px" }} />,
+      title: ["Via ATM", "by QR "],
+      description: ["No bank card", "required"],
+      id_name: "atm"
+    },
+    {
+      icon: <img src={CashInOffice} alt="Cash" style={{ width: "120px", height: "120px" }} />,
+      title: ["Cash pickup", "At office"],
+      description: ["Receive cash", "from the cashier "],
+      id_name: "cash"
+    },
+    {
+      icon: <img src={CourierDelivery} alt="Courier" style={{ width: "120px", height: "120px" }} />,
+      title: ["Cash ", "Delivery "],
+      description: ["Get cash delivered", "by our courier "],
+      id_name: "courier"
+    },
+    {
+      icon: <img src={OnCheck} alt="Счет" style={{ width: "120px", height: "120px" }} />,
+      title: ["Thai bank", "account"],
+      description: ["Transfer to ", "any Thai account"],
+      id_name: "check"
+    },
+  ];
   const handleCardClick = (id_name) => {
     // Увеличиваем высоту контейнера на 20px при клике
     setContainerHeight("calc(100% + 20px)");
@@ -241,22 +219,39 @@ const FeaturesSection = ({ openModal, closeModal }) => {
     <FeaturesContainer>
       <Wrapper containerHeight={containerHeight}>
         <TitleContainer>
-          <WaysToGetCashSVG />
+          { language === 'ru' ?<WaysToGetCashSVG /> : <WaysToGetCashSVGen />}
         </TitleContainer>
 
         {/* Список карточек: одна колонка */}
         <Grid container spacing={2} sx={{ width: "100%", margin: 0 }}>
-          {features.map((feature, index) => (
-            <Grid item xs={12} key={index}>
-              <FeatureCard
-                icon={feature.icon}
-                title={feature.title}
-                description={feature.description}
-                id_name={feature.id_name}
-                onClick={handleCardClick}
-              />
-            </Grid>
-          ))}
+          {language === 'ru'
+            ?
+            features.map((feature, index) => (
+              <Grid item xs={12} key={index}>
+                <FeatureCard
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                  id_name={feature.id_name}
+                  onClick={handleCardClick}
+                />
+              </Grid>
+            ))
+            :
+            featuresEN.map((feature, index) => (
+              <Grid item xs={12} key={index}>
+                <FeatureCard
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                  id_name={feature.id_name}
+                  onClick={handleCardClick}
+                />
+              </Grid>
+            ))
+
+
+          }
         </Grid>
 
         <Typography
@@ -270,7 +265,7 @@ const FeaturesSection = ({ openModal, closeModal }) => {
             mt: "4rem",
           }}
         >
-          принимаем оплату с любых российских банков
+          {language === 'ru' ? "принимаем оплату с любых российских банков" : "We accept payments from any russian bank"}
         </Typography>
         <PaymentSection />
       </Wrapper>

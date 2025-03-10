@@ -5,8 +5,10 @@ import step1 from "../FAQComponent/assets/BangkokBankStep/step1.svg";
 import step2 from "../FAQComponent/assets/BangkokBankStep/step2.svg";
 import step3 from "../FAQComponent/assets/BangkokBankStep/step3.svg";
 import step4 from "../FAQComponent/assets/BangkokBankStep/step4.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const InstructionsBangkokBank = () => {
+    const { language } = useLanguage()
     return (
         <Box
             sx={{
@@ -27,7 +29,7 @@ const InstructionsBangkokBank = () => {
                     textAlign: "left", 
                 }}
             >
-                После того, как в чате с менеджером вы договорились об обмене:{" "}
+                {language === "ru" ? "После того, как в чате с менеджером вы договорились об обмене: " : "After confirming the exchange details with our manager in chat"}
                 <Typography
                     component="span"
                     sx={{
@@ -36,7 +38,7 @@ const InstructionsBangkokBank = () => {
                         fontSize: "16px", 
                     }}
                 >
-                    уточнили курс, утвердили сумму и произвели оплату в рублях или USDT, можно смело снимать ваши деньги с банкомата
+                    {language === 'ru' ? "уточнили курс, утвердили сумму и произвели оплату в рублях или USDT, можно смело снимать ваши деньги с банкомата" : " — agreeing on the rate, amount, and making the payment — you can safely withdraw your cash from the ATM."}
                 </Typography>
             </Typography>
 
@@ -66,7 +68,7 @@ const InstructionsBangkokBank = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        1. Нажмите <strong>«Cardless withdrawal»</strong> на банкомате
+                        1. {language === 'ru' ? "Нажмите " : "Press "}<strong>Cardless withdrawal»</strong>{language === 'ru' ? " на банкомате" : " on the ATM screen."}
 
                     </Typography>
                 </Box>
@@ -90,7 +92,7 @@ const InstructionsBangkokBank = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        2. Нажмите <strong>«Bangkok bank mobile banking»</strong> на банкомате
+                        2. {language === 'ru' ? "Нажмите ":"Press "} <strong>«Bangkok bank mobile banking»</strong>{language === 'ru' ? " на банкомате" : "on the ATM."}
                     </Typography>
                 </Box>
                 {/* Шаг 3 */}
@@ -113,7 +115,7 @@ const InstructionsBangkokBank = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        3. На экране появится QR-код, <strong>сфотографируйте его и пришлите в чат с менеджером</strong>
+                        3. {language === 'ru' ? "На экране появится QR-код," : "A QR code will appear on the screen."} <strong>{language === 'ru' ? "сфотографируйте его и пришлите в чат с менеджером" : "Take a photo and send it to our manager in chat."}</strong>
                     </Typography>
                 </Box>
                 {/* Шаг 4 */}
@@ -136,8 +138,8 @@ const InstructionsBangkokBank = () => {
                         }}
                     />
                     <Typography sx={{ fontSize: "14px", color: "#333" }}>
-                        4. Мы отсканируем QR-код, напишем вам об этом, после чего нажмите{" "}
-                        <strong>«Confirm»</strong> и заберите деньги
+                        4. {language === 'ru' ? "Мы отсканируем QR-код, напишем вам об этом, после чего нажмите ":"We will scan the QR code and confirm the transaction. Once you receive confirmation, press"}
+                        <strong>«Confirm»</strong>{language === 'ru' ? " и заберите деньги":" on the ATM and collect your cash."} 
                     </Typography>
                 </Box>
             </Box>

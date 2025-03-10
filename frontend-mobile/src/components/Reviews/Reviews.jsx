@@ -5,6 +5,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Box, Typography, Avatar, Button } from "@mui/material";
 import { ReactComponent as ReviewsTitle } from '../Reviews/ReviewsTitle.svg';
+import { ReactComponent as ReviewsTitle_en } from '../Reviews/Reviews_en.svg';
 
 // Импорт локальных изображений аватаров
 import avatarKseniya from './assets/kseniya.jpg';
@@ -22,6 +23,7 @@ import avatarVera from './assets/veraSuvorova.jpg';
 import avatarMasha from './assets/masha.jpg';
 import avatarArtem from './assets/artem.jpg';
 import avatarAndreyShep from './assets/andreyShep.jpg';
+import { useLanguage } from "../../helpers/LanguageContext";
 
 
 const reviews = [
@@ -140,6 +142,7 @@ const stringAvatar = (name) => {
     const swiperRef = useRef(null);
     const animationRef = useRef(null);
     const positionRef = useRef(0);
+    const language = useLanguage();
   
     useEffect(() => {
       const speed = 0.05; // Скорость прокрутки
@@ -171,7 +174,7 @@ const stringAvatar = (name) => {
     return (
       <Box position="relative" width="100%" maxWidth="1400px" mx="auto" py={4} mb={3}>
         <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "flex-start", mb: "20px", ml: "2rem", width: "220px" }}>
-          <ReviewsTitle sx={{ width: "550px", height: "auto" }} />
+          {language === 'ru' ? <ReviewsTitle sx={{ width: "550px", height: "auto" }} /> : <ReviewsTitle_en sx={{ width: "550px", height: "auto" }} />}
         </Box>
         <Swiper
           onSwiper={(swiper) => (swiperRef.current = swiper)}
@@ -259,7 +262,7 @@ const stringAvatar = (name) => {
               window.open("https://t.me/+3BWEMQxeqk0wODNl", "_blank", "noopener,noreferrer");
             }}
           >
-            Все отзывы
+          {language === 'ru' ? "Все отзывы" : "All reviews"}
           </Button>
         </Box>
       </Box>

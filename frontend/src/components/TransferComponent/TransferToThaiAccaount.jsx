@@ -1,9 +1,11 @@
 import React from "react";
 import { Box, Typography, Button, Stack } from "@mui/material";
-import { ReactComponent as TransferSVG } from "../TransferComponent/assets/TransferSVG.svg"; // Замените на ваш SVG
-import { ReactComponent as TitleSVG } from "../TransferComponent/assets/TitleSVG.svg"; // Замените на ваш SVG
-import { ReactComponent as TelegramIcon } from "../TransferComponent/assets/TelegramIcon.svg"; // Замените на ваш SVG
+import { ReactComponent as TransferSVG } from "../TransferComponent/assets/TransferSVG.svg"; 
+import { ReactComponent as TitleSVG } from "../TransferComponent/assets/TitleSVG.svg"; 
+import { ReactComponent as TitleSVG_en } from "../TransferComponent/assets/TitleSVG_en.svg"; 
+import { ReactComponent as TelegramIcon } from "../TransferComponent/assets/TelegramIcon.svg";
 import { ReactComponent as WhatsAppIcon } from "../TransferComponent/assets/WhatsupIcon.svg";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const telegramLink = "https://t.me/cashandgo_th"; 
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
@@ -12,6 +14,8 @@ const TransferToThaiAccount = () => {
   const openLink = (url) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
+
+  const { language } = useLanguage()
 
   return (
     <Box
@@ -54,7 +58,8 @@ const TransferToThaiAccount = () => {
         {/* Правый блок с текстом и кнопками */}
         <Box sx={{ flex: 1, textAlign: { xs: "center", md: "left" }, px: { xs: 2, md: 0 } }}>
           {/* Заголовок */}
-          <TitleSVG style={{ marginBottom: "2rem", width: "100%", maxWidth: "400px" }} />
+          {language === 'ru' ?  <TitleSVG style={{ marginBottom: "2rem", width: "100%", maxWidth: "400px" }} /> :  <TitleSVG_en style={{ marginBottom: "2rem", width: "100%", maxWidth: "450px" }} />}
+         
 
           {/* Описание */}
           <Typography
@@ -68,7 +73,7 @@ const TransferToThaiAccount = () => {
               mx: { xs: "auto", md: "0" },
             }}
           >
-            Обменивайте валюту с зачислением на Ваш тайский счет любого банка Таиланда!
+            {language === 'ru' ? "Обменивайте валюту с зачислением на Ваш тайский счет любого банка Таиланда!" : "Exchange currency with a direct deposit to any Thai bank account!"}
           </Typography>
 
           <Typography
@@ -82,7 +87,8 @@ const TransferToThaiAccount = () => {
               mx: { xs: "auto", md: "0" },
             }}
           >
-            Выгодный курс и быстрый обмен. Удобный вариант для оплаты жилья и крупных покупок.
+            {language === 'ru' ? "Выгодный курс и быстрый обмен. Удобный вариант для оплаты жилья и крупных покупок." : "Great rates & fast transactions"}
+           
           </Typography>
 
           <Typography
@@ -96,7 +102,8 @@ const TransferToThaiAccount = () => {
               mx: { xs: "auto", md: "0" },
             }}
           >
-            Свяжитесь с нами в мессенджере и узнайте актуальный курс.
+            {language === 'ru' ? "Свяжитесь с нами в мессенджере и узнайте актуальный курс." : "Contact us via messenger to get the latest exchange rate."}
+            
           </Typography>
 
           <Typography
@@ -110,10 +117,11 @@ const TransferToThaiAccount = () => {
               mx: { xs: "auto", md: "0" },
             }}
           >
-            Рассчитайте <br /> курс индивидуально!
+             {language === 'ru' ? "Рассчитайте" : "Calculate "}
+             <br /> {language === 'ru' ? "курс индивидуально!" : "your rate individually! "}
           </Typography>
 
-          <Stack direction="row" spacing={4} mt={4} justifyContent={{ xs: "center", md: "flex-start" }}>
+          <Stack direction="row" spacing={4} mt={4} justifyContent={{ xs: "center", md: "flex-start" }} style={{ml: '2rem'}}>
             <Button
               variant="contained"
               color="inherit"

@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import styled from "styled-components";
-import { ReactComponent as WaysToGetCashSVG } from "../../assets/ways_to_get_cash.svg";
+import { ReactComponent as WaysToGetCashSVGru } from "../../assets/ways_to_get_cash.svg";
+import { ReactComponent as WaysToGetCashSVGen } from "../../assets/ways_to_get_cash_en.svg";
 import ATMIcon from "../../assets/via_ATM.svg";
 import CashInOffice from "../../assets/cash_in_office.svg";
 import CourierDelivery from "../../assets/courier_delivery.svg";
@@ -9,6 +10,7 @@ import OnCheck from "../../assets/on_check.svg";
 import Vector from "../../assets/vector_button.svg";
 import PaymentSection from "./PaymentSection";
 import { Link } from "react-scroll";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 
 const FeaturesContainer = styled(Box)`
@@ -40,18 +42,6 @@ const TitleContainer = styled.div`
   align-items: flex-start;
   margin-bottom: 30px;
 `;
-
-const FeatureIcon = styled.div`
-  width: 64px; /* Установите размер для иконки */
-  height: 64px;
-  margin-bottom: 20px;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
 
 const FeatureCard = ({ icon, title, description, id_name, onClick }) => {
   return (
@@ -91,11 +81,11 @@ const FeatureCard = ({ icon, title, description, id_name, onClick }) => {
       >
         {Array.isArray(title)
           ? title.map((line, index) => (
-              <React.Fragment key={index}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))
+            <React.Fragment key={index}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))
           : title}
       </Typography>
 
@@ -113,11 +103,11 @@ const FeatureCard = ({ icon, title, description, id_name, onClick }) => {
       >
         {Array.isArray(description)
           ? description.map((line, index) => (
-              <React.Fragment key={index}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))
+            <React.Fragment key={index}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))
           : description}
       </Typography>
 
@@ -158,7 +148,8 @@ const FeatureCard = ({ icon, title, description, id_name, onClick }) => {
 };
 
 
-const FeaturesSection = ({ openModal, closeModal }) => {
+const FeaturesSection = ({ openModal }) => {
+  const { language } = useLanguage()
   const features = [
     {
       icon: <img src={ATMIcon} alt="Через банкомат" style={{ width: "120px", height: "120px" }} />,
@@ -186,29 +177,68 @@ const FeaturesSection = ({ openModal, closeModal }) => {
     },
   ];
 
+  const featuresEN = [
+    {
+      icon: <img src={ATMIcon} alt="Via ATM" style={{ width: "120px", height: "120px" }} />,
+      title: ["Via ATM", "by QR "],
+      description: ["No bank card", "required"],
+      id_name: "atm"
+    },
+    {
+      icon: <img src={CashInOffice} alt="Cash" style={{ width: "120px", height: "120px" }} />,
+      title: ["Cash pickup", "At office"],
+      description: ["Receive cash", "from the cashier "],
+      id_name: "cash"
+    },
+    {
+      icon: <img src={CourierDelivery} alt="Courier" style={{ width: "120px", height: "120px" }} />,
+      title: ["Cash ", "Delivery "],
+      description: ["Get cash delivered", "by our courier "],
+      id_name: "courier"
+    },
+    {
+      icon: <img src={OnCheck} alt="Счет" style={{ width: "120px", height: "120px" }} />,
+      title: ["Thai bank", "account"],
+      description: ["Transfer to ", "any Thai account"],
+      id_name: "check"
+    },
+  ];
+
   return (
     <FeaturesContainer>
       <Wrapper>
         <TitleContainer>
-          <WaysToGetCashSVG />
+          { language === 'ru' ?<WaysToGetCashSVGru /> : <WaysToGetCashSVGen />}
         </TitleContainer>
 
         <Grid container spacing={3} marginTop={2}>
-          {features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <FeatureCard
-                icon={feature.icon}
-                title={feature.title}
-                description={feature.description}
-                id_name={feature.id_name}
-                onClick={openModal} // Передаем openModal в карточку
-              />
-            </Grid>
-          ))}
+          {language === 'ru'
+            ? features.map((feature, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <FeatureCard
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                  id_name={feature.id_name}
+                  onClick={openModal}
+                />
+              </Grid>
+            ))
+            : featuresEN.map((feature, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <FeatureCard
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                  id_name={feature.id_name}
+                  onClick={openModal}
+                />
+              </Grid>
+            ))
+          }
         </Grid>
-
         <Typography variant="h6" sx={{ fontSize: "30px", fontWeight: "700", lineHeight: "31px", color: "#004DB4", textTransform: "uppercase", mt: "4rem" }}>
-          принимаем оплату с любых российских банков
+          {language === 'ru' ? "принимаем оплату с любых российских банков" : "We accept payments from any russian bank"}
         </Typography>
         <PaymentSection />
       </Wrapper>

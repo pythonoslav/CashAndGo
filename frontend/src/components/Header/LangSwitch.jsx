@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useLanguage } from "../../helpers/LanguageContext";
 
 const LangSwitchContainer = styled.div`
   position: relative;
@@ -7,7 +8,7 @@ const LangSwitchContainer = styled.div`
   cursor: pointer;
   font-size: 20px;
   color: #0033a0;
-  padding-left: 10px; /* Добавляем отступ по левому краю */
+  padding-left: 10px;
 
   span {
     display: flex;
@@ -17,14 +18,14 @@ const LangSwitchContainer = styled.div`
 `;
 
 const Dropdown = styled.div`
-  position: absolute ;
-  top: 100%; 
+  position: absolute;
+  top: 100%;
   left: 0;
   background: #ffffff;
   border: 1px solid #ddd;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  z-index: 2000; /* Устанавливаем высокий z-index */
+  z-index: 2000;
   overflow: hidden;
   min-width: 75px;
 
@@ -52,7 +53,6 @@ const Dropdown = styled.div`
   }
 `;
 
-
 const ArrowIcon = styled.div`
   display: inline-block;
   width: 12px;
@@ -70,37 +70,38 @@ const ArrowIcon = styled.div`
 `;
 
 const LangSwitch = () => {
+  // Используем значение языка из контекста
+  const { language, changeLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState("RU");
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const changeLanguage = (lang) => {
-    setCurrentLang(lang);
+  const handleChangeLanguage = (lang) => {
     setIsOpen(false);
+    changeLanguage(lang.toLowerCase());
   };
 
   return (
     <LangSwitchContainer onClick={toggleDropdown}>
       <span>
-        {currentLang} <ArrowIcon isOpen={isOpen} />
+        {language.toUpperCase()} <ArrowIcon isOpen={isOpen} />
       </span>
       {isOpen && (
         <Dropdown>
           <ul>
             <li
-              className={currentLang === "RU" ? "active" : ""}
-              onClick={() => changeLanguage("RU")}
+              className={language === "ru" ? "active" : ""}
+              onClick={() => handleChangeLanguage("ru")}
             >
-              RU {currentLang === "RU" && "✔"}
+              RU {language === "ru" && "✔"}
             </li>
             <li
-              className={currentLang === "EN" ? "active" : ""}
-              onClick={() => changeLanguage("EN")}
+              className={language === "en" ? "active" : ""}
+              onClick={() => handleChangeLanguage("en")}
             >
-              EN {currentLang === "EN" && "✔"}
+              EN {language === "en" && "✔"}
             </li>
           </ul>
         </Dropdown>
