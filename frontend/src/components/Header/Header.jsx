@@ -8,7 +8,7 @@ import Vector from "./strelka.svg"
 import { Link } from "react-scroll";
 import { useLanguage } from "../../helpers/LanguageContext";
 
-const telegramLink = "https://t.me/cashandgo_th"; // Телеги пока что нет
+const telegramLink = "https://t.me/cashandgo"; // Телеги пока что нет
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 
 
@@ -65,7 +65,7 @@ const Header = () => {
                                     textDecoration: "underline", // Подчеркивание при наведении
                                 },
                             }}
-                            onClick={() => window.open("https://t.me/cashandgo_th", "_blank")}
+                            onClick={() => window.open("https://t.me/cashandgo", "_blank")}
                         >
                             {language === 'ru' ? "ОБМЕНЯТЬ ВАЛЮТУ" : " EXCHANGE MONEY"}
                         </Typography>

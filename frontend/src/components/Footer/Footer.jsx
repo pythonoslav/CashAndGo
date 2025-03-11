@@ -151,7 +151,7 @@ const Footer = ({ setOpenModal }) => {
           >
             <IconButton
               component="a"
-              href="https://t.me/cashandgo_th"
+              href="https://t.me/cashandgo"
               target="_blank"
               rel="noopener noreferrer"
               sx={{

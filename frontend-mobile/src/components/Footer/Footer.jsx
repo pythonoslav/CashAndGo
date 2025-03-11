@@ -109,7 +109,7 @@ const Footer = ({ setOpenModal }) => {
         <Box sx={{ display: "flex", gap: "15px", mt: 1 }}>
           <IconButton
             component="a"
-            href="https://t.me/cashandgo_th"
+            href="https://t.me/cashandgo"
             target="_blank"
             rel="noopener noreferrer"
             sx={{

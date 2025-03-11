@@ -10,7 +10,7 @@ import { useLanguage } from "../../helpers/LanguageContext";
 import LangSwitch from "./LangSwitch";
 
 
-const telegramLink = "https://t.me/cashandgo_th";
+const telegramLink = "https://t.me/cashandgo";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 
 const Header = () => {

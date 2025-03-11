@@ -7,7 +7,7 @@ import { ReactComponent as WhatsAppIcon } from "../DeliveryComponent/assets/wt_d
 import { ReactComponent as Timer } from "../../assets/time_picture.svg";
 import { useLanguage } from "../../helpers/LanguageContext";
 
-const telegramLink = "https://t.me/cashandgo_th";
+const telegramLink = "https://t.me/cashandgo";
 const whatsappLink = "https://wa.me/message/FTPE4X4MDBSWA1";
 
 const CourierDelivery = () => {

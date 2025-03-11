@@ -27,12 +27,15 @@ const Calculator = ({ currenciesRates }) => {
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
   const { language } = useLanguage()
-  // Функция для поиска курса по коду валюты
+
   const getCurrencyRate = (code) => {
     let searchCode = code;
-    // Для RUB подставляем нужную версию (например, "RUB(онлайн перевод)")
     if (code === "RUB") {
-      searchCode = "RUB(онлайн перевод)";
+      if (language === 'ru'){
+        searchCode = "RUB(онлайн перевод)";
+      }else{
+        searchCode = "RUB(online transfer)";
+      }
     }
     return currenciesRates.find((c) => c.code === searchCode);
   };
@@ -452,7 +455,7 @@ const Calculator = ({ currenciesRates }) => {
             }}
           >
             <Typography sx={{ fontWeight: "bold", mb: 0 }}>
-            {language === 'ru' ? "Текущий курс: " : "Curren rate: "  }
+            {language === 'ru' ? "Текущий курс: " : "Current rate: "  }
             {currentRate ? currentRate.toFixed(2) : "0"}
             </Typography>
           </Box>
@@ -499,7 +502,7 @@ const Calculator = ({ currenciesRates }) => {
         <Button
           variant="contained"
           fullWidth={false}
-          onClick={() => window.open("https://t.me/cashandgo_th", "_blank")}
+          onClick={() => window.open("https://t.me/cashandgo", "_blank")}
           sx={{
             backgroundColor: "#27a7e7",
             color: "#fff",
