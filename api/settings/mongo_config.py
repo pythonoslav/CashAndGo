@@ -85,8 +85,8 @@ async def save_thb_rates(all_rates, tether: dict):
             if ticker == "USD":
                 add_result(
                     quotecurrency=ticker,
-                    sell=thb_to_currency * 1.0124,
-                    buy=thb_to_currency / 1.0051
+                    sell=thb_to_currency * 1.0093,
+                    buy=thb_to_currency / 1.01
                 )
             if ticker == "EUR":
                 add_result(
