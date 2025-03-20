@@ -82,7 +82,18 @@ async def save_thb_rates(all_rates, tether: dict):
         if ticker in all_rates:
             rate = all_rates[ticker]
             thb_to_currency = 1 / rate
-            add_result(quotecurrency=ticker, sell=thb_to_currency * 1.01, buy=thb_to_currency / 1.0075)
+            if ticker == "USD":
+                add_result(
+                    quotecurrency=ticker,
+                    sell=thb_to_currency * 1.0093,
+                    buy=thb_to_currency / 1.01
+                )
+            if ticker == "EUR":
+                add_result(
+                    quotecurrency=ticker,
+                    sell=thb_to_currency * 1.0133,
+                    buy=thb_to_currency / 1.0105
+                )
 
     if "KZT" in all_rates:
         kzt_rate = all_rates["KZT"]
