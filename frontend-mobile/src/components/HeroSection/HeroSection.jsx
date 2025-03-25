@@ -9,33 +9,75 @@ import { useLanguage } from "../../helpers/LanguageContext";
 const HeroSection = () => {
   const { language } = useLanguage();
   
-  // Состояние для неизменяемых курсов калькулятора
-  const [calculatorRates, setCalculatorRates] = useState([]);
-  
-  // Состояние для отображаемых курсов
-  const [displayedRates, setDisplayedRates] = useState([
-    { country_code: "us", code: "USD", buy: 33.01, sell: 34.06 },
-    { country_code: "eu", code: "EUR", buy: 34.43, sell: 35.73 },
-    { country_code: "ru", code: "RUB", buy: 2.838, sell: 2.651 },
-    { country_code: "jp", code: "JPY", buy: 0.21873, sell: 0.23002 },
-    { country_code: "my", code: "MYR", buy: 7.904, sell: 8.102 },
-    { country_code: "in", code: "INR", buy: 0.415, sell: 0.428 },
-    { country_code: "ae", code: "AED", buy: 9.32, sell: 9.51 },
-    { country_code: "gb", code: "GBP", buy: 41.57, sell: 42.89 },
-    { country_code: "sg", code: "SGD", buy: 25.32, sell: 25.99 },
-    { country_code: "ch", code: "CHF", buy: 38.74, sell: 39.66 },
-    { country_code: "au", code: "AUD", buy: 22.34, sell: 22.99 },
-    { country_code: "hk", code: "HKD", buy: 4.33562, sell: 4.53643 },
-    { country_code: "ca", code: "CAD", buy: 24.19, sell: 24.78 },
-    { country_code: "tw", code: "TWD", buy: 1.15, sell: 1.21 },
-    { country_code: "kr", code: "KRW", buy: 0.026, sell: 0.028 },
-    { country_code: "ph", code: "PHP", buy: 0.61, sell: 0.64 },
-    { country_code: "nz", code: "NZD", buy: 20.99, sell: 21.55 },
-    { country_code: "cn", code: "CNY", buy: 4.44117, sell: 4.93564 },
-    { country_code: "sa", code: "SAR", buy: 9.12, sell: 9.28 },
-    { country_code: "qa", code: "QAR", buy: 9.45, sell: 9.68 },
-    { country_code: "bh", code: "BHD", buy: 91.25, sell: 93.49 },
-  ]);
+  const [fullCurrencyRates, setFullCurrencyRates] = useState([]); // Полный набор данных для калькулятора
+  const [filteredCurrencyRates, setFilteredCurrencyRates] = useState([]); // Отфильтрованный для ExchangeRates
+
+  useEffect(() => {
+    const fetchCurrencyRates = async () => {
+      try {
+        const response = await fetch("/api/get_currencies_data");
+        const data = await response.json();
+
+        // Полный массив с заменами только по языку для калькулятора
+        let updatedFullRates = data.result;
+        if (language === "ru") {
+          updatedFullRates = data.result.map((currency) => {
+            switch (currency.code) {
+              case "RUB(cash)":
+                return { ...currency, code: "RUB(наличные)" };
+              case "RUB(online transfer)":
+                return { ...currency, code: "RUB(онлайн перевод)" };
+              case "RUB(cash settlement)":
+                return { ...currency, code: "RUB(наличные)" };
+              default:
+                return currency;
+            }
+          });
+        }
+        setFullCurrencyRates(updatedFullRates);
+
+        // Отфильтрованный массив для ExchangeRates без USDT
+        const filteredRates = data.result.filter(
+          (currency) => currency.code !== "USDT"
+        );
+        
+        // Дополнительная фильтрация и форматирование для ExchangeRates
+        const formattedRates = filteredRates.map((currency) => {
+          if (language === "ru") {
+            switch (currency.code) {
+              case "RUB(cash)":
+                return { ...currency, code: "RUB (наличные)" };
+              case "RUB(online transfer)":
+                return { ...currency, code: "RUB (онлайн)" };
+              case "RUB(cash settlement)":
+                return { ...currency, code: "RUB (наличные)" };
+              default:
+                return currency;
+            }
+          } else {
+            switch (currency.code) {
+              case "RUB(cash)":
+                return { ...currency, code: "RUB (cash)" };
+              case "RUB(online transfer)":
+                return { ...currency, code: "RUB (transfer)" };
+              case "RUB(cash settlement)":
+                return { ...currency, code: "RUB (cash)" };
+              default:
+                return currency;
+            }
+          }
+        });
+        
+        setFilteredCurrencyRates(formattedRates);
+
+      } catch (error) {
+        console.error("Ошибка загрузки данных о курсах валют:", error);
+      }
+    };
+
+    fetchCurrencyRates();
+  }, [language]);
+
 
   useEffect(() => {
     const fetchCurrencyRates = async () => {
@@ -189,7 +231,7 @@ const HeroSection = () => {
               mx: "auto",
             }}
           >
-            <Calculator currenciesRates={calculatorRates} />
+            <Calculator currenciesRates={fullCurrencyRates} />
           </Box>
 
           <Element name="kurs"></Element>
@@ -202,7 +244,7 @@ const HeroSection = () => {
               mx: "auto",
             }}
           >
-            <ExchangeRates currencyRates={displayedRates} />
+            <ExchangeRates currencyRates={filteredCurrencyRates} />
           </Box>
         </Box>
       </Container>
