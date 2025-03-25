@@ -142,7 +142,7 @@ const stringAvatar = (name) => {
     const swiperRef = useRef(null);
     const animationRef = useRef(null);
     const positionRef = useRef(0);
-    const language = useLanguage();
+    const {language} = useLanguage();
   
     useEffect(() => {
       const speed = 0.05; // Скорость прокрутки
