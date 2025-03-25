@@ -28,8 +28,10 @@ const Calculator = ({ currenciesRates }) => {
   const [convertedAmount, setConvertedAmount] = useState("");
   const { language } = useLanguage()
 
+  // Функция для поиска курса по коду валюты
   const getCurrencyRate = (code) => {
     let searchCode = code;
+    // Для RUB подставляем нужную версию (например, "RUB(онлайн перевод)")
     if (code === "RUB") {
       if (language === 'ru'){
         searchCode = "RUB(онлайн перевод)";
