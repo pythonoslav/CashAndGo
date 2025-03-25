@@ -6,7 +6,7 @@ import instagramFooter from "../Footer/assets/insta.svg";
 import { useLanguage } from "../../helpers/LanguageContext";
 
 const Footer = ({ setOpenModal }) => {
-  const language = useLanguage()
+  const { language } = useLanguage();
   return (
     <Box
       sx={{
