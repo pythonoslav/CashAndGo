@@ -8,7 +8,12 @@ import { useLanguage } from "../../helpers/LanguageContext";
 
 const HeroSection = () => {
   const { language } = useLanguage();
-  const [currencyRates, setCurrencyRates] = useState([
+  
+  // Состояние для неизменяемых курсов калькулятора
+  const [calculatorRates, setCalculatorRates] = useState([]);
+  
+  // Состояние для отображаемых курсов
+  const [displayedRates, setDisplayedRates] = useState([
     { country_code: "us", code: "USD", buy: 33.01, sell: 34.06 },
     { country_code: "eu", code: "EUR", buy: 34.43, sell: 35.73 },
     { country_code: "ru", code: "RUB", buy: 2.838, sell: 2.651 },
@@ -43,10 +48,13 @@ const HeroSection = () => {
           (currency) => currency.code !== "USDT"
         );
 
-        let updatedRates;
+        // Устанавливаем неизменяемые курсы для калькулятора один раз
+        setCalculatorRates(filteredRates);
+
+        // Обновляем отображаемые курсы с учетом языка
+        let updatedRates = filteredRates;
 
         if (language === "ru") {
-          // Заменяем значения, если язык — русский
           updatedRates = filteredRates.map((currency) => {
             switch (currency.code) {
               case "RUB(cash)":
@@ -59,12 +67,9 @@ const HeroSection = () => {
                 return currency;
             }
           });
-        } else {
-          // Иначе оставляем без изменений
-          updatedRates = filteredRates;
         }
 
-        setCurrencyRates(updatedRates);
+        setDisplayedRates(updatedRates);
       } catch (error) {
         console.error("Ошибка загрузки данных о курсах валют:", error);
       }
@@ -108,7 +113,7 @@ const HeroSection = () => {
             alignItems: "center",
             justifyContent: "center",
             width: "100%",
-            mt: "-2rem", // Поднимаем весь блок вверх
+            mt: "-2rem",
           }}
         >
           {/* Логотип */}
@@ -130,7 +135,7 @@ const HeroSection = () => {
           {/* Текст */}
           <Box
             sx={{
-              mt: "-5rem", // Уменьшаем расстояние от логотипа до текста
+              mt: "-5rem",
               textAlign: "left",
               maxWidth: "700px",
               width: "100%",
@@ -154,7 +159,7 @@ const HeroSection = () => {
                 fontWeight: "500",
                 lineHeight: "1.4",
                 color: "white",
-                mt: 1, // Поднимаем текст, уменьшая отступ сверху
+                mt: 1,
               }}
             >
               {language === 'ru' ? "ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ" : "CURRENCY AND CRYPTO EXCHANGE"} <br />
@@ -184,7 +189,7 @@ const HeroSection = () => {
               mx: "auto",
             }}
           >
-            <Calculator currenciesRates={currencyRates} />
+            <Calculator currenciesRates={calculatorRates} />
           </Box>
 
           <Element name="kurs"></Element>
@@ -197,7 +202,7 @@ const HeroSection = () => {
               mx: "auto",
             }}
           >
-            <ExchangeRates currencyRates={currencyRates.filter((currency) => currency.code !== "USDT")} />
+            <ExchangeRates currencyRates={displayedRates} />
           </Box>
         </Box>
       </Container>
