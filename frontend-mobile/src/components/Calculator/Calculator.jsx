@@ -51,7 +51,7 @@ const Calculator = ({ currenciesRates }) => {
   ];
 
   // Основная функция конвертации
-  const handleConvert = (value, fromCurrency, currencyTo) => {
+  const handleConvert = (value, fromCurrency, toCurrency) => {
     setAmount(value);
   
     if (!value) {
@@ -59,23 +59,33 @@ const Calculator = ({ currenciesRates }) => {
       return;
     }
   
-    if (fromCurrency === currencyTo) {
+    if (fromCurrency === toCurrency) {
       setConvertedAmount(value);
       return;
     }
   
-    if (fromCurrency === "USDT" && currencyTo === "USD") {
+    if (fromCurrency === "USDT" && toCurrency === "USD") {
       const result = parseFloat(value) * 1.019;
       setConvertedAmount(result.toFixed(2));
       return;
     }
-    if (fromCurrency === "USD" && currencyTo === "USDT") {
+    if (fromCurrency === "USD" && toCurrency === "USDT") {
       const result = parseFloat(value) * 0.981;
       setConvertedAmount(result.toFixed(2));
       return;
     }
   
-    if (currencyTo === "THB" && fromCurrency !== "THB") {
+    // Вычисляем текущий курс
+    const currentRate = getCurrentRateValue();
+  
+    if (toCurrency === "RUB" && fromCurrency !== "THB") {
+      // Для конвертации в RUB просто умножаем на текущий курс
+      const result = parseFloat(value) * currentRate;
+      setConvertedAmount(result.toFixed(2));
+      return;
+    }
+  
+    if (toCurrency === "THB" && fromCurrency !== "THB") {
       const sourceRate = getCurrencyRate(fromCurrency);
       if (!sourceRate) {
         setConvertedAmount("");
@@ -89,22 +99,19 @@ const Calculator = ({ currenciesRates }) => {
       return;
     }
   
-    if (fromCurrency === "THB" && currencyTo !== "THB") {
-      const targetRate = getCurrencyRate(currencyTo);
+    if (fromCurrency === "THB" && toCurrency !== "THB") {
+      const targetRate = getCurrencyRate(toCurrency);
       if (!targetRate) {
         setConvertedAmount("");
         return;
       }
       let result = parseFloat(value) / targetRate.sell;
-      if (currencyTo === "RUB") {
-        result = parseFloat(value) / targetRate.sell; // Исправляем: делим, а не умножаем
-      }
       setConvertedAmount(result.toFixed(2));
       return;
     }
   
     const fromRate = getCurrencyRate(fromCurrency);
-    const toRate = getCurrencyRate(currencyTo);
+    const toRate = getCurrencyRate(toCurrency);
     if (!fromRate || !toRate) {
       setConvertedAmount("");
       return;
@@ -114,11 +121,9 @@ const Calculator = ({ currenciesRates }) => {
       valueInTHB = parseFloat(value) / fromRate.buy; // Сохраняем логику заказчика
     }
     let result = valueInTHB / toRate.sell;
-    if (currencyTo === "RUB") {
-      result = valueInTHB / toRate.sell; // Исправляем: делим, а не умножаем
-    }
     setConvertedAmount(result.toFixed(2));
   };
+  
   // Получение «текущего курса» для отображения
   const getCurrentRateValue = () => {
     if (currencyFrom === currencyTo) return 1;
