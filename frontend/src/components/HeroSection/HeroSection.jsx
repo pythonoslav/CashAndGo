@@ -165,7 +165,7 @@ const HeroSection = () => {
               }}
             > 
               {language === 'ru' ? "ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ" : "CURRENCY AND CRYPTO EXCHANGE"} <br />
-              {language === 'ru' ? "НА БАТЫ ПО САМОМУ ВЫГОДНОМУ" : "AT THE BEST RATES"}
+              {language === 'ru' ? "НА БАТЫ ПО САМОМУ ВЫГОДНОМУ " : "AT THE BEST RATES "}
               {language === 'ru' ? "КУРСУ ПО ВСЕМУ ТАЙЛАНДУ" : ""}
             </Typography>
           </Box>

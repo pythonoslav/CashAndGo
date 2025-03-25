@@ -91,7 +91,7 @@ const HeroSection = () => {
         );
 
         // Устанавливаем неизменяемые курсы для калькулятора один раз
-        setCalculatorRates(filteredRates);
+        setFullCurrencyRates(filteredRates);
 
         // Обновляем отображаемые курсы с учетом языка
         let updatedRates = filteredRates;
@@ -111,7 +111,7 @@ const HeroSection = () => {
           });
         }
 
-        setDisplayedRates(updatedRates);
+        setFilteredCurrencyRates(updatedRates);
       } catch (error) {
         console.error("Ошибка загрузки данных о курсах валют:", error);
       }
@@ -205,7 +205,7 @@ const HeroSection = () => {
               }}
             >
               {language === 'ru' ? "ОБМЕН ВАЛЮТЫ И КРИПТОВАЛЮТЫ" : "CURRENCY AND CRYPTO EXCHANGE"} <br />
-              {language === 'ru' ? "НА БАТЫ ПО САМОМУ ВЫГОДНОМУ" : "AT THE BEST RATES"}
+              {language === 'ru' ? "НА БАТЫ ПО САМОМУ ВЫГОДНОМУ " : "AT THE BEST RATES "}
               {language === 'ru' ? "КУРСУ ПО ВСЕМУ ТАЙЛАНДУ" : ""}
             </Typography>
           </Box>
