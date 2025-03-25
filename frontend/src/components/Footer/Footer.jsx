@@ -105,9 +105,11 @@ const Footer = ({ setOpenModal }) => {
           <Typography sx={{ fontSize: "14px", color: "#C0C0C0", mt: 1 }}>
             {language === "ru"
               ? "Лицензия ЦБ Королевства Таиланд"
-              : "License of the Central Bank of the Kingdom of Thailand"}
+              : "Licensed Money Changer – License No. "}
             <br />
-            MC225670080
+            MC225670080 {language === "ru"
+              ? ""
+              : "authorized by the Bank of Thailand"}
           </Typography>
           <Typography sx={{ fontSize: "14px", color: "#C0C0C0", mt: 3 }}>
             © Cash&Go exchange Co.,Ltd. - all rights reserved
@@ -124,21 +126,21 @@ const Footer = ({ setOpenModal }) => {
             {language === 'ru' ? "КОНТАКТЫ" : "CONTACTS"}
           </Typography>
           <Typography sx={{ fontSize: "14px", color: "#C0C0C0" }}>
-            {language === 'ru' ? "тел." : "Phone"} +66 95-876-3588
+            {language === 'ru' ? "тел.: " : "Phone: "} +66 95-876-3588
           </Typography>
           <Typography
             sx={{ fontSize: "14px", color: "#C0C0C0", textDecoration: "none" }}
           >
-            e-mail info@cashandgo.exchange
+            E-mail: info@cashandgo.exchange
           </Typography>
           <Typography
             sx={{ fontSize: "14px", color: "#C0C0C0", textDecoration: "none" }}
           >
-            {language === 'ru' ? "Адрес" : "Adress"}: 5/27A Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang,
+            {language === 'ru' ? "Адрес: " : "Address: "}: 5/27A Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang,
             Phuket 83130, Thailand
           </Typography>
           <Typography sx={{ fontSize: "18px", fontWeight: "bold", mt: 2 }}>
-            {language === 'ru' ? "СОЦСЕТИ" : "SOCIAL NETWORKS"}
+            {language === 'ru' ? "СОЦСЕТИ" : "SOCIAL MEDIA"}
           </Typography>
           {/* Иконки соцсетей */}
           <Box
