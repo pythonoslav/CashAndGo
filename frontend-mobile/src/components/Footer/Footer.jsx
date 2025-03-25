@@ -99,7 +99,7 @@ const Footer = ({ setOpenModal }) => {
           E-mail: info@cashandgo.exchange
         </Typography>
         <Typography sx={{ fontSize: "14px", color: "#C0C0C0" }}>
-          {language === 'ru' ? "Адрес: " : "Address: "}: 5/27A Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
+          {language === 'ru' ? "Адрес: " : "Address: "} 5/27A Fisherman Way, Moo 5 Wiset Rd, Rawai, Muang, Phuket 83130, Thailand
         </Typography>
 
         {/* Социальные сети */}
