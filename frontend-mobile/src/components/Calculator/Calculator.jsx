@@ -23,7 +23,7 @@ const DividerLine = styled.div`
 
 const Calculator = ({ currenciesRates }) => {
   const [currencyFrom, setCurrencyFrom] = useState("RUB");
-  const [currencyTo, setCurrencyTo] = useState("THB");
+  const [toCurrency, setCurrencyTo] = useState("THB");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
   const { language } = useLanguage()
@@ -169,7 +169,7 @@ const Calculator = ({ currenciesRates }) => {
   
     return finalRate;
   };
-  
+
   const currentRate = getCurrentRateValue();
 
   // Функция для переключения местами валют
