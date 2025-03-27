@@ -13,7 +13,7 @@ import {
 import telegramIcon from "../Calculator/telegram-icon.svg";
 import switch_icon from "../Calculator/switch_calculator.svg";
 import { useLanguage } from "../../helpers/LanguageContext";
-
+import { scroller } from "react-scroll";
 // Компонент-разделитель (черточка)
 const DividerLine = styled.div`
   width: 100%;
@@ -33,9 +33,9 @@ const Calculator = ({ currenciesRates }) => {
     let searchCode = code;
     // Для RUB подставляем нужную версию (например, "RUB(онлайн перевод)")
     if (code === "RUB") {
-      if (language === 'ru'){
+      if (language === 'ru') {
         searchCode = "RUB(онлайн перевод)";
-      }else{
+      } else {
         searchCode = "RUB(online transfer)";
       }
     }
@@ -52,17 +52,17 @@ const Calculator = ({ currenciesRates }) => {
 
   const handleConvert = (value, fromCurrency, toCurrency) => {
     setAmount(value);
-  
+
     if (!value) {
       setConvertedAmount("");
       return;
     }
-  
+
     if (fromCurrency === toCurrency) {
       setConvertedAmount(value);
       return;
     }
-  
+
     if (fromCurrency === "USDT" && toCurrency === "USD") {
       const result = parseFloat(value) * 1.019;
       setConvertedAmount(result.toFixed(2));
@@ -73,17 +73,17 @@ const Calculator = ({ currenciesRates }) => {
       setConvertedAmount(result.toFixed(2));
       return;
     }
-  
+
     // Вычисляем текущий курс
     const currentRate = getCurrentRateValue();
-  
+
     if (toCurrency === "RUB") {
       // Для конвертации в RUB просто умножаем на текущий курс
       const result = parseFloat(value) * currentRate;
       setConvertedAmount(result.toFixed(2));
       return;
     }
-  
+
     if (toCurrency === "THB" && fromCurrency !== "THB") {
       const sourceRate = getCurrencyRate(fromCurrency);
       if (!sourceRate) {
@@ -97,7 +97,7 @@ const Calculator = ({ currenciesRates }) => {
       setConvertedAmount(result.toFixed(2));
       return;
     }
-  
+
     if (fromCurrency === "THB" && toCurrency !== "THB") {
       const targetRate = getCurrencyRate(toCurrency);
       if (!targetRate) {
@@ -113,7 +113,7 @@ const Calculator = ({ currenciesRates }) => {
       setConvertedAmount(result.toFixed(2));
       return;
     }
-  
+
     const fromRate = getCurrencyRate(fromCurrency);
     const toRate = getCurrencyRate(toCurrency);
     if (!fromRate || !toRate) {
@@ -127,10 +127,10 @@ const Calculator = ({ currenciesRates }) => {
     let result = valueInTHB / toRate.sell;
     setConvertedAmount(result.toFixed(2));
   };
-  
+
   const getCurrentRateValue = () => {
     if (currencyFrom === currencyTo) return 1;
-  
+
     // Исключительная логика для USD ↔ USDT
     if (currencyFrom === "USD" && currencyTo === "USDT") {
       return 0.981; // 1 USD = 0.981 USDT
@@ -138,7 +138,7 @@ const Calculator = ({ currenciesRates }) => {
     if (currencyFrom === "USDT" && currencyTo === "USD") {
       return 1.019; // 1 USDT = 1.019 USD
     }
-  
+
     // Прямые пары с THB
     if (currencyFrom === "THB" && currencyTo !== "THB") {
       const targetRate = getCurrencyRate(currencyTo);
@@ -148,7 +148,7 @@ const Calculator = ({ currenciesRates }) => {
       }
       return 1 / targetRate.sell; // Сколько toCurrency за 1 THB
     }
-  
+
     if (currencyTo === "THB" && currencyFrom !== "THB") {
       const sourceRate = getCurrencyRate(currencyFrom);
       if (!sourceRate) return null;
@@ -157,26 +157,26 @@ const Calculator = ({ currenciesRates }) => {
       }
       return sourceRate.buy; // Сколько THB за 1 fromCurrency
     }
-  
+
     // Другие пары через THB
     const fromRate = getCurrencyRate(currencyFrom);
     const toRate = getCurrencyRate(currencyTo);
     if (!fromRate || !toRate) return null;
-  
+
     let valueInTHB;
     if (currencyFrom === "RUB") {
       valueInTHB = 1 / fromRate.buy; // Для RUB используем обратный курс
     } else {
       valueInTHB = fromRate.buy;
     }
-  
+
     let finalRate;
     if (currencyTo === "RUB") {
       finalRate = valueInTHB * toRate.sell; // Интерпретируем sell как RUB за 1 THB
     } else {
       finalRate = valueInTHB / toRate.sell; // Сколько fromCurrency за 1 toCurrency
     }
-  
+
     return finalRate;
   };
   const currentRate = getCurrentRateValue();
@@ -186,7 +186,7 @@ const Calculator = ({ currenciesRates }) => {
     const oldFrom = currencyFrom;
     const oldTo = currencyTo;
     const oldConverted = convertedAmount;
-    
+
     setCurrencyFrom(oldTo);
     setCurrencyTo(oldFrom);
     if (oldConverted) {
@@ -489,8 +489,8 @@ const Calculator = ({ currenciesRates }) => {
             }}
           >
             <Typography sx={{ fontWeight: "bold", mb: 0 }}>
-            {language === 'ru' ? "Текущий курс: " : "Current rate: "  }
-            {currentRate ? currentRate.toFixed(2) : "0"}
+              {language === 'ru' ? "Текущий курс: " : "Current rate: "}
+              {currentRate ? currentRate.toFixed(2) : "0"}
             </Typography>
           </Box>
         </Grid>
@@ -510,6 +510,14 @@ const Calculator = ({ currenciesRates }) => {
         <Button
           variant="contained"
           fullWidth={false}
+          onClick={() => {
+            scroller.scrollTo("features", {
+              duration: 800, // Длительность анимации в миллисекундах
+              delay: 0, // Задержка перед началом анимации
+              smooth: "easeInOutQuart", // Тип анимации (плавная)
+              offset: -50, // Смещение (чтобы учесть, например, фиксированный заголовок)
+            });
+          }}
           sx={{
             backgroundColor: "#f87000",
             color: "#fff",
@@ -530,7 +538,7 @@ const Calculator = ({ currenciesRates }) => {
             },
           }}
         >
-         {language === 'ru' ? "Способы получения наличных" : "Ways to receive cash"}
+          {language === "ru" ? "Способы получения наличных" : "Ways to receive cash"}
         </Button>
 
         <Button

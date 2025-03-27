@@ -135,6 +135,7 @@ const App = () => {
           px: { xs: 1, md: 0 },
         }}
       >
+        <Element name = "features"></Element>
         <FeaturesSection openModal={handleOpen} closeModal={handleClose} />
         <Element name="about"></Element>
         <AboutUs />
