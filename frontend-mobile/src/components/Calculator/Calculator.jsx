@@ -141,7 +141,7 @@ const Calculator = ({ currenciesRates }) => {
       const targetRate = getCurrencyRate(currencyTo);
       if (!targetRate) return null;
       if (currencyTo === "RUB") {
-        return 1 / targetRate.sell; // Для RUB показываем обратный курс (THB → RUB)
+        return 1 * targetRate.sell; // Для RUB показываем обратный курс (THB → RUB)
       }
       return 1 / targetRate.sell; // Сколько THB за 1 единицу currencyTo
     }
