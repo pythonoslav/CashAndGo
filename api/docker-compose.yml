@@ -5,8 +5,10 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    env_file:
-      - data/mongoconnection.env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: CashAndGo
+      MONGO_INITDB_ROOT_PASSWORD: 2093100Tbm
+      MONGO_INITDB_DATABASE: CashAndGoDB
     volumes:
       - mongo_data:/data/db
     networks:
