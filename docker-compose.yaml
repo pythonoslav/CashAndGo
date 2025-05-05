@@ -43,14 +43,14 @@ services:
     container_name: nginx_proxy
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:80"  # Убран порт 443
     volumes:
       - ./frontend/build:/usr/share/nginx/html
       - ./frontend-mobile/build:/usr/share/nginx/mobile
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      # Убраны тома для сертификатов
+      # - ./certbot/conf:/etc/letsencrypt
+      # - ./certbot/www:/var/www/certbot
     depends_on:
       - frontend
       - frontend-mobile
@@ -59,23 +59,24 @@ services:
       - web_network
       - internal_network
 
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    restart: unless-stopped
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    entrypoint: >
-      /bin/sh -c "trap exit TERM; 
-      while :; do 
-      certbot renew --webroot -w /var/www/certbot --quiet;
-      sleep 12h & wait $${!};
-      done"
-    depends_on:
-      - nginx
-    networks:
-      - web_network
+  # Убран сервис certbot, так как он больше не нужен без SSL
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./certbot/conf:/etc/letsencrypt
+  #     - ./certbot/www:/var/www/certbot
+  #   entrypoint: >
+  #     /bin/sh -c "trap exit TERM; 
+  #     while :; do 
+  #     certbot renew --webroot -w /var/www/certbot --quiet;
+  #     sleep 12h & wait $${!};
+  #     done"
+  #   depends_on:
+  #     - nginx
+  #   networks:
+  #     - web_network
 
 networks:
   web_network:
