@@ -1,19 +1,19 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request
 from loguru import logger
-from settings.mongo_config import MongoDBClient
+
+from src.settings.client import MongoDBClient
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from utils.scheduler_service import scheduled_thb_exchange_rate
-from utils.currency_service import load_flags_data
-
-# Создание приложения FastAPI
-app = FastAPI(root_path="/api")
-# Получение настроек
+from src.utils.scheduler_service import scheduled_thb_exchange_rate
+from src.utils.currency_service import load_flags_data
 
 scheduler = AsyncIOScheduler()
 
+currencies_router = APIRouter(
+    prefix="/currencies"
+)
 
-@app.on_event("startup")
+@currencies_router.on_event("startup")
 async def start_scheduler():
     """
     Функция запускается при старте приложения.
@@ -25,7 +25,7 @@ async def start_scheduler():
 
     await load_flags_data()
 
-@app.get('/get_currencies_data')
+@currencies_router.get('/get_currencies_data')
 async def get_currencies_data(request: Request):
     request_body = await request.body()
     logger.debug(f"request body: {request_body}")

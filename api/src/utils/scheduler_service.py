@@ -2,9 +2,9 @@ from fastapi import HTTPException
 
 from loguru import logger
 
-from settings.config import get_settings
-from settings.mongo_config import save_thb_rates
-from utils.currency_service import fetch_all_thb
+from src.settings import get_settings
+from src.extractors.currencies_extractor import save_thb_rates
+from src.utils.currency_service import fetch_all_thb
 
 xe_settings = get_settings(
     filename='credentials.env',

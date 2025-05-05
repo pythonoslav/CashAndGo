@@ -6,8 +6,8 @@ from loguru import logger
 from fastapi import HTTPException
 import pandas as pd
 
-from models.response_models import XeCurrencyConvertedToListResponseModel, XeCurrencyConvertedFromListResponseModel
-from settings.mongo_config import MongoDBClient
+from src.models.response_models import XeCurrencyConvertedToListResponseModel, XeCurrencyConvertedFromListResponseModel
+from src.extractors.currencies_extractor import MongoDBClient
 
 async def fetch_all_thb(api_settings):
     async with httpx.AsyncClient() as client:

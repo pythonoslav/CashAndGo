@@ -1,38 +1,7 @@
 import pytz
 from datetime import datetime
 
-from motor.motor_asyncio import AsyncIOMotorClient
-from pymongo.errors import PyMongoError
-from loguru import logger
-
-from settings.config import get_settings
-
-class MongoDBSettings:
-    def __init__(self):
-        self.settings = get_settings(filename='mongoconnection.env', env_vars=["DB_NAME", "DB_USERNAME", "DB_USER_PASSWORD"])
-
-    @property
-    def connection_string(self):
-        return f"mongodb://{self.settings.mongo_user}:{self.settings.mongo_password}@mongo_db:27017/"
-
-class MongoDBClient:
-    def __init__(self):
-        self.client = AsyncIOMotorClient(MongoDBSettings().connection_string)
-        self.db = self.client[MongoDBSettings().settings.mongo_database]
-
-    async def get_collection(self, collection_name):
-        return self.db[collection_name]
-
-    async def get_exchange_rates(self, collection_name: str):
-        """Получает все курсы валют из коллекции exchange_rates."""
-        collection = await self.get_collection(collection_name=collection_name)
-        try:
-            result = collection.find_one()
-            return await result
-        except PyMongoError as e:
-            logger.exception("Error fetching exchange rates from MongoDB: %s", e)
-            return []
-
+from src.settings.client import MongoDBClient
 
 async def save_thb_rates(all_rates, tether: dict):
     mongo_client = MongoDBClient()
@@ -85,7 +54,7 @@ async def save_thb_rates(all_rates, tether: dict):
             if ticker == "USD":
                 add_result(
                     quotecurrency=ticker,
-                    sell=thb_to_currency * 1.0093,
+                    sell=thb_to_currency * 1.0923,
                     buy=thb_to_currency / 1.01
                 )
             if ticker == "EUR":
