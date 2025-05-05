@@ -54,7 +54,7 @@ services:
     depends_on:
       - frontend
       - frontend-mobile
-      - backend
+      # - backend
     networks:
       - web_network
       - internal_network
