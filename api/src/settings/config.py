@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 class ConfigError(Exception):
@@ -80,8 +81,18 @@ class Settings:
         return self._get_env("DB_USER_PASSWORD", "2093100Tbm")
 
 
-def get_settings(filename: str, env_vars: list[str]) -> Settings:
-    """Get the application settings (Singleton)."""
-    current_directory = os.path.dirname(__file__)
-    env_file_path = os.path.join(current_directory, '..', 'data', filename)
-    return Settings(env_file=env_file_path, env_vars=env_vars)
+def get_settings(filename: str = ".env", base_path: str = "") -> Settings:
+    base_dir = Path(__file__).resolve().parent
+    env_path = base_dir / base_path / filename
+
+    try:
+        with open(env_path, 'r') as file:
+            var_names = [
+                line.strip().split('=')[0]
+                for line in file if line.strip() and not line.startswith('#')
+            ]
+        return Settings(env_file=str(env_path), env_vars=var_names)
+    except FileNotFoundError:
+        print(f"❌ Файл .env не найден по пути: {env_path}")
+        raise
+

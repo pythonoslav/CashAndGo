@@ -2,7 +2,7 @@ from src.settings.config import get_settings
 
 class MongoDBSettings:
     def __init__(self):
-        self.settings = get_settings(filename='mongoconnection.env', env_vars=["DB_NAME", "DB_USERNAME", "DB_USER_PASSWORD"])
+        self.settings = get_settings(filename='mongoconnection.env', base_path="../../../data")
 
     @property
     def connection_string(self):
