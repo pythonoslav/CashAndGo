@@ -1,26 +1,27 @@
 version: "3.8"
 
 services:
-  frontend:
-    build: ./frontend
-    container_name: react_frontend
-    restart: always
-    networks:
-      - web_network
+  # Временно отключим фронтенд
+  # frontend:
+  #   build: ./frontend
+  #   container_name: react_frontend
+  #   restart: always
+  #   networks:
+  #     - web_network
 
-  frontend-mobile:
-    build: ./frontend-mobile
-    container_name: react_frontend_mobile
-    restart: always
-    networks:
-      - web_network
+  # frontend-mobile:
+  #   build: ./frontend-mobile
+  #   container_name: react_frontend_mobile
+  #   restart: always
+  #   networks:
+  #     - web_network
 
   backend:
     build: ./api
     container_name: python_api
     restart: always
     environment:
-      - MONGO_URI=mongodb://mongo_db:27017/CashAndGoDB
+      - MONGO_URI=mongodb://CashAndGo:2093100Tbm@mongo_db:27017/CashAndGoDB
     networks:
       - web_network
       - internal_network
@@ -43,20 +44,19 @@ services:
     container_name: nginx_proxy
     restart: always
     ports:
-      - "80:80"  # Убрали порт 443
+      - "80:80"  # Только порт 80, SSL отключён
     volumes:
-      - ./frontend/build:/usr/share/nginx/html
-      - ./frontend-mobile/build:/usr/share/nginx/mobile
+      # Убраны тома фронтенда, чтобы не зависеть от них
+      # - ./frontend/build:/usr/share/nginx/html
+      # - ./frontend-mobile/build:/usr/share/nginx/mobile
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     depends_on:
-      - frontend
-      - frontend-mobile
       - backend
     networks:
       - web_network
-      - internal_network  
+      - internal_network
 
   certbot:
     image: certbot/certbot
