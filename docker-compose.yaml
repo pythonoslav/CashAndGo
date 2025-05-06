@@ -20,10 +20,13 @@ services:
     container_name: python_api
     restart: always
     environment:
-      - MONGO_URI=mongodb://mongo_db:27017/CashAndGoDB
+      # Добавим авторизацию в MONGO_URI
+      - MONGO_URI=mongodb://CashAndGo:2093100Tbm@mongo_db:27017/CashAndGoDB
     networks:
       - web_network
-      - internal_network 
+      - internal_network
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo:latest
@@ -36,7 +39,7 @@ services:
     volumes:
       - mongo_data:/data/db
     networks:
-      - internal_network  
+      - internal_network
 
   nginx:
     image: nginx:latest
@@ -46,15 +49,15 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      # - ./frontend/build:/usr/share/nginx/html
-      # - ./frontend-mobile/build:/usr/share/nginx/mobile
+      - ./frontend/build:/usr/share/nginx/html
+      - ./frontend-mobile/build:/usr/share/nginx/mobile
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      # - ./certbot/conf:/etc/letsencrypt
-      # - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt  # Разкомментируем для сертификатов
+      - ./certbot/www:/var/www/certbot  # Разкомментируем для проверки Certbot
     depends_on:
-      # - frontend
-      # - frontend-mobile
-      # - backend
+      - frontend
+      - frontend-mobile
+      - backend
     networks:
       - web_network
       - internal_network
