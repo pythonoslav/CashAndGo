@@ -20,6 +20,7 @@ services:
     container_name: python_api
     restart: always
     environment:
+      # Добавим авторизацию в MONGO_URI
       - MONGO_URI=mongodb://CashAndGo:2093100Tbm@mongo_db:27017/CashAndGoDB
     networks:
       - web_network
@@ -46,12 +47,13 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      # - ./frontend/build:/usr/share/nginx/html
-      # - ./frontend-mobile/build:/usr/share/nginx/mobile
+      - ./frontend/build:/usr/share/nginx/html
+      - ./frontend-mobile/build:/usr/share/nginx/mobile
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt  # Разкомментируем для сертификатов
+      - ./certbot/www:/var/www/certbot  # Разкомментируем для проверки Certbot
     depends_on:
       - frontend
       - frontend-mobile
