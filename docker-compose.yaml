@@ -1,14 +1,80 @@
 version: "3.8"
 
 services:
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    restart: always
+    networks:
+      - web_network
+
+  frontend-mobile:
+    build: ./frontend-mobile
+    container_name: react_frontend_mobile
+    restart: always
+    networks:
+      - web_network
+
+  backend:
+    build: ./api
+    container_name: python_api
+    restart: always
+    environment:
+      - MONGO_URI=mongodb://CashAndGo:2093100Tbm@mongo_db:27017/CashAndGoDB
+    networks:
+      - web_network
+      - internal_network
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=CashAndGo
+      - MONGO_INITDB_ROOT_PASSWORD=2093100Tbm
+      - MONGO_INITDB_DATABASE=CashAndGoDB
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - internal_network
+
   nginx:
     image: nginx:latest
     container_name: nginx_proxy
     restart: always
     ports:
-      - "80:80"  # Только порт 80
+      - "80:80"
     volumes:
+      - ./frontend/build:/usr/share/nginx/html
+      - ./frontend-mobile/build:/usr/share/nginx/mobile
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - frontend
+      - frontend-mobile
+      - backend
+    networks:
+      - web_network
+      - internal_network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    restart: unless-stopped
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: >
+      /bin/sh -c "trap exit TERM; 
+      while :; do 
+      certbot renew --webroot -w /var/www/certbot --quiet;
+      sleep 12h & wait $${!};
+      done"
+    depends_on:
+      - nginx
     networks:
       - web_network
 
@@ -16,5 +82,9 @@ networks:
   web_network:
     name: web_network
     driver: bridge
+  internal_network:
+    name: internal_network
+    internal: true
 
-# volumes: {}
+volumes:
+  mongo_data:
