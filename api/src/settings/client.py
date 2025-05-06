@@ -2,7 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import PyMongoError
 from loguru import logger
 
-from connection.mongo_connector import MongoDBSettings
+from src.settings.connection.mongo_connector import MongoDBSettings
 
 class MongoDBClient:
     def __init__(self):
