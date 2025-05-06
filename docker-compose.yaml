@@ -37,5 +37,5 @@ networks:
     name: web_network
     driver: bridge
 
-volumes:  # Определяем как пустой объект, если тома не нужны
-  # mongo_data:  # Раскомментируйте, если вернёте mongo
+# volumes:  # Определяем как пустой объект, если тома не нужны
+#   # mongo_data:  # Раскомментируйте, если вернёте mongo
