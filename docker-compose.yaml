@@ -23,7 +23,7 @@ services:
       - MONGO_URI=mongodb://mongo_db:27017/CashAndGoDB
     networks:
       - web_network
-      - internal_network 
+      - internal_network
 
   mongo:
     image: mongo:latest
@@ -36,15 +36,14 @@ services:
     volumes:
       - mongo_data:/data/db
     networks:
-      - internal_network  
+      - internal_network
 
   nginx:
     image: nginx:latest
     container_name: nginx_proxy
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:80"  # Убрали порт 443, так как SSL временно отключён
     volumes:
       - ./frontend/build:/usr/share/nginx/html
       - ./frontend-mobile/build:/usr/share/nginx/mobile
