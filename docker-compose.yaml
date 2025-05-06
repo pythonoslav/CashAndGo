@@ -46,14 +46,14 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./frontend/build:/usr/share/nginx/html
-      - ./frontend-mobile/build:/usr/share/nginx/mobile
+      # - ./frontend/build:/usr/share/nginx/html
+      # - ./frontend-mobile/build:/usr/share/nginx/mobile
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       # - ./certbot/conf:/etc/letsencrypt
       # - ./certbot/www:/var/www/certbot
     depends_on:
-      - frontend
-      - frontend-mobile
+      # - frontend
+      # - frontend-mobile
       # - backend
     networks:
       - web_network
