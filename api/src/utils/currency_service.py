@@ -107,7 +107,7 @@ async def load_flags_data():
     if not await collection.count_documents({}):  # Если коллекция пустая
         # Загружаем данные из файла
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_dir, "..", "data", "flags.json")
+        file_path = os.path.join(current_dir, "..", "..", "data", "flags.json")
         with open(file_path, 'r') as file:
             flags_data = {"flags": json.load(file)}
 
