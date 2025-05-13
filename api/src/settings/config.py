@@ -80,6 +80,34 @@ class Settings:
     def mongo_password(self):
         return self._get_env("DB_USER_PASSWORD", "2093100Tbm")
 
+    @property
+    def admin_login(self):
+        return self._get_env("ADMIN_LOGIN", "6e6r4")
+
+    @property
+    def admin_password(self):
+        return self._get_env("ADMIN_PASSWORD", "!Be6r0Nyh0v2281488!$o$pi$o$ZlpT0kEH!!AAA")
+
+    @property
+    def jwt_access(self):
+        return self._get_env("JWT_ACCESS_KEY")
+
+    @property
+    def jwt_refresh(self):
+        return self._get_env("JWT_REFRESH_KEY")
+
+    @property
+    def jwt_algorithm(self):
+        return self._get_env("JWT_ALGORITHM", "HS256")
+
+    @property
+    def access_token_expire_minutes(self):
+        return int(self._get_env("ACCESS_TOKEN_EXPIRE_MINUTES", 15))
+
+    @property
+    def refresh_token_expire_days(self):
+        return int(self._get_env("REFRESH_TOKEN_EXPIRE_DAYS", 7))
+
 
 def get_settings(filename: str = ".env", base_path: str = "") -> Settings:
     base_dir = Path(__file__).resolve().parent
@@ -93,6 +121,6 @@ def get_settings(filename: str = ".env", base_path: str = "") -> Settings:
             ]
         return Settings(env_file=str(env_path), env_vars=var_names)
     except FileNotFoundError:
-        print(f"❌ Файл .env не найден по пути: {env_path}")
+        print(f"Файл .env не найден по пути: {env_path}")
         raise
 

@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from loguru import logger
 
 from src.settings.config import get_settings
-from src.extractors.currencies_extractor import save_thb_rates
+from src.db_operations.insertors.currencies_insertor import save_thb_rates
 from src.utils.currency_service import fetch_all_thb
 
 scheduler_settings = get_settings(

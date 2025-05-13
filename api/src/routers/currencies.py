@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException, Request
 from loguru import logger
 
-from src.settings.client import MongoDBClient
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from src.utils.scheduler_service import scheduled_thb_exchange_rate
 from src.utils.currency_service import load_flags_data
+from src.db_operations.extractors.currencies_extractor import currencies_extr
 
 scheduler = AsyncIOScheduler()
 
@@ -27,38 +27,19 @@ async def start_scheduler():
 
 @currencies_router.get('/get_currencies_data')
 async def get_currencies_data(request: Request):
+    """
+        Получает данные валют из коллекции exchange_rates.
+
+        Returns:
+            A JSON response with currency data.
+    """
+
     request_body = await request.body()
     logger.debug(f"request body: {request_body}")
-    """
-           Получает данные валют из коллекции exchange_rates.
 
-           Returns:
-               A JSON response with currency data.
-           """
     try:
-        mongo_client = MongoDBClient()
-        exchange_rates = await mongo_client.get_exchange_rates(collection_name="exchange_rates")
-        country_codes_list = await mongo_client.get_exchange_rates(collection_name="country_codes")
-
-
-        country_codes = {code['quotecurrency']: code['country-code'] for code in country_codes_list["flags"]}
-
-        # Преобразуем данные для удобного формата
-        formatted_rates = [
-            {
-                "country_code": country_codes.get(rate["quotecurrency"], "Unknown"),
-                "code": rate["quotecurrency"],
-                "buy": rate["buy"] if rate["buy"] else 0,
-                "sell": rate["sell"] if rate["sell"] else 0
-            }
-            for rate in exchange_rates["rates"]
-        ] if exchange_rates else []
-
-        return {
-            "is_error": False,
-            "result": formatted_rates,
-            "updated": exchange_rates["updated"] if exchange_rates else "Not updated yet"
-        }  # Возвращаем только список объектов
+        result = await currencies_extr()
+        return result
 
     except Exception as e:
         logger.exception(f"An unexpected error occurred while fetching currency data. {e}")
