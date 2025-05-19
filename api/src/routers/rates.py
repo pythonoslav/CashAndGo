@@ -31,12 +31,20 @@ async def update_ticker_modifiers(
         subtractor=data.sell_modifier,
     )
 
-    new_buy = data.price * data.buy_modifier
-    new_sell = data.price / data.sell_modifier
-
     async with MongoDBClient() as client:
-        doc = await get_exchange_doc(client)                      # единственный документ
-        update_rate_in_doc(doc, data.ticker, new_buy, new_sell)   # патч в памяти
+        doc = await get_exchange_doc(client)
+        # Найти исходный base_price для тикера:
+        base_price = next(
+            (r.get("base_price") for r in doc["rates"] if r["quotecurrency"] == data.ticker),
+            None
+        )
+        if base_price is None:
+            raise HTTPException(404, f"Тикер {data.ticker} не найден или base_price отсутствует")
+
+        new_buy = base_price * data.buy_modifier
+        new_sell = base_price / data.sell_modifier
+
+        update_rate_in_doc(doc, data.ticker, new_buy, new_sell)
 
         await (
             await client.get_collection("exchange_rates")

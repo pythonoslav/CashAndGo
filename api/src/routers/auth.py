@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 from passlib.hash import bcrypt
-from src.models.request_schemas import LoginSchema
+from src.models.auth_schemas import LoginSchema
 from src.utils.jwt_handler import (
     create_access_token, create_refresh_token, decode_token
 )

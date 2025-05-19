@@ -14,6 +14,10 @@ ALGORITHM = settings.jwt_algorithm
 ACCESS_EXPIRE_MINUTES = settings.access_token_expire_minutes
 REFRESH_EXPIRE_DAYS = settings.refresh_token_expire_days
 
+print("ACCESS_SECRET:", repr(ACCESS_SECRET))
+print("REFRESH_SECRET:", repr(REFRESH_SECRET))
+print("ALGORITHM:", repr(ALGORITHM))
+
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=ACCESS_EXPIRE_MINUTES))

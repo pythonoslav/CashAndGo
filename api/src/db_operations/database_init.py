@@ -11,7 +11,7 @@ async def main():
     logger.info("Start database initialization")
 
     # Загружаем настройки из .env файла
-    settings = get_settings(filename=".env.secrets", base_path="../../data")
+    settings = get_settings(filename=".env.secrets", base_path="/api/data")
     admin_login = settings.admin_login
     admin_password = settings.admin_password
 

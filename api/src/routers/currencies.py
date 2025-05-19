@@ -20,8 +20,11 @@ async def start_scheduler():
     Запускает планировщик задач.
     """
 
+    await scheduled_thb_exchange_rate()
+
     scheduler.add_job(scheduled_thb_exchange_rate, 'interval', minutes=30)  # Запускать каждые 30 минут
-    scheduler.start()
+    if not scheduler.running:
+        scheduler.start()
 
     await load_flags_data()
 

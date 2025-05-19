@@ -2,7 +2,6 @@ from pydantic import BaseModel, Field
 
 class TickerModifierUpdate(BaseModel):
     ticker: str
-    price: float  
     buy_modifier: float
     sell_modifier: float
 

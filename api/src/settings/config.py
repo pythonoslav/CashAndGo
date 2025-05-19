@@ -8,7 +8,6 @@ class ConfigError(Exception):
 
 class Settings:
     """Class to manage application settings."""
-
     _instance = None  # Singleton instance
 
     def __new__(cls, env_file: str, env_vars: list[str]):
@@ -23,11 +22,15 @@ class Settings:
         self._load_env()
 
     def _load_env(self):
-        """Load environment variables from a .env file."""
-        if not os.path.exists(self.env_file):
-            print(f"Warning: Environment file not found: {self.env_file}")
+        """
+        Load environment variables from a .env file.
+        Если переменная уже есть в окружении (например, через docker-compose),
+        она НЕ будет перезаписана!
+        """
+        if os.path.exists(self.env_file):
+            load_dotenv(dotenv_path=self.env_file, override=False)
         else:
-            load_dotenv(dotenv_path=self.env_file)
+            print(f"Warning: Environment file not found: {self.env_file}")
 
         self._validate_settings()
 
@@ -37,13 +40,13 @@ class Settings:
 
         if missing_vars:
             print(f"Warning: Missing environment variables: {', '.join(missing_vars)}")
-            for var in missing_vars:
-                os.environ[var] = ""  # Устанавливаем пустое значение, чтобы избежать ошибок
+            # Не устанавливаем пустые значения, чтобы не маскировать проблемы!
 
     def _get_env(self, var_name, default=None):
         """Get an environment variable with a default value."""
         return os.getenv(var_name, default)
 
+    # === Properties ===
     @property
     def account_id(self):
         return self._get_env("ACCOUNT_ID")
@@ -119,8 +122,9 @@ def get_settings(filename: str = ".env", base_path: str = "") -> Settings:
                 line.strip().split('=')[0]
                 for line in file if line.strip() and not line.startswith('#')
             ]
-        return Settings(env_file=str(env_path), env_vars=var_names)
     except FileNotFoundError:
         print(f"Файл .env не найден по пути: {env_path}")
-        raise
+        var_names = []
 
+    # Передаём путь к env (может не существовать — не страшно)
+    return Settings(env_file=str(env_path), env_vars=var_names)

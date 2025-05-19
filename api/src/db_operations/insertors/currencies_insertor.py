@@ -18,11 +18,18 @@ async def save_thb_rates(all_rates, tether: dict):
 
         results = []
 
-        def add_result(quotecurrency: str, buy: float = 0, sell: float = 0, position: int | None = None):
+        def add_result(
+                quotecurrency: str,
+                buy: float = 0,
+                sell: float = 0,
+                base_price: float = 0,
+                position: int | None = None
+        ):
             entry = {
                 "quotecurrency": quotecurrency,
                 "buy": round(buy, 6),
-                "sell": round(sell, 6)
+                "sell": round(sell, 6),
+                "base_price": base_price
             }
             if position is not None:
                 results.insert(position, entry)
@@ -41,7 +48,7 @@ async def save_thb_rates(all_rates, tether: dict):
                     # значения по умолчанию
                     buy_rub = rub * 1.09 if "online" in subtype else rub * 1.2
                     sell_rub = rub / 1.01 if "online" in subtype else rub / 1.05
-                add_result(subtype, buy=buy_rub, sell=sell_rub, position=pos)
+                add_result(subtype, buy=buy_rub, sell=sell_rub, base_price=rub, position=pos)
 
         # USD и EUR
         for ticker in ["USD", "EUR"]:
@@ -55,14 +62,14 @@ async def save_thb_rates(all_rates, tether: dict):
                 else:
                     buy_usd_eu = thb_to_currency / (1.01 if ticker == "USD" else 1.0105)
                     sell_usd_eu = thb_to_currency * (1.0923 if ticker == "USD" else 1.0133)
-                add_result(ticker, buy=buy_usd_eu, sell=sell_usd_eu)
+                add_result(ticker, buy=buy_usd_eu, sell=sell_usd_eu, base_price=rate)
 
         # KZT
         if "KZT" in all_rates:
             rate = all_rates["KZT"]
             buy_mod, _ = await get_ticker_coefficients("KZT")
             buy_kzt = rate * buy_mod if buy_mod else rate * 1.065
-            add_result("KZT", buy=buy_kzt)
+            add_result("KZT", buy=buy_kzt, base_price=rate)
 
         # USDT
         if tether.get('tether', {}).get('thb', 0) > 0:
@@ -70,7 +77,7 @@ async def save_thb_rates(all_rates, tether: dict):
             buy_mod, sell_mod = await get_ticker_coefficients("USDT")
             sell_tether = usdt_price * (sell_mod or global_modifier)
             buy_tether = usdt_price * (buy_mod or global_subtractor)
-            add_result("USDT", buy=buy_tether, sell=sell_tether)
+            add_result("USDT", buy=buy_tether, sell=sell_tether, base_price=usdt_price)
 
         # Остальные валюты
         ordered_tickers = [
@@ -89,7 +96,7 @@ async def save_thb_rates(all_rates, tether: dict):
             buy_others = thb_to_currency * (buy_mod or global_subtractor)
             sell_others = thb_to_currency * (sell_mod or global_modifier)
 
-            add_result(ticker, buy=buy_others, sell=sell_others)
+            add_result(ticker, buy=buy_others, sell=sell_others, base_price=rate)
 
         document_to_insert = {
             "updated": f"{datetime.now(pytz.timezone('Asia/Bangkok'))}",

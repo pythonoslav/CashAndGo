@@ -8,7 +8,7 @@ from src.utils.currency_service import fetch_all_thb
 
 scheduler_settings = get_settings(
     filename='credentials.env',
-    base_path='../../data'
+    base_path='/api/data'
 )
 
 async def scheduled_thb_exchange_rate():
