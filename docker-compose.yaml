@@ -20,8 +20,15 @@ services:
     container_name: python_api
     restart: always
     environment:
-      # Добавим авторизацию в MONGO_URI
-      - MONGO_URI=mongodb://CashAndGo:2093100Tbm@mongo_db:27017/CashAndGoDB
+      ADMIN_LOGIN: "6e6r4"
+      ADMIN_PASSWORD: "!Be6r0Nyh0v2281488!$$o$$pi$$o$$ZlpT0kEH!!AAA"
+      JWT_ACCESS_KEY: "fa39f70f820bc7bcf60ef314f134c6cfb29ad6b7d44f7beac31d9dda261b1828"
+      JWT_REFRESH_KEY: "fd18f4116af594962aecd6d0524d1de5eff0df09ebc2959411e82b582fc3b04ba4286edbbf49999859b3eb80cbcead34f8738efc22dff886d6259cd16f3f85b9"
+      JWT_ALGORITHM: "HS256"
+      ACCESS_TOKEN_EXPIRE_MINUTES: 15
+      REFRESH_TOKEN_EXPIRE_DAYS: 30
+    volumes:
+      - ./data:/api/data
     networks:
       - web_network
       - internal_network
@@ -52,8 +59,8 @@ services:
       - ./frontend/build:/usr/share/nginx/html
       - ./frontend-mobile/build:/usr/share/nginx/mobile
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certbot/conf:/etc/letsencrypt  # Разкомментируем для сертификатов
-      - ./certbot/www:/var/www/certbot  # Разкомментируем для проверки Certbot
+      - ./certbot/conf:/etc/letsencrypt 
+      - ./certbot/www:/var/www/certbot  
     depends_on:
       - frontend
       - frontend-mobile

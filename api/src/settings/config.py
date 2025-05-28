@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 class ConfigError(Exception):
@@ -7,7 +8,6 @@ class ConfigError(Exception):
 
 class Settings:
     """Class to manage application settings."""
-
     _instance = None  # Singleton instance
 
     def __new__(cls, env_file: str, env_vars: list[str]):
@@ -22,11 +22,15 @@ class Settings:
         self._load_env()
 
     def _load_env(self):
-        """Load environment variables from a .env file."""
-        if not os.path.exists(self.env_file):
-            print(f"Warning: Environment file not found: {self.env_file}")
+        """
+        Load environment variables from a .env file.
+        Если переменная уже есть в окружении (например, через docker-compose),
+        она НЕ будет перезаписана!
+        """
+        if os.path.exists(self.env_file):
+            load_dotenv(dotenv_path=self.env_file, override=False)
         else:
-            load_dotenv(dotenv_path=self.env_file)
+            print(f"Warning: Environment file not found: {self.env_file}")
 
         self._validate_settings()
 
@@ -36,13 +40,13 @@ class Settings:
 
         if missing_vars:
             print(f"Warning: Missing environment variables: {', '.join(missing_vars)}")
-            for var in missing_vars:
-                os.environ[var] = ""  # Устанавливаем пустое значение, чтобы избежать ошибок
+            # Не устанавливаем пустые значения, чтобы не маскировать проблемы!
 
     def _get_env(self, var_name, default=None):
         """Get an environment variable with a default value."""
         return os.getenv(var_name, default)
 
+    # === Properties ===
     @property
     def account_id(self):
         return self._get_env("ACCOUNT_ID")
@@ -79,9 +83,48 @@ class Settings:
     def mongo_password(self):
         return self._get_env("DB_USER_PASSWORD", "2093100Tbm")
 
+    @property
+    def admin_login(self):
+        return self._get_env("ADMIN_LOGIN", "6e6r4")
 
-def get_settings(filename: str, env_vars: list[str]) -> Settings:
-    """Get the application settings (Singleton)."""
-    current_directory = os.path.dirname(__file__)
-    env_file_path = os.path.join(current_directory, '..', 'data', filename)
-    return Settings(env_file=env_file_path, env_vars=env_vars)
+    @property
+    def admin_password(self):
+        return self._get_env("ADMIN_PASSWORD", "!Be6r0Nyh0v2281488!$o$pi$o$ZlpT0kEH!!AAA")
+
+    @property
+    def jwt_access(self):
+        return self._get_env("JWT_ACCESS_KEY")
+
+    @property
+    def jwt_refresh(self):
+        return self._get_env("JWT_REFRESH_KEY")
+
+    @property
+    def jwt_algorithm(self):
+        return self._get_env("JWT_ALGORITHM", "HS256")
+
+    @property
+    def access_token_expire_minutes(self):
+        return int(self._get_env("ACCESS_TOKEN_EXPIRE_MINUTES", 15))
+
+    @property
+    def refresh_token_expire_days(self):
+        return int(self._get_env("REFRESH_TOKEN_EXPIRE_DAYS", 7))
+
+
+def get_settings(filename: str = ".env", base_path: str = "") -> Settings:
+    base_dir = Path(__file__).resolve().parent
+    env_path = base_dir / base_path / filename
+
+    try:
+        with open(env_path, 'r') as file:
+            var_names = [
+                line.strip().split('=')[0]
+                for line in file if line.strip() and not line.startswith('#')
+            ]
+    except FileNotFoundError:
+        print(f"Файл .env не найден по пути: {env_path}")
+        var_names = []
+
+    # Передаём путь к env (может не существовать — не страшно)
+    return Settings(env_file=str(env_path), env_vars=var_names)
