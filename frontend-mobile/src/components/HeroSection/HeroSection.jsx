@@ -15,7 +15,7 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchCurrencyRates = async () => {
       try {
-        const response = await fetch("/api/get_currencies_data");
+        const response = await fetch("/api/currencies/get_currencies_data");
         const data = await response.json();
 
         // Полный массив с заменами только по языку для калькулятора
