@@ -27,6 +27,14 @@ services:
       JWT_ALGORITHM: "HS256"
       ACCESS_TOKEN_EXPIRE_MINUTES: 15
       REFRESH_TOKEN_EXPIRE_DAYS: 30
+      API_KEY: "e94bd4d653c6149c7af98fe1"
+      EXCHANGE_TO_RATE_REQUEST: "https://xecdapi.xe.com/v1/convert_to?from=USD%2CEUR%2CRUB%2CJPY%2CMYR%2CINR%2C%20AED%2CGBP%2CSG D%2CCHF%2CAUD%2CHKD%2CCAD%2CTWD%2CKRW%2CPHP%2CNZD%2CCNY%2CSAR%2CQAR%2CBHD&to=THB&obsolete=false"
+      EXCHANGE_FROM_RATE_REQUEST: "https://xecdapi.xe.com/v1/convert_from?from=THB&to=USD%2CEUR%2CRUB%2CJPY%2CMYR%2CINR%2CAED%2CGBP%2CSGD%2CCHF%2CAUD%2CHKD%2CCAD%2CTWD%2CKRW%2CPHP%2CNZD%2CCNY%2CSAR%2CQAR%2CBHD"
+      GET_TETHER_TO_RUB_AND_THB: "https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=thb,rub"
+      GET_ALL_THB_RATES: "https://v6.exchangerate-api.com/v6/e94bd4d653c6149c7af98fe1/latest/THB"
+      DB_NAME: "CashAndGoDB"
+      DB_USERNAME: "CashAndGo"
+      DB_USER_PASSWORD: "2093100Tbm"
     volumes:
       - ./data:/api/data
     networks:

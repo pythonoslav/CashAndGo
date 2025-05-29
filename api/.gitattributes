@@ -1,0 +1,20 @@
+# Python файлы и конфиги — в LF
+*.py text eol=lf
+*.env text eol=lf
+*.txt text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+# Shell-скрипты — строго LF
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Dockerfile и прочие инструкции — LF
+Dockerfile text eol=lf
+*.dockerignore text eol=lf
+
+# Javascript/Typescript
+*.js text eol=lf
+*.ts text eol=lf
