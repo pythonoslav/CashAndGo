@@ -1,10 +1,10 @@
-import os
 import json
 
 import httpx
 from loguru import logger
 from fastapi import HTTPException
 import pandas as pd
+from pathlib import Path
 
 from src.models.response_models import XeCurrencyConvertedToListResponseModel, XeCurrencyConvertedFromListResponseModel
 from src.db_operations.insertors.currencies_insertor import MongoDBClient
@@ -100,16 +100,14 @@ async def load_flags_data():
     async with MongoDBClient() as mongo_client:
         collection = await mongo_client.get_collection("country_codes")
 
-        # Удаляем старые данные
         await collection.delete_many({})
 
-        # Проверяем, существует ли коллекция и если нет, создаем её
-        if not await collection.count_documents({}):  # Если пусто — заполняем
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            file_path = os.path.join(current_dir, "..", "..", "data", "flags.json")
+        # Формируем путь независимо от запускаемого каталога
+        BASE_DIR = Path(__file__).resolve().parent.parent.parent  # /api
+        file_path = BASE_DIR / "data" / "flags.json"
 
-            with open(file_path, 'r') as file:
-                flags_data = {"flags": json.load(file)}
+        with open(file_path, "r", encoding="utf-8") as file:
+            flags_data = {"flags": json.load(file)}
 
-            if flags_data:
-                await collection.insert_one(flags_data)
+        if flags_data:
+            await collection.insert_one(flags_data)
