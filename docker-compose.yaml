@@ -36,7 +36,7 @@ services:
       DB_USERNAME: "CashAndGo"
       DB_USER_PASSWORD: "2093100Tbm"
     volumes:
-      - ./data:/api/data
+      - ./api/data:/api/data
     networks:
       - web_network
       - internal_network
