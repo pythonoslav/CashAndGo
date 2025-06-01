@@ -15,7 +15,7 @@ export default function SettingsPage() {
   const [rates, setRates] = useState([]);
   const navigate = useNavigate();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Определяем мобильное устройство
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const fetchRates = async () => {
@@ -27,13 +27,12 @@ export default function SettingsPage() {
         setRates(response.data);
       } catch (err) {
         localStorage.removeItem('token');
-        //navigate('/login', { replace: true });
+        navigate('/login', { replace: true }); // Относительный путь, basename добавит /admin-panel
       }
     };
     fetchRates();
   }, [navigate]);
 
-  // Данные для теста, если backend не готов
   const mockRates = [
     {
       id: 1,
@@ -64,7 +63,6 @@ export default function SettingsPage() {
     },
   ];
 
-  // Используем mockRates, если данные с сервера не пришли
   const displayRates = rates.length > 0 ? rates : mockRates;
 
   return (
@@ -78,13 +76,12 @@ export default function SettingsPage() {
             variant="contained"
             color="primary"
             sx={{ mb: 2, bgcolor: '#1976d2', '&:hover': { bgcolor: '#1565c0' } }}
-            onClick={() => navigate('/edit-rate/new')}
+            onClick={() => navigate('/edit-rate/new')} // Относительный путь
           >
             Добавить курс
           </Button>
 
           {isMobile ? (
-            // Для мобильных устройств — список
             <Box>
               {displayRates.map((rate) => (
                 <Box
@@ -101,10 +98,10 @@ export default function SettingsPage() {
                     {rate.date}
                   </Typography>
                   <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                    RUB - THB: {rate.rubToThb} &nbsp; USDT - THB: {rate.usdtToThb}
+                    RUB - THB: {rate.rubToThb}   USDT - THB: {rate.usdtToThb}
                   </Typography>
                   <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                    RUB - USDT: {rate.rubToUsdt} &nbsp; USDT - THB: {rate.usdtToThbSecondary}
+                    RUB - USDT: {rate.rubToUsdt}   USDT - THB: {rate.usdtToThbSecondary}
                   </Typography>
                   <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
                     RUB - THB: {rate.rubToThbSecondary}
@@ -121,7 +118,6 @@ export default function SettingsPage() {
               ))}
             </Box>
           ) : (
-            // Для ПК — Grid-сетка
             <Grid container spacing={3}>
               {displayRates.map((rate) => (
                 <Grid item xs={12} sm={6} md={4} key={rate.id}>
