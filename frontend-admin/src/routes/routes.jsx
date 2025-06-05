@@ -1,6 +1,6 @@
 import LoginPage from './LoginPage';
 import SettingsPage from './SettingsPage';
-import EditRatePage from './EditRatePage';
+// import EditRatePage from './EditRatePage';
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -28,7 +28,7 @@ const routes = [
     path: '/edit-rate/:id',
     element: (
       <ProtectedRoute>
-        <EditRatePage />
+        {/* <EditRatePage /> */}
       </ProtectedRoute>
     ),
   },

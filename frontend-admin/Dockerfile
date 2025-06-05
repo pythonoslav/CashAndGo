@@ -13,6 +13,6 @@ FROM node:20-alpine
 WORKDIR /app
 COPY --from=build /app/dist ./dist
 RUN ls -la /app/dist && cat /app/dist/index.html
-RUN npm install -g serve
+RUN npm install -g serve@latest
 EXPOSE 3002
-CMD ["serve", "-s", "dist", "-l", "tcp://0.0.0.0:3002", "--verbose"]
+CMD ["serve", "-s", "dist", "-l", "tcp://0.0.0.0:3002"]
