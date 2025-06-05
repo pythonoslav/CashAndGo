@@ -11,8 +11,9 @@ RUN npm run build && ls -la /app/dist && cat /app/dist/index.html
 FROM node:20-alpine
 
 WORKDIR /app
-COPY --from=build /app/dist ./dist
-RUN ls -la /app/dist && cat /app/dist/index.html
+# Копируем содержимое dist в подкаталог admin-panel
+COPY --from=build /app/dist ./admin-panel
+RUN ls -la /app/admin-panel && cat /app/admin-panel/index.html
 RUN npm install -g serve@latest
 EXPOSE 3002
-CMD ["serve", "-s", "dist", "-l", "tcp://0.0.0.0:3002"]
+CMD ["serve", "-s", "admin-panel", "-l", "tcp://0.0.0.0:3002", "--no-clipboard"]
