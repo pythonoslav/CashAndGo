@@ -18,6 +18,10 @@ services:
   frontend-admin:
     build: ./frontend-admin
     container_name: react_frontend_admin
+    expose:
+      - "3002"
+    environment:
+      - NODE_ENV=production
     restart: always
     networks:
       - web_network

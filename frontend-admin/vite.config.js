@@ -9,6 +9,6 @@ export default defineConfig({
     port: 3002,
   },
   build: {
-    outDir: 'dist', // Выходная папка
+    outDir: 'dist',
   },
 });
