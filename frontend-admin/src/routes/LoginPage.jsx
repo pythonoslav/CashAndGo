@@ -11,23 +11,23 @@ import {
 import axios from 'axios';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({ login: '', password: '' });
   const navigate = useNavigate();
 
   // Функция валидации
   const validateForm = () => {
-    const newErrors = { email: '', password: '' };
+    const newErrors = { login: '', password: '' };
     let isValid = true;
 
-    // Проверка email
-    const emailRegex = /^[^\s@]+@[^\s@]+$/;
-    if (!email) {
-      newErrors.email = 'Email is required';
+    // Проверка login
+    const loginRegex = /^[^\s@]+@[^\s@]+$/;
+    if (!login) {
+      newErrors.login = 'Login is required';
       isValid = false;
-    } else if (!emailRegex.test(email)) {
-      newErrors.email = 'Please enter a valid email';
+    } else if (!loginRegex.test(login)) {
+      newErrors.login = 'Please enter a valid login';
       isValid = false;
     }
 
@@ -49,7 +49,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setErrors({ email: '', password: '' }); // Сброс ошибок перед валидацией
+    setErrors({ login: '', password: '' }); // Сброс ошибок перед валидацией
 
     if (!validateForm()) {
       return; // Прерываем, если валидация не пройдена
@@ -57,13 +57,13 @@ export default function LoginPage() {
 
     try {
       const response = await axios.post('/api/auth/sign_in', {
-        email,
+        login,
         password,
       });
       localStorage.setItem('token', response.data.token);
       navigate('/', { replace: true }); // Относительный путь (будет /admin-panel/)
     } catch (err) {
-      setErrors({ ...errors, email: 'Invalid credentials', password: '' });
+      setErrors({ ...errors, login: 'Invalid credentials', password: '' });
     }
   };
 
@@ -76,14 +76,14 @@ export default function LoginPage() {
         <Box component="form" onSubmit={handleLogin} sx={{ mt: 2 }}>
           <TextField
             fullWidth
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            label="Login"
+            type="text"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)}
             margin="normal"
             required
-            error={!!errors.email}
-            helperText={errors.email}
+            error={!!errors.login}
+            helperText={errors.login}
           />
           <TextField
             fullWidth
@@ -101,7 +101,7 @@ export default function LoginPage() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            disabled={!email || !password} // Отключаем кнопку, если поля пустые
+            disabled={!login || !password} // Отключаем кнопку, если поля пустые
           >
             Login
           </Button>
