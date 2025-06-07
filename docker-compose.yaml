@@ -30,6 +30,8 @@ services:
     build: ./api
     container_name: python_api
     restart: always
+    ports:
+      - "5000:5000"
     environment:
       ADMIN_LOGIN: "6e6r4@admin"
       ADMIN_PASSWORD: "!Be6r0Nyh0v2281488!$$o$$pi$$o$$ZlpT0kEH!!AAA"
