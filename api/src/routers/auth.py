@@ -14,7 +14,7 @@ auth_router = APIRouter(prefix="/auth")
 
 @auth_router.post("/sign_in")
 async def sign_in(data: LoginSchema, request: Request):
-    user = await get_user_by_login(data.username)
+    user = await get_user_by_login(data.login)
     if not user or not bcrypt.verify(data.password, user["password"]):
         raise HTTPException(status_code=401, detail="Неверный логин или пароль")
 
