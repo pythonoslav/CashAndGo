@@ -50,6 +50,7 @@ services:
       DB_USER_PASSWORD: "2093100Tbm"
     volumes:
       - ./api/data:/api/data
+      - ./api/certs:/api/certs
     networks:
       - web_network
       - internal_network
