@@ -62,7 +62,7 @@ export default function SettingsPage() {
         setOpenModal(true);
       } else {
         console.warn(`Rate with code ${decodedCode} not found`);
-        navigate('/settings');
+        navigate('/');
       }
     }
   }, [decodedCode, rates, navigate]);
