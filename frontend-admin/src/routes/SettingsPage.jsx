@@ -33,29 +33,6 @@ export default function SettingsPage() {
     fetchRates();
   }, [navigate]);
 
-  const mockRates = [
-    {
-      country_code: 'ru',
-      code: 'RUB',
-      buy: 2.9236506599999994,
-      sell: 2.8372373399999997,
-    },
-    {
-      country_code: 'us',
-      code: 'USDT',
-      buy: 35.0,
-      sell: 34.5,
-    },
-    {
-      country_code: 'th',
-      code: 'THB',
-      buy: 1.0,
-      sell: 0.95,
-    },
-  ];
-
-  const displayRates = rates.length > 0 ? rates : mockRates;
-
   return (
     <Box sx={{ bgcolor: '#F5F5F5', minHeight: '100vh', py: 4 }}>
       <Container maxWidth="lg">
@@ -74,7 +51,7 @@ export default function SettingsPage() {
 
           {isMobile ? (
             <Box>
-              {displayRates.map((rate) => (
+              {rates.map((rate) => (
                 <Box
                   key={rate.code}
                   sx={{
