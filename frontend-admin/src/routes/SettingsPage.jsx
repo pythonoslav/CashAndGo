@@ -96,7 +96,7 @@ export default function SettingsPage() {
     setSelectedRate(null);
     setBuy('');
     setSell('');
-    navigate('/settings');
+    navigate('/');
   };
 
   return (
