@@ -24,8 +24,16 @@ export default function SettingsPage() {
         const response = await axios.get('/api/currencies/get_currencies_data', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setRates(response.data);
+        // Извлекаем массив result из ответа
+        const data = response.data;
+        if (data.result && Array.isArray(data.result)) {
+          setRates(data.result);
+        } else {
+          console.error('Unexpected API response format:', data);
+          setRates([]); // Устанавливаем пустой массив при некорректном формате
+        }
       } catch (err) {
+        console.error('Error fetching rates:', err);
         localStorage.removeItem('token');
         navigate('/login', { replace: true }); // Относительный путь, basename добавит /admin-panel
       }
@@ -49,7 +57,11 @@ export default function SettingsPage() {
             Добавить курс
           </Button>
 
-          {isMobile ? (
+          {rates.length === 0 ? (
+            <Typography variant="body1" sx={{ color: '#666' }}>
+              Нет доступных курсов.
+            </Typography>
+          ) : isMobile ? (
             <Box>
               {rates.map((rate) => (
                 <Box
@@ -63,7 +75,7 @@ export default function SettingsPage() {
                   }}
                 >
                   <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-                    Country: {rate.country_code}
+                    Country: {rate.country_code || 'N/A'}
                   </Typography>
                   <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
                     {rate.code} - Buy: {rate.buy}
@@ -100,7 +112,7 @@ export default function SettingsPage() {
                     }}
                   >
                     <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-                      Country: {rate.country_code}
+                      Country: {rate.country_code || 'N/A'}
                     </Typography>
                     <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
                       {rate.code} - Buy: {rate.buy}
