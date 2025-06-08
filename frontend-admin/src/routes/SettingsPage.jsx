@@ -84,7 +84,7 @@ export default function SettingsPage() {
             </Box>
           ) : (
             <Grid container spacing={3}>
-              {displayRates.map((rate) => (
+              {rates.map((rate) => (
                 <Grid item xs={12} sm={6} md={4} key={rate.code}>
                   <Box
                     sx={{
