@@ -21,7 +21,7 @@ export default function SettingsPage() {
     const fetchRates = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/rates', {
+        const response = await axios.get('/api/currencies/get_currencies_data', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setRates(response.data);
@@ -35,31 +35,22 @@ export default function SettingsPage() {
 
   const mockRates = [
     {
-      id: 1,
-      date: '2023-09-19 08:09:40',
-      rubToThb: 2.8,
-      usdtToThb: 35,
-      rubToUsdt: 98.1,
-      usdtToThbSecondary: 35.85,
-      rubToThbSecondary: 2.7364,
+      country_code: 'ru',
+      code: 'RUB',
+      buy: 2.9236506599999994,
+      sell: 2.8372373399999997,
     },
     {
-      id: 2,
-      date: '2023-05-08 08:35:51',
-      rubToThb: 2.8,
-      usdtToThb: 35,
-      rubToUsdt: 98.1,
-      usdtToThbSecondary: 35.85,
-      rubToThbSecondary: 2.7364,
+      country_code: 'us',
+      code: 'USDT',
+      buy: 35.0,
+      sell: 34.5,
     },
     {
-      id: 3,
-      date: '2023-05-08 08:33:50',
-      rubToThb: 2.51,
-      usdtToThb: 33.6,
-      rubToUsdt: 83.1,
-      usdtToThbSecondary: 33.85,
-      rubToThbSecondary: 2.45495,
+      country_code: 'th',
+      code: 'THB',
+      buy: 1.0,
+      sell: 0.95,
     },
   ];
 
@@ -85,7 +76,7 @@ export default function SettingsPage() {
             <Box>
               {displayRates.map((rate) => (
                 <Box
-                  key={rate.id}
+                  key={rate.code}
                   sx={{
                     bgcolor: 'white',
                     borderRadius: '12px',
@@ -95,22 +86,19 @@ export default function SettingsPage() {
                   }}
                 >
                   <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-                    {rate.date}
+                    Country: {rate.country_code}
                   </Typography>
                   <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                    RUB - THB: {rate.rubToThb}   USDT - THB: {rate.usdtToThb}
+                    {rate.code} - Buy: {rate.buy}
                   </Typography>
                   <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                    RUB - USDT: {rate.rubToUsdt}   USDT - THB: {rate.usdtToThbSecondary}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                    RUB - THB: {rate.rubToThbSecondary}
+                    {rate.code} - Sell: {rate.sell}
                   </Typography>
                   <Button
                     variant="contained"
                     color="primary"
                     sx={{ mt: 2, bgcolor: '#1976d2', '&:hover': { bgcolor: '#1565c0' } }}
-                    onClick={() => navigate(`/edit-rate/${rate.id}`)}
+                    onClick={() => navigate(`/edit-rate/${rate.code}`)}
                   >
                     Изменить
                   </Button>
@@ -120,7 +108,7 @@ export default function SettingsPage() {
           ) : (
             <Grid container spacing={3}>
               {displayRates.map((rate) => (
-                <Grid item xs={12} sm={6} md={4} key={rate.id}>
+                <Grid item xs={12} sm={6} md={4} key={rate.code}>
                   <Box
                     sx={{
                       bgcolor: 'white',
@@ -135,28 +123,19 @@ export default function SettingsPage() {
                     }}
                   >
                     <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-                      {rate.date}
+                      Country: {rate.country_code}
                     </Typography>
                     <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                      RUB - THB: {rate.rubToThb}
+                      {rate.code} - Buy: {rate.buy}
                     </Typography>
                     <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                      USDT - THB: {rate.usdtToThb}
-                    </Typography>
-                    <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                      RUB - USDT: {rate.rubToUsdt}
-                    </Typography>
-                    <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                      USDT - THB: {rate.usdtToThbSecondary}
-                    </Typography>
-                    <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: '#333' }}>
-                      RUB - THB: {rate.rubToThbSecondary}
+                      {rate.code} - Sell: {rate.sell}
                     </Typography>
                     <Button
                       variant="contained"
                       color="primary"
                       sx={{ mt: 2, bgcolor: '#1976d2', '&:hover': { bgcolor: '#1565c0' } }}
-                      onClick={() => navigate(`/edit-rate/${rate.id}`)}
+                      onClick={() => navigate(`/edit-rate/${rate.code}`)}
                     >
                       Изменить
                     </Button>

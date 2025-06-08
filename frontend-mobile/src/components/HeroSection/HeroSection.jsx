@@ -79,72 +79,7 @@ const HeroSection = () => {
   }, [language]);
 
 
-  useEffect(() => {
-    const fetchCurrencyRates = async () => {
-      try {
-        const response = await fetch("/api/get_currencies_data");
-        const data = await response.json();
-
-        // Полный массив с заменами только по языку для калькулятора
-        let updatedFullRates = data.result;
-        if (language === "ru") {
-          updatedFullRates = data.result.map((currency) => {
-            switch (currency.code) {
-              case "RUB(cash)":
-                return { ...currency, code: "RUB(наличные)" };
-              case "RUB(online transfer)":
-                return { ...currency, code: "RUB(онлайн перевод)" };
-              case "RUB(cash settlement)":
-                return { ...currency, code: "RUB(наличные)" };
-              default:
-                return currency;
-            }
-          });
-        }
-        setFullCurrencyRates(updatedFullRates);
-
-        // Отфильтрованный массив для ExchangeRates без USDT
-        const filteredRates = data.result.filter(
-          (currency) => currency.code !== "USDT"
-        );
-        
-        // Дополнительная фильтрация и форматирование для ExchangeRates
-        const formattedRates = filteredRates.map((currency) => {
-          if (language === "ru") {
-            switch (currency.code) {
-              case "RUB(cash)":
-                return { ...currency, code: "RUB (наличные)" };
-              case "RUB(online transfer)":
-                return { ...currency, code: "RUB (онлайн)" };
-              case "RUB(cash settlement)":
-                return { ...currency, code: "RUB (наличные)" };
-              default:
-                return currency;
-            }
-          } else {
-            switch (currency.code) {
-              case "RUB(cash)":
-                return { ...currency, code: "RUB (cash)" };
-              case "RUB(online transfer)":
-                return { ...currency, code: "RUB (transfer)" };
-              case "RUB(cash settlement)":
-                return { ...currency, code: "RUB (cash)" };
-              default:
-                return currency;
-            }
-          }
-        });
-        
-        setFilteredCurrencyRates(formattedRates);
-
-      } catch (error) {
-        console.error("Ошибка загрузки данных о курсах валют:", error);
-      }
-    };
-
-    fetchCurrencyRates();
-  }, [language]);
-
+  
 
   return (
     <Box
