@@ -28,7 +28,7 @@ const routes = [
     path: '/edit-rate/:id',
     element: (
       <ProtectedRoute>
-        {/* <EditRatePage /> */}
+         <SettingsPage /> 
       </ProtectedRoute>
     ),
   },
