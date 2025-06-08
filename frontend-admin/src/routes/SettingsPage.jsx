@@ -22,9 +22,11 @@ export default function SettingsPage() {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const { code } = useParams(); // Получаем code из маршрута /edit-rate/:code
+  const { code } = useParams();
+  const decodedCode = decodeURIComponent(code); // Декодируем code из маршрута
 
   useEffect(() => {
+    console.log('Fetching rates...');
     const fetchRates = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -34,16 +36,7 @@ export default function SettingsPage() {
         const data = response.data;
         if (data.result && Array.isArray(data.result)) {
           setRates(data.result);
-          // Если есть code в маршруте, заполняем форму
-          if (code) {
-            const rate = data.result.find((r) => r.code === code);
-            if (rate) {
-              setSelectedRate(rate);
-              setBuy(rate.buy.toString());
-              setSell(rate.sell.toString());
-              setOpenModal(true);
-            }
-          }
+          console.log('Rates loaded:', data.result);
         } else {
           console.error('Unexpected API response format:', data);
           setRates([]);
@@ -55,7 +48,24 @@ export default function SettingsPage() {
       }
     };
     fetchRates();
-  }, [navigate, code]);
+  }, [navigate]);
+
+  useEffect(() => {
+    console.log('Checking code:', decodedCode);
+    if (decodedCode && rates.length > 0) {
+      const rate = rates.find((r) => r.code === decodedCode);
+      if (rate) {
+        console.log('Found rate for modal:', rate);
+        setSelectedRate(rate);
+        setBuy(rate.buy.toString());
+        setSell(rate.sell.toString());
+        setOpenModal(true);
+      } else {
+        console.warn(`Rate with code ${decodedCode} not found`);
+        navigate('/settings');
+      }
+    }
+  }, [decodedCode, rates, navigate]);
 
   const handleSave = async () => {
     if (selectedRate && buy && sell) {
@@ -70,7 +80,6 @@ export default function SettingsPage() {
           },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        // Обновляем список курсов
         const response = await axios.get('/api/currencies/get_currencies_data', {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -87,7 +96,7 @@ export default function SettingsPage() {
     setSelectedRate(null);
     setBuy('');
     setSell('');
-    navigate('/settings'); // Возвращаемся на страницу настроек
+    navigate('/settings');
   };
 
   return (
@@ -183,7 +192,6 @@ export default function SettingsPage() {
             </Grid>
           )}
 
-          {/* Модальное окно */}
           <Modal
             open={openModal}
             onClose={handleClose}

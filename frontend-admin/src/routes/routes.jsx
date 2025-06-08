@@ -1,11 +1,12 @@
 import LoginPage from './LoginPage';
 import SettingsPage from './SettingsPage';
-// import EditRatePage from './EditRatePage';
+import { useNavigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
   if (!token) {
-    window.location.href = '/admin-panel/login'; // Указываем полный путь с подкаталогом
+    navigate('/admin-panel/login', { replace: true });
     return null;
   }
   return children;
@@ -25,10 +26,10 @@ const routes = [
     ),
   },
   {
-    path: '/edit-rate/:id',
+    path: '/edit-rate/:code',
     element: (
       <ProtectedRoute>
-         <SettingsPage /> 
+        <SettingsPage />
       </ProtectedRoute>
     ),
   },
