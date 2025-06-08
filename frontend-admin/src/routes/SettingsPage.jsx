@@ -7,15 +7,22 @@ import {
   Grid,
   useMediaQuery,
   useTheme,
+  Modal,
+  TextField,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 export default function SettingsPage() {
   const [rates, setRates] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedRate, setSelectedRate] = useState(null);
+  const [buy, setBuy] = useState('');
+  const [sell, setSell] = useState('');
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { code } = useParams(); // Получаем code из маршрута /edit-rate/:code
 
   useEffect(() => {
     const fetchRates = async () => {
@@ -24,22 +31,64 @@ export default function SettingsPage() {
         const response = await axios.get('/api/currencies/get_currencies_data', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        // Извлекаем массив result из ответа
         const data = response.data;
         if (data.result && Array.isArray(data.result)) {
           setRates(data.result);
+          // Если есть code в маршруте, заполняем форму
+          if (code) {
+            const rate = data.result.find((r) => r.code === code);
+            if (rate) {
+              setSelectedRate(rate);
+              setBuy(rate.buy.toString());
+              setSell(rate.sell.toString());
+              setOpenModal(true);
+            }
+          }
         } else {
           console.error('Unexpected API response format:', data);
-          setRates([]); // Устанавливаем пустой массив при некорректном формате
+          setRates([]);
         }
       } catch (err) {
         console.error('Error fetching rates:', err);
         localStorage.removeItem('token');
-        navigate('/login', { replace: true }); // Относительный путь, basename добавит /admin-panel
+        navigate('/login', { replace: true });
       }
     };
     fetchRates();
-  }, [navigate]);
+  }, [navigate, code]);
+
+  const handleSave = async () => {
+    if (selectedRate && buy && sell) {
+      try {
+        const token = localStorage.getItem('token');
+        await axios.post(
+          `/api/rates/modifiers/update-ticker-modifiers`,
+          {
+            code: selectedRate.code,
+            buy: parseFloat(buy),
+            sell: parseFloat(sell),
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        // Обновляем список курсов
+        const response = await axios.get('/api/currencies/get_currencies_data', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setRates(response.data.result);
+        setOpenModal(false);
+      } catch (err) {
+        console.error('Error updating rate:', err);
+      }
+    }
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+    setSelectedRate(null);
+    setBuy('');
+    setSell('');
+    navigate('/settings'); // Возвращаемся на страницу настроек
+  };
 
   return (
     <Box sx={{ bgcolor: '#F5F5F5', minHeight: '100vh', py: 4 }}>
@@ -52,7 +101,7 @@ export default function SettingsPage() {
             variant="contained"
             color="primary"
             sx={{ mb: 2, bgcolor: '#1976d2', '&:hover': { bgcolor: '#1565c0' } }}
-            onClick={() => navigate('/edit-rate/new')} // Относительный путь
+            onClick={() => navigate('/edit-rate/new')}
           >
             Добавить курс
           </Button>
@@ -133,6 +182,63 @@ export default function SettingsPage() {
               ))}
             </Grid>
           )}
+
+          {/* Модальное окно */}
+          <Modal
+            open={openModal}
+            onClose={handleClose}
+            aria-labelledby="edit-rate-modal"
+            aria-describedby="edit-rate-modal-description"
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: isMobile ? '90%' : 400,
+                bgcolor: 'white',
+                borderRadius: '12px',
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Typography id="edit-rate-modal" variant="h6" component="h2" sx={{ mb: 2, color: '#333' }}>
+                Редактировать курс для {selectedRate?.code}
+              </Typography>
+              <TextField
+                fullWidth
+                label="Buy"
+                type="number"
+                value={buy}
+                onChange={(e) => setBuy(e.target.value)}
+                sx={{ mb: 2 }}
+                InputProps={{ inputProps: { step: '0.01' } }}
+              />
+              <TextField
+                fullWidth
+                label="Sell"
+                type="number"
+                value={sell}
+                onChange={(e) => setSell(e.target.value)}
+                sx={{ mb: 2 }}
+                InputProps={{ inputProps: { step: '0.01' } }}
+              />
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                <Button onClick={handleClose} sx={{ color: '#666' }}>
+                  Отмена
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ bgcolor: '#1976d2', '&:hover': { bgcolor: '#1565c0' } }}
+                  onClick={handleSave}
+                >
+                  Сохранить
+                </Button>
+              </Box>
+            </Box>
+          </Modal>
         </Box>
       </Container>
     </Box>
