@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
+
+from src.db_operations.extractors.modifier_extractor import get_ticker_coefficients
 from src.dependencies.auth_dependency import get_current_user
 from src.settings.client import MongoDBClient
 from src.models.insertion_ticker_models import  TickerModifierUpdate, TickerPriceUpdate
@@ -8,15 +10,23 @@ from src.utils.rates_helpers import load_all_modifiers, get_exchange_doc, update
 rates = APIRouter(prefix="/rates", tags=["Rates"])
 
 
-@rates.get("/modifiers")
-async def get_all_modifiers(_: dict = Depends(get_current_user)):
-    async with MongoDBClient() as client:
-        modifiers = await load_all_modifiers(client)
+@rates.get("/modifiers/{ticker}")
+async def get_modifier_by_ticker(ticker: str, _: dict = Depends(get_current_user)):
+    """
+    Возвращает модификаторы для указанного тикера.
+    """
+    buy_modifier, sell_modifier = await get_ticker_coefficients(ticker)
 
-    if not modifiers:
-        raise HTTPException(404, "Коллекция tickers_config пуста")
+    if buy_modifier is None and sell_modifier is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Модификаторы для тикера '{ticker}' не найдены"
+        )
 
-    return {"current_modifiers": modifiers}
+    return {
+        "buy_modifier": buy_modifier,
+        "sell_modifier": sell_modifier
+    }
 
 
 
