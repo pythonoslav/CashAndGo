@@ -19,7 +19,7 @@ services:
     build: ./frontend-admin
     container_name: react_frontend_admin
     expose:
-      - "3002"
+      - ""
     environment:
       - NODE_ENV=production
     restart: always
@@ -31,23 +31,23 @@ services:
     container_name: python_api
     restart: always
     ports:
-      - "5000:5000"
+      - ""
     environment:
-      ADMIN_LOGIN: "6e6r4@admin"
-      ADMIN_PASSWORD: "!Be6r0Nyh0v2281488!$$o$$pi$$o$$ZlpT0kEH!!AAA"
-      JWT_ACCESS_KEY: "fa39f70f820bc7bcf60ef314f134c6cfb29ad6b7d44f7beac31d9dda261b1828"
-      JWT_REFRESH_KEY: "fd18f4116af594962aecd6d0524d1de5eff0df09ebc2959411e82b582fc3b04ba4286edbbf49999859b3eb80cbcead34f8738efc22dff886d6259cd16f3f85b9"
-      JWT_ALGORITHM: "HS256"
-      ACCESS_TOKEN_EXPIRE_MINUTES: 15
-      REFRESH_TOKEN_EXPIRE_DAYS: 30
-      API_KEY: "e94bd4d653c6149c7af98fe1"
+      ADMIN_LOGIN: ""
+      ADMIN_PASSWORD: ""
+      JWT_ACCESS_KEY: ""
+      JWT_REFRESH_KEY: ""
+      JWT_ALGORITHM: ""
+      ACCESS_TOKEN_EXPIRE_MINUTES:
+      REFRESH_TOKEN_EXPIRE_DAYS:
+      API_KEY: ""
       EXCHANGE_TO_RATE_REQUEST: "https://xecdapi.xe.com/v1/convert_to?from=USD%2CEUR%2CRUB%2CJPY%2CMYR%2CINR%2C%20AED%2CGBP%2CSG D%2CCHF%2CAUD%2CHKD%2CCAD%2CTWD%2CKRW%2CPHP%2CNZD%2CCNY%2CSAR%2CQAR%2CBHD&to=THB&obsolete=false"
       EXCHANGE_FROM_RATE_REQUEST: "https://xecdapi.xe.com/v1/convert_from?from=THB&to=USD%2CEUR%2CRUB%2CJPY%2CMYR%2CINR%2CAED%2CGBP%2CSGD%2CCHF%2CAUD%2CHKD%2CCAD%2CTWD%2CKRW%2CPHP%2CNZD%2CCNY%2CSAR%2CQAR%2CBHD"
       GET_TETHER_TO_RUB_AND_THB: "https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=thb,rub"
       GET_ALL_THB_RATES: "https://v6.exchangerate-api.com/v6/e94bd4d653c6149c7af98fe1/latest/THB"
-      DB_NAME: "CashAndGoDB"
-      DB_USERNAME: "CashAndGo"
-      DB_USER_PASSWORD: "2093100Tbm"
+      DB_NAME: ""
+      DB_USERNAME: ""
+      DB_USER_PASSWORD: ""
     volumes:
       - ./api/data:/api/data
       - ./api/certs:/api/certs
@@ -77,8 +77,8 @@ services:
     container_name: nginx_proxy
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - ""
+      - ""
     volumes:
       - ./frontend/build:/usr/share/nginx/html
       - ./frontend-mobile/build:/usr/share/nginx/mobile
